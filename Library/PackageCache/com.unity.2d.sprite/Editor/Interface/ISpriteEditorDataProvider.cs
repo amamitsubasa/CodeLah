@@ -66,6 +66,20 @@ namespace UnityEditor.U2D.Sprites
         /// <param name="type">Data provider type.</param>
         /// <returns>True if supports, false otherwise.</returns>
         bool HasDataProvider(Type type);
+
+        /// <summary>
+        /// Register callback for data change.
+        /// </summary>
+        /// <param name="action">Callback delegate.</param>
+        void RegisterDataChangeCallback(Action<ISpriteEditorDataProvider> action)
+        { }
+
+        /// <summary>
+        /// Unregister callback for data change.
+        /// </summary>
+        /// <param name="action">Callback delegate.</param>
+        void UnregisterDataChangeCallback(Action<ISpriteEditorDataProvider> action)
+        { }
     }
 
     /// <summary>
@@ -160,6 +174,47 @@ namespace UnityEditor.U2D.Sprites
         /// <summary>Readable version of ITextureProvider.texture.</summary>
         /// <returns>Texture2D that is readable.</returns>
         Texture2D GetReadableTexture2D();
+
+        /// <summary>
+        /// Overrides the texture data with the given textures.
+        /// </summary>
+        /// <param name="mainTexture">Main texture data to override.</param>
+        /// <param name="previewTexture">Preview texture data to override.</param>
+        /// <param name="width">Width of the override source texture.</param>
+        /// <param name="height">Height of the override source texture.</param>
+        /// <returns>Returns true if override is successful, false otherwise</returns>
+        bool OverrideTextures(Texture2D mainTexture, Texture2D previewTexture, int width, int height)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Registers a callback to override the source texture.
+        /// </summary>
+        /// <param name="action">Callback that will write to the source texture with the path of the source texture.</param>
+        void RegisterSourceTextureOverride(Action<string> action)
+        { }
+
+        /// <summary>
+        /// Unregister a callback to override the source texture.
+        /// </summary>
+        /// <param name="action">Callback that was registered to write to the source texture with the path of the source texture.</param>
+        void UnregisterSourceTextureOverride(Action<string> action)
+        { }
+
+        /// <summary>
+        /// Register callback for data change.
+        /// </summary>
+        /// <param name="action">Callback delegate.</param>
+        void RegisterDataChangeCallback(Action<ITextureDataProvider> action)
+        { }
+
+        /// <summary>
+        /// Unregister callback for data change.
+        /// </summary>
+        /// <param name="action">Callback delegate.</param>
+        void UnregisterDataChangeCallback(Action<ITextureDataProvider> action)
+        { }
     }
 
     /// <summary>Data provider that provides secoondary texture data needed for Sprite Editor Window.</summary>

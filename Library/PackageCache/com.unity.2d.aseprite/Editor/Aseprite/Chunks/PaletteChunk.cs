@@ -30,6 +30,7 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public class PaletteChunk : BaseChunk, IPaletteProvider
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.Palette;
 
         /// <summary>
@@ -52,6 +53,10 @@ namespace UnityEditor.U2D.Aseprite
 
         internal PaletteChunk(uint chunkSize) : base(chunkSize) { }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             noOfEntries = reader.ReadUInt32();

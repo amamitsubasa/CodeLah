@@ -8,7 +8,7 @@ using UnityEditor;
 namespace UnityEngine.Rendering.Sampling
 {
 
-    internal class SamplingResources : IDisposable
+    internal sealed class SamplingResources : IDisposable
     {
         internal enum ResourceType
         {
@@ -22,7 +22,7 @@ namespace UnityEngine.Rendering.Sampling
         private Texture2D m_SobolOwenScrambled256Samples;
         private GraphicsBuffer m_SobolBuffer;
 
-        static public uint[] sobolMatrices = SobolData.SobolMatrices;
+        static public readonly uint[] sobolMatrices = SobolData.SobolMatrices;
 
 #if UNITY_EDITOR
         public void Load(uint resourceBitmask = (uint)ResourceType.BlueNoiseTextures)
@@ -37,7 +37,7 @@ namespace UnityEngine.Rendering.Sampling
             }
 
             if ((resourceBitmask & (uint)ResourceType.SobolMatrices) != 0)
-            { 
+            {
                 int sobolBufferSize = (int)(SobolData.SobolDims * SobolData.SobolSize);
                 m_SobolBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sobolBufferSize, Marshal.SizeOf<uint>());
                 m_SobolBuffer.SetData(SobolData.SobolMatrices);

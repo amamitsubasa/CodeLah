@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing
 {
-    internal class PersistentGpuArray<Tstruct> : IDisposable
+    internal sealed class PersistentGpuArray<Tstruct> : IDisposable
         where Tstruct : struct
     {
         BlockAllocator m_SlotAllocator;
@@ -51,6 +51,21 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             return slotAllocation;
         }
 
+        public BlockAllocator.Allocation[] Add(int elementCount)
+        {
+            m_ElementCount+= elementCount;
+            var slotAllocation = m_SlotAllocator.Allocate(elementCount);
+            if (!slotAllocation.valid)
+            {
+                Grow();
+                slotAllocation = m_SlotAllocator.Allocate(elementCount);
+                Assert.IsTrue(slotAllocation.valid);
+            }
+
+            return m_SlotAllocator.SplitAllocation(slotAllocation, elementCount);
+        }
+
+
         public void Remove(BlockAllocator.Allocation allocation)
         {
             m_ElementCount--;
@@ -72,6 +87,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         {
             m_CpuList[allocation.block.offset] = element;
             m_Updates[allocation.block.offset] = true;
+            m_gpuBufferDirty = true;
         }
 
         public Tstruct Get(BlockAllocator.Allocation allocation)

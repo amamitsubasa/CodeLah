@@ -16,6 +16,7 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public class UserDataChunk : BaseChunk
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.UserData;
 
         /// <summary>
@@ -29,6 +30,10 @@ namespace UnityEditor.U2D.Aseprite
 
         internal UserDataChunk(uint chunkSize) : base(chunkSize) { }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             var flag = (UserDataFlags)reader.ReadUInt32();

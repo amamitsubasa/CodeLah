@@ -8,7 +8,7 @@ namespace UnityEditor.Tilemaps
         private static readonly string ussClassName = "unity-tilepalette-clipboard-error-element";
         private static readonly string k_Name = L10n.Tr("Tile Palette Clipboard Error Element");
 
-        static class Styles
+        internal static class Styles
         {
             public static readonly string emptyPaletteInfo = L10n.Tr("Drag Tile, Sprite or Texture (Sprite type) asset/s here.");
             public static readonly string invalidPaletteInfo = L10n.Tr("This is an invalid palette. Did you delete the palette asset?");

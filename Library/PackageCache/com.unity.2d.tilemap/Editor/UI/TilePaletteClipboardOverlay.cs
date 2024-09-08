@@ -94,6 +94,8 @@ namespace UnityEditor.Tilemaps
         {
             m_PaletteElement = new TilePaletteElement();
             m_PaletteElement.onBrushPicked += TogglePopup;
+            var clipboardElement = m_PaletteElement.Q<TilePaletteClipboardElement>();
+            clipboardElement.AddToClassList(TilePaletteClipboardElement.overlayClassName);
             return m_PaletteElement;
         }
 

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.EditorTools;
 
 namespace UnityEditor.Tilemaps
 {
@@ -22,6 +23,8 @@ namespace UnityEditor.Tilemaps
         /// </summary>
         [Obsolete("TilePaletteClipboardElementUxmlTraits is deprecated and will be removed. Use UxmlElementAttribute instead.", false)]
         public class TilePaletteClipboardElementUxmlTraits : UxmlTraits {}
+
+        internal static readonly string overlayClassName = "unity-tilepalette-clipboard-element-overlay";
 
         private static readonly string ussClassName = "unity-tilepalette-clipboard-element";
         private static readonly string k_Name = L10n.Tr("Tile Palette Clipboard Element");
@@ -53,21 +56,14 @@ namespace UnityEditor.Tilemaps
         /// </summary>
         public event Action<bool> clipboardUnlockedChanged;
 
+        private bool clipboardIsNotActive => m_TilePaletteClipboard == null || !m_ClipboardImageElement.visible;
+
         internal GridPaintPaletteClipboard clipboardView => m_TilePaletteClipboard;
 
         private TilePaletteClipboardFirstUserElement m_FirstUserElement;
         private TilePaletteClipboardErrorElement m_ErrorElement;
+        private IMGUIContainer m_GizmoHandlerElement;
         private Image m_ClipboardImageElement;
-
-        private static readonly PrefColor tilePaletteBackgroundColor = new PrefColor("2D/Tile Palette Background"
-            , 1.0f / 255.0f // Light
-            , 35.0f / 255.0f
-            , 90.0f / 255.0f
-            , 127.0f / 255.0f
-            , 1.0f / 255.0f // Dark
-            , 35.0f / 255.0f
-            , 90.0f / 255.0f
-            , 127.0f / 255.0f);
 
         /// <summary>
         /// Initializes and returns an instance of TilePaletteClipboardElement.
@@ -82,9 +78,15 @@ namespace UnityEditor.Tilemaps
             RegisterCallback<AttachToPanelEvent>(OnAttachedToPanel);
             RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
 
+            m_GizmoHandlerElement = new IMGUIContainer(HandleIMGUI);
+            m_GizmoHandlerElement.style.flexGrow = 1.0f;
+
             m_ClipboardImageElement = new Image();
-            m_ClipboardImageElement.style.backgroundColor = tilePaletteBackgroundColor.Color;
+            m_ClipboardImageElement.style.backgroundColor = GridPaintPaletteClipboard.tilePaletteBackgroundColor.Color;
+            m_ClipboardImageElement.style.flexGrow = 1.0f;
             m_ClipboardImageElement.focusable = true;
+
+            m_ClipboardImageElement.Add(m_GizmoHandlerElement);
             Add(m_ClipboardImageElement);
 
             m_ErrorElement = new TilePaletteClipboardErrorElement();
@@ -97,13 +99,12 @@ namespace UnityEditor.Tilemaps
             m_FirstUserElement.style.display = DisplayStyle.None;
             m_FirstUserElement.style.visibility = Visibility.Hidden;
             Add(m_FirstUserElement);
-
-            ScrollView ms = new ScrollView();
         }
 
         private void UnlockChanged(bool unlocked)
         {
             clipboardUnlockedChanged?.Invoke(unlocked);
+            CheckPaletteState();
         }
 
         private void OnAttachedToPanel(AttachToPanelEvent evt)
@@ -138,15 +139,16 @@ namespace UnityEditor.Tilemaps
             RegisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
             RegisterCallback<ValidateCommandEvent>(OnValidateCommandEvent);
             RegisterCallback<ExecuteCommandEvent>(OnExecuteCommandEvent);
+
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
             RegisterCallback<WheelEvent>(OnWheelEvent);
             RegisterCallback<PointerDownEvent>(OnPointerDownEvent);
             RegisterCallback<PointerMoveEvent>(OnPointerMoveEvent);
             RegisterCallback<PointerUpEvent>(OnPointerUpEvent);
             RegisterCallback<PointerEnterEvent>(OnPointerEnterEvent);
             RegisterCallback<PointerLeaveEvent>(OnPointerLeaveEvent);
-            m_ClipboardImageElement.RegisterCallback<KeyDownEvent>(OnKeyDownEvent);
-            m_ClipboardImageElement.RegisterCallback<KeyUpEvent>(OnKeyUpEvent);
-
+            RegisterCallback<KeyDownEvent>(OnKeyDownEvent);
+            RegisterCallback<KeyUpEvent>(OnKeyUpEvent);
             RegisterCallback<DragEnterEvent>(OnDragEnterEvent);
             RegisterCallback<DragUpdatedEvent>(OnDragUpdatedEvent);
             RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
@@ -155,8 +157,13 @@ namespace UnityEditor.Tilemaps
 
             generateVisualContent += GenerateVisualContent;
 
+            m_FirstUserElement.firstUserPaletteType = m_TilePaletteClipboard.firstUserPaletteType;
+            m_FirstUserElement.onFirstUserPaletteTypeChanged += OnFirstUserPaletteTypeChanged;
+
+            ToolManager.activeToolChanged += ActiveToolChanged;
             GridPaintingState.beforePaletteChanged += BeforePaletteChanged;
             GridPaintingState.paletteChanged += PaletteChanged;
+            GridPaintingState.palettesChanged += CheckPaletteState;
         }
 
         private void GenerateVisualContent(MeshGenerationContext obj)
@@ -166,6 +173,7 @@ namespace UnityEditor.Tilemaps
                 var texture = m_TilePaletteClipboard.RenderTexture();
                 EditorApplication.delayCall += () =>
                 {
+                    m_ClipboardImageElement.style.backgroundColor = GridPaintPaletteClipboard.tilePaletteBackgroundColor.Color;
                     m_ClipboardImageElement.image = texture;
                 };
             }
@@ -176,15 +184,16 @@ namespace UnityEditor.Tilemaps
             UnregisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
             UnregisterCallback<ValidateCommandEvent>(OnValidateCommandEvent);
             UnregisterCallback<ExecuteCommandEvent>(OnExecuteCommandEvent);
+
+            UnregisterCallback<GeometryChangedEvent>(OnGeometryChangedEvent);
             UnregisterCallback<WheelEvent>(OnWheelEvent);
             UnregisterCallback<PointerDownEvent>(OnPointerDownEvent);
             UnregisterCallback<PointerMoveEvent>(OnPointerMoveEvent);
             UnregisterCallback<PointerUpEvent>(OnPointerUpEvent);
             UnregisterCallback<PointerEnterEvent>(OnPointerEnterEvent);
             UnregisterCallback<PointerLeaveEvent>(OnPointerLeaveEvent);
-            m_ClipboardImageElement.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
-            m_ClipboardImageElement.UnregisterCallback<KeyUpEvent>(OnKeyUpEvent);
-
+            UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+            UnregisterCallback<KeyUpEvent>(OnKeyUpEvent);
             UnregisterCallback<DragEnterEvent>(OnDragEnterEvent);
             UnregisterCallback<DragUpdatedEvent>(OnDragUpdatedEvent);
             UnregisterCallback<DragPerformEvent>(OnDragPerformEvent);
@@ -193,12 +202,23 @@ namespace UnityEditor.Tilemaps
 
             generateVisualContent -= GenerateVisualContent;
 
+            m_FirstUserElement.onFirstUserPaletteTypeChanged -= OnFirstUserPaletteTypeChanged;
+
             if (m_TilePaletteClipboard != null)
                 m_TilePaletteClipboard.unlockedChanged -= UnlockChanged;
+
+            ToolManager.activeToolChanged -= ActiveToolChanged;
             GridPaintingState.beforePaletteChanged -= BeforePaletteChanged;
             GridPaintingState.paletteChanged -= PaletteChanged;
+            GridPaintingState.palettesChanged -= CheckPaletteState;
 
             Cleanup();
+        }
+
+        private void OnFirstUserPaletteTypeChanged(GridPaletteUtility.GridPaletteType paletteType)
+        {
+            if (m_TilePaletteClipboard != null)
+                m_TilePaletteClipboard.firstUserPaletteType = paletteType;
         }
 
         private void OnGeometryChangedEvent(GeometryChangedEvent evt)
@@ -208,12 +228,35 @@ namespace UnityEditor.Tilemaps
 
             var guiRect = new Rect(0, 0, layout.width, layout.height);
             m_TilePaletteClipboard.guiRect = guiRect;
-            m_ClipboardImageElement.image = m_TilePaletteClipboard.RenderTexture();
+        }
+
+        private void ActiveToolChanged()
+        {
+            CheckPaletteState();
+        }
+
+        private void HandleIMGUI()
+        {
+            if (clipboardIsNotActive)
+                return;
+
+            var texture = m_TilePaletteClipboard.HandleIMGUI();
+            if (texture != null)
+            {
+                m_ClipboardImageElement.style.backgroundColor = GridPaintPaletteClipboard.tilePaletteBackgroundColor.Color;
+                m_ClipboardImageElement.image = texture;
+            }
+        }
+
+        private void HandleRepaint()
+        {
+            MarkDirtyRepaint();
+            m_ClipboardImageElement.MarkDirtyRepaint();
         }
 
         private void OnExecuteCommandEvent(ExecuteCommandEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleExecuteCommandEvent(evt);
@@ -221,7 +264,7 @@ namespace UnityEditor.Tilemaps
 
         private void OnValidateCommandEvent(ValidateCommandEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleValidateCommandEvent(evt);
@@ -229,17 +272,17 @@ namespace UnityEditor.Tilemaps
 
         private void OnWheelEvent(WheelEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleWheelEvent(evt.delta, evt.mousePosition, evt.shiftKey);
             evt.StopPropagation();
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnPointerDownEvent(PointerDownEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandlePointerDownEvent(evt
@@ -247,12 +290,12 @@ namespace UnityEditor.Tilemaps
                 , evt.altKey
                 , evt.ctrlKey
                 , evt.localPosition);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnPointerMoveEvent(PointerMoveEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandlePointerMoveEvent(evt
@@ -260,12 +303,12 @@ namespace UnityEditor.Tilemaps
                 , evt.altKey
                 , evt.localPosition
                 , evt.deltaPosition);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnPointerUpEvent(PointerUpEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             if (onBrushPicked != null && m_TilePaletteClipboard != null)
@@ -273,7 +316,7 @@ namespace UnityEditor.Tilemaps
             m_TilePaletteClipboard.HandlePointerUpEvent(evt);
             if (onBrushPicked != null && m_TilePaletteClipboard != null)
                 m_TilePaletteClipboard.onBrushPicked -= onBrushPicked;
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnPointerEnterEvent(PointerEnterEvent evt)
@@ -281,8 +324,12 @@ namespace UnityEditor.Tilemaps
             if (m_TilePaletteClipboard == null)
                 return;
 
-            m_ClipboardImageElement.Focus();
+            if (ClassListContains(overlayClassName))
+            {
+                m_ClipboardImageElement.Focus();
+            }
             m_TilePaletteClipboard.HandlePointerEnterEvent(evt);
+            HandleRepaint();
         }
 
         private void OnPointerLeaveEvent(PointerLeaveEvent evt)
@@ -291,24 +338,25 @@ namespace UnityEditor.Tilemaps
                 return;
 
             m_TilePaletteClipboard.HandlePointerLeaveEvent(evt);
+            HandleRepaint();
         }
 
         private void OnKeyDownEvent(KeyDownEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleKeyDownEvent(evt);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnKeyUpEvent(KeyUpEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleKeyUpEvent();
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnDragEnterEvent(DragEnterEvent evt)
@@ -317,45 +365,48 @@ namespace UnityEditor.Tilemaps
                 return;
 
             m_TilePaletteClipboard.HandleDragEnterEvent(evt);
+            var texture = m_TilePaletteClipboard.RenderTexture();
+            m_ClipboardImageElement.image = texture;
             CheckPaletteState(m_TilePaletteClipboard.paletteInstance);
+            HandleRepaint();
         }
 
         private void OnDragUpdatedEvent(DragUpdatedEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleDragUpdatedEvent(evt);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnDragPerformEvent(DragPerformEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleDragPerformEvent(evt);
             CheckPaletteState(m_TilePaletteClipboard.paletteInstance);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnDragLeaveEvent(DragLeaveEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleDragLeaveEvent(evt);
             CheckPaletteState(m_TilePaletteClipboard.paletteInstance);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         private void OnDragExitedEvent(DragExitedEvent evt)
         {
-            if (m_TilePaletteClipboard == null)
+            if (clipboardIsNotActive)
                 return;
 
             m_TilePaletteClipboard.HandleDragExitedEvent(evt);
-            MarkDirtyRepaint();
+            HandleRepaint();
         }
 
         /// <summary>
@@ -380,6 +431,11 @@ namespace UnityEditor.Tilemaps
                 return;
             m_TilePaletteClipboard.OnAfterPaletteSelectionChanged();
             CheckPaletteState(palette);
+        }
+
+        internal void CheckPaletteState()
+        {
+            CheckPaletteState(GridPaintingState.palette);
         }
 
         private void CheckPaletteState(GameObject palette)
@@ -444,9 +500,7 @@ namespace UnityEditor.Tilemaps
                 m_ClipboardImageElement.style.display = DisplayStyle.Flex;
                 m_ClipboardImageElement.style.visibility = Visibility.Visible;
             }
-
-            if (m_Window != null)
-                m_Window.Repaint();
+            HandleRepaint();
         }
     }
 }

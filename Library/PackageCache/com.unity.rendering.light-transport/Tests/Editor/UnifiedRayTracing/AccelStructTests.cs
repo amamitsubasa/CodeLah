@@ -4,6 +4,7 @@ using UnityEditor;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine.Rendering.RadeonRays;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
 {
@@ -88,36 +89,8 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
         }
     }
 
-    public class ComputeRayTracingAccelStructTests
+    internal class ComputeRayTracingAccelStructTests
     {
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct BvhNode
-        {
-            public uint child0;
-            public uint child1;
-            public uint parent;
-            public uint update;
-
-            public float3 aabb0_min;
-            public float3 aabb0_max;
-            public float3 aabb1_min;
-            public float3 aabb1_max;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct BvhHeader
-        {
-            public uint totalNodeCount;
-            public uint leafNodeCount;
-            public uint root;
-            public uint unused;
-
-            public float3 aabb_min;
-            public float3 aabb_max;
-            public uint3 unused1;
-            public uint3 unused2;
-        }
-
         static private void AssertFloat3sAreEqual(float3 expected, float3 actual, float tolerance)
         {
             Assert.AreEqual(expected.x, actual.x, tolerance);
@@ -136,14 +109,6 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
         {
             var resources = new RayTracingResources();
             resources.Load();
-
-            var MB = 1024 * 1024;
-            var geoPoolDesc = new GeometryPoolDesc()
-            {
-                vertexPoolByteSize = MB,
-                indexPoolByteSize = MB,
-                meshChunkTablesByteSize = MB
-            };
 
             using var accelStruct = new ComputeRayTracingAccelStruct(
                 new AccelerationStructureOptions() { buildFlags = BuildFlags.PreferFastBuild },
@@ -177,44 +142,39 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
                 accelStruct.bottomLevelBvhBuffer.GetData(bottomLevelNodes);
 
                 var header = UnsafeUtility.As<BvhNode, BvhHeader>(ref bottomLevelNodes[0]);
-                Assert.AreEqual(expectedTotalNodeCount, header.totalNodeCount);
+                Assert.AreEqual(expectedTotalNodeCount, header.internalNodeCount + header.leafNodeCount);
                 Assert.AreEqual(1, header.leafNodeCount);
-                Assert.AreEqual(expectedTotalNodeCount, header.totalNodeCount);
-                AssertAABBsAreEqual(new float3(0.0f, 0.0f, 0.0f), new float3(1.0f, 1.0f, 0.0f), header.aabb_min, header.aabb_max, tolerance);
+                Assert.AreEqual(expectedTotalNodeCount, header.internalNodeCount + header.leafNodeCount);
+                AssertAABBsAreEqual(new float3(0.0f, 0.0f, 0.0f), new float3(1.0f, 1.0f, 0.0f), header.globalAabbMin, header.globalAabbMax, tolerance);
             }
 
             {
                 // Verify top level BVH.
-                uint expectedTotalNodeCount = 2 * instanceCount - 1;
-                var topLevelNodes = new BvhNode[(int)expectedTotalNodeCount + 1]; // plus one for header
+                uint expectedInternalNodeCount = instanceCount - 1;
+                uint expectedLeafNodeCount = instanceCount;
+                var topLevelNodes = new BvhNode[(int)expectedInternalNodeCount + 1]; // plus one for header
                 accelStruct.topLevelBvhBuffer.GetData(topLevelNodes);
 
                 var header = UnsafeUtility.As<BvhNode, BvhHeader>(ref topLevelNodes[0]);
-                Assert.AreEqual(expectedTotalNodeCount, header.totalNodeCount);
-                Assert.AreEqual(instanceCount, header.leafNodeCount);
-                Assert.AreEqual(expectedTotalNodeCount, header.totalNodeCount);
-                AssertAABBsAreEqual(new float3(1.0f, 1.0f, 0.0f), new float3(4.0f, 2.0f, 0.0f), header.aabb_min, header.aabb_max, tolerance);
+                Assert.AreEqual(expectedInternalNodeCount, header.internalNodeCount);
+                Assert.AreEqual(expectedLeafNodeCount, header.leafNodeCount);
+
+                AssertAABBsAreEqual(new float3(1.0f, 1.0f, 0.0f), new float3(4.0f, 2.0f, 0.0f), header.globalAabbMin, header.globalAabbMax, tolerance);
 
                 var instanceBvhRoot = topLevelNodes[1];
-                Assert.AreEqual(1, instanceBvhRoot.child0);
-                Assert.AreEqual(2, instanceBvhRoot.child1);
+                Assert.AreEqual(0u | (1u << 31), instanceBvhRoot.child0 ); // MSB is set for leaf node indices
+                Assert.AreEqual(1u | (1u << 31), instanceBvhRoot.child1 );
                 AssertAABBsAreEqual(new float3(1.0f, 1.0f, 0.0f), new float3(2.0f, 2.0f, 0.0f), instanceBvhRoot.aabb0_min, instanceBvhRoot.aabb0_max, tolerance);
                 AssertAABBsAreEqual(new float3(3.0f, 1.0f, 0.0f), new float3(4.0f, 2.0f, 0.0f), instanceBvhRoot.aabb1_min, instanceBvhRoot.aabb1_max, tolerance);
-
-                var leftChild = topLevelNodes[2];
-                Assert.AreEqual(0, leftChild.parent);
-
-                var rightChild = topLevelNodes[3];
-                Assert.AreEqual(0, leftChild.parent);
             }
         }
     }
 
     [TestFixture("Compute")]
     [TestFixture("Hardware")]
-    public class AccelStructTests
+    internal class AccelStructTests
     {
-        RayTracingBackend m_Backend;
+        readonly RayTracingBackend m_Backend;
         RayTracingContext m_Context;
         RayTracingResources m_Resources;
         IRayTracingAccelStruct m_AccelStruct;
@@ -264,8 +224,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
 
             Mesh mesh = MeshUtil.CreateQuadMesh();
 
-            var instanceDesc = new MeshInstanceDesc();
-            instanceDesc = new MeshInstanceDesc(mesh);
+            var instanceDesc = new MeshInstanceDesc(mesh);
             instanceDesc.localToWorldMatrix = Matrix4x4.identity;
             instanceDesc.localToWorldMatrix.SetTRS(new Vector3(0.5f, 0.5f, 0.0f), Quaternion.identity, new Vector3(1.0f, 1.0f, 1.0f));
             instanceDesc.enableTriangleCulling = false;
@@ -534,11 +493,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
 
             m_Context = new RayTracingContext(m_Backend, m_Resources);
             m_AccelStruct = m_Context.CreateAccelerationStructure(new AccelerationStructureOptions());
-
-            Type type = BackendHelpers.GetTypeOfShader(m_Backend);
-            string filename = BackendHelpers.GetFileNameOfShader(m_Backend, $"Tests/Editor/UnifiedRayTracing/TraceRays");
-            Object shader = AssetDatabase.LoadAssetAtPath($"Packages/com.unity.rendering.light-transport/{filename}", type);
-            m_Shader = m_Context.CreateRayTracingShader(shader);
+            m_Shader = m_Context.LoadRayTracingShader("Packages/com.unity.rendering.light-transport/Tests/Editor/UnifiedRayTracing/TraceRays.urtshader");
         }
 
         void DisposeRayTracingResources()

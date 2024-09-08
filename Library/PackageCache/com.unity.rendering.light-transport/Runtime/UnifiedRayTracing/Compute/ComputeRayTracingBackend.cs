@@ -18,6 +18,12 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             return new ComputeRayTracingAccelStruct(options, m_Resources, counter);
         }
 
-        RayTracingResources m_Resources;
+        public ulong GetRequiredTraceScratchBufferSizeInBytes(uint width, uint height, uint depth)
+        {
+            uint rayCount = width * height * depth;
+            return (RadeonRays.RadeonRaysAPI.GetTraceMemoryRequirements(rayCount) * RayTracingContext.GetScratchBufferStrideInBytes());
+        }
+
+        readonly RayTracingResources m_Resources;
     }
 }

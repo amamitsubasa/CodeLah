@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using Unity.Collections;
@@ -90,6 +92,38 @@ namespace UnityEditor.U2D.Aseprite
             }
 
             return image;
+        }
+        
+        public static bool Contains<T>(this IReadOnlyCollection<T> list, T item)
+        {
+            foreach (var listItem in list)
+            {
+                if (listItem.Equals(item))
+                    return true;
+            }
+            return false;
+        }     
+        
+        public static int FindIndex<T>(this IReadOnlyCollection<T> list, Predicate<T> match)
+        {
+            var index = 0;
+            foreach (var listItem in list)
+            {
+                if (match(listItem))
+                    return index;
+                index++;
+            }
+            return -1;
+        }
+        
+        public static T Find<T>(this IReadOnlyCollection<T> list, Predicate<T> match)
+        {
+            foreach (var listItem in list)
+            {
+                if (match(listItem))
+                    return listItem;
+            }
+            return default;
         }
     }
 }

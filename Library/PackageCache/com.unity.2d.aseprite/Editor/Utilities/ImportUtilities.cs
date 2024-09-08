@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor.Animations;
@@ -273,7 +274,7 @@ namespace UnityEditor.U2D.Aseprite
             arr.Dispose();
         }
 
-        public static bool IsLayerVisible(int layerIndex, in List<Layer> layers)
+        public static bool IsLayerVisible(int layerIndex, IReadOnlyList<Layer> layers)
         {
             var layer = layers[layerIndex];
             var isVisible = (layer.layerFlags & LayerFlags.Visible) != 0;
@@ -281,8 +282,22 @@ namespace UnityEditor.U2D.Aseprite
                 return false;
 
             if (layer.parentIndex != -1)
-                isVisible = IsLayerVisible(layer.parentIndex, in layers);
+                isVisible = IsLayerVisible(layer.parentIndex, layers);
             return isVisible;
+        }
+
+        // Burst in 2021.x does not support passing native arrays to bursted methods.
+#if UNITY_2022_2_OR_NEWER
+        [BurstCompile]
+#endif
+        public static bool IsEmptyImage(in NativeArray<Color32> image)
+        {
+            for (var i = 0; i < image.Length; ++i)
+            {
+                if (image[i].a > 0)
+                    return false;
+            }
+            return true;
         }
 
 #if !UNITY_2023_1_OR_NEWER
@@ -294,5 +309,15 @@ namespace UnityEditor.U2D.Aseprite
                    rectA.height == rectB.height;
         }
 #endif
+        
+        public static int FindIndex<T>(this IReadOnlyList<T> list, Func<T, bool> predicate)
+        {
+            for (var i = 0; i < list.Count; ++i)
+            {
+                if (predicate(list[i]))
+                    return i;
+            }
+            return -1;
+        }
     }
 }

@@ -297,6 +297,20 @@ namespace Unity.Burst.Editor
 
             var finalOutputPath = FetchBuildFolder(summary);
 
+#if UNITY_2022_2_OR_NEWER
+                const int embeddedLinuxTarget = (int)BuildTarget.EmbeddedLinux;
+                const int qnxTarget = (int)BuildTarget.QNX;
+#else
+            const int embeddedLinuxTarget = 45;
+            const int qnxTarget = 46;
+#endif
+
+            // For EmbeddedLinux and QNX, the burstMiscFolder is placed as a sibling of the build folder.
+            if (summary.platform == (BuildTarget)embeddedLinuxTarget || summary.platform == (BuildTarget)qnxTarget)
+            {
+                finalOutputPath = Path.GetDirectoryName(finalOutputPath);
+            }
+
             return Path.Combine(finalOutputPath, burstMiscFolderName);
         }
 
@@ -318,11 +332,9 @@ namespace Unity.Burst.Editor
                 settings = SerialiseIn(target, json, out upgraded);
             }
 
-            if (!fileExists || upgraded)
+            if (upgraded)
             {
-                // If the settings file didn't previously exist,
-                // or it did exist but we've just upgraded it to a new version,
-                // save it to disk now.
+                // If we've just upgraded the settings file to a new version, save it to disk now.
                 settings.Save(target);
             }
 

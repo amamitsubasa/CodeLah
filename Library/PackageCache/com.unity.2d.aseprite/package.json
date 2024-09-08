@@ -1,6 +1,6 @@
 {
   "name": "com.unity.2d.aseprite",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "unity": "2021.3",
   "unityRelease": "15f1",
   "displayName": "2D Aseprite Importer",
@@ -20,19 +20,19 @@
     "com.unity.modules.animation": "1.0.0"
   },
   "relatedPackages": {
-    "com.unity.2d.aseprite.tests": "1.1.4"
+    "com.unity.2d.aseprite.tests": "1.1.5"
   },
   "_upm": {
-    "changelog": "### Fixed\n- Fixed an issue where Sprite Renderers would be hidden after transitioning from one Animation Clip to another.\n- Fixed an issue where generated AnimationClips would be 0.01 seconds too long."
+    "changelog": "### Fixed\n- Reduced the font size slightly in the importer headers to match other inspector headers in Unity. (DANB-644) \n- Fixed an issue where the Sort Order would not be reset in Animation Clips when making use of the Z-index in Aseprite."
   },
   "upmCi": {
-    "footprint": "aa952333d55ae5b39ac442566edc153b61e9ddf4"
+    "footprint": "c2d883e82a13d1558525e5a5cb573b39a7faca95"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.2d.aseprite@1.1/manual/index.html",
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/AsepriteImporter.git",
     "type": "git",
-    "revision": "331d65bad3469b434c81f625682efc587a1e9258"
+    "revision": "a0426783b27ec99b71c186c0c6b834a26b2d43e0"
   },
-  "_fingerprint": "c4a13c2a313eb592869561819ae6ab0c0f997662"
+  "_fingerprint": "0e4f2cce4d7da1df9a83df9a921c38747f539432"
 }

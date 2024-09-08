@@ -1822,7 +1822,9 @@ extern ""C""
                         // For Windows on Arm 64, we need to be explicit and specify the architecture we want our
                         //managed process to run with - unfortunately, doing this means the exit code of the process
                         //no longer reflects if compilation was successful, so unreliableExitCode works around this
-                        args = "/c start /machine arm64 /b /WAIT " + exe + " " + args;
+                        //Note, the exe path must be quoted, but START thinks if it sees a " where the command is,
+                        //that its the title of the window, so we put a dummy empty string first.
+                        args = "/c start /machine arm64 /b /WAIT \"\" \"" + exe + "\" " + args;
                         exe = "cmd";
                         unreliableExitCode = true;
                     }

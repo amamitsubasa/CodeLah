@@ -375,8 +375,10 @@ namespace UnityEngine.Rendering.Universal
                     throw new ArgumentOutOfRangeException();
             }
 
-            int tw = m_Descriptor.width >> downres;
-            int th = m_Descriptor.height >> downres;
+            //We should set the limit the downres result to ensure we dont turn 1x1 textures, which should technically be valid
+            //into 0x0 textures which will be invalid
+            int tw = Mathf.Max(1, m_Descriptor.width >> downres);
+            int th = Mathf.Max(1, m_Descriptor.height >> downres);
 
             // Determine the iteration count
             int maxSize = Mathf.Max(tw, th);
@@ -1016,6 +1018,7 @@ namespace UnityEngine.Rendering.Universal
 
                 if (mode == MotionBlurMode.CameraAndObjects)
                 {
+                    Debug.Assert(ScriptableRenderer.current.SupportsMotionVectors(), "Current renderer does not support motion vectors.");
                     Debug.Assert(motionVectorColor.IsValid(), "Motion vectors are invalid. Per-object motion blur requires a motion vector texture.");
 
                     passData.motionVectors = motionVectorColor;
@@ -1026,6 +1029,7 @@ namespace UnityEngine.Rendering.Universal
                     passData.motionVectors = TextureHandle.nullHandle;
                 }
 
+                Debug.Assert(cameraDepthTexture.IsValid(), "Camera depth texture is invalid. Per-camera motion blur requires a depth texture.");
                 builder.UseTexture(cameraDepthTexture, AccessFlags.Read);
                 passData.material = material;
                 passData.passIndex = passIndex;
@@ -1404,7 +1408,7 @@ namespace UnityEngine.Rendering.Universal
                     material.EnableKeyword(settings.hdrOperations.HasFlag(HDROutputUtils.Operation.ColorEncoding) ? ShaderKeywordStrings.Gamma20AndHDRInput : ShaderKeywordStrings.Gamma20);
 
                 if (settings.hdrOperations.HasFlag(HDROutputUtils.Operation.ColorEncoding))
-                    SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, material, settings.hdrOperations);
+                    SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, material, settings.hdrOperations, cameraData.rendersOverlayUI);
 
                 if (settings.isAlphaOutputEnabled)
                     CoreUtils.SetKeyword(material, ShaderKeywordStrings._ENABLE_ALPHA_OUTPUT, settings.isAlphaOutputEnabled);
@@ -1666,7 +1670,7 @@ namespace UnityEngine.Rendering.Universal
                 if (!cameraData.postProcessEnabled)
                     settings.hdrOperations |= HDROutputUtils.Operation.ColorConversion;
 
-                SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, material, settings.hdrOperations);
+                SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, material, settings.hdrOperations, cameraData.rendersOverlayUI);
             }
             DebugHandler debugHandler = GetActiveDebugHandler(cameraData);
             bool resolveToDebugScreen = debugHandler != null && debugHandler.WriteToDebugScreenTexture(cameraData.resolveFinalTarget);
@@ -1776,7 +1780,6 @@ namespace UnityEngine.Rendering.Universal
             internal TextureHandle destinationTexture;
             internal TextureHandle sourceTexture;
             internal TextureHandle lutTexture;
-            internal TextureHandle depthTexture;
             internal Vector4 lutParams;
             internal TextureHandle userLutTexture;
             internal Vector4 userLutParams;
@@ -1786,6 +1789,27 @@ namespace UnityEngine.Rendering.Universal
             internal bool isHdrGrading;
             internal bool isBackbuffer;
             internal bool enableAlphaOutput;
+        }
+
+        TextureHandle TryGetCachedUserLutTextureHandle(RenderGraph renderGraph)
+        {
+            if (m_ColorLookup.texture.value == null)
+            {
+                if (m_UserLut != null)
+                {
+                    m_UserLut.Release();
+                    m_UserLut = null;
+                }
+            }
+            else
+            {
+                if (m_UserLut == null || m_UserLut.externalTexture != m_ColorLookup.texture.value)
+                {
+                    m_UserLut?.Release();
+                    m_UserLut = RTHandles.Alloc(m_ColorLookup.texture.value);
+                }
+            }
+            return m_UserLut != null ? renderGraph.ImportTexture(m_UserLut) : TextureHandle.nullHandle;
         }
 
         public void RenderUberPost(RenderGraph renderGraph, ContextContainer frameData, UniversalCameraData cameraData, UniversalPostProcessingData postProcessingData, in TextureHandle sourceTexture, in TextureHandle destTexture, in TextureHandle lutTexture, in TextureHandle overlayUITexture, bool requireHDROutput, bool enableAlphaOutput, bool resolveToDebugScreen)
@@ -1799,8 +1823,7 @@ namespace UnityEngine.Rendering.Universal
             float postExposureLinear = Mathf.Pow(2f, m_ColorAdjustments.postExposure.value);
             Vector4 lutParams = new Vector4(1f / lutWidth, 1f / lutHeight, lutHeight - 1f, postExposureLinear);
 
-            RTHandle userLutRThdl = m_ColorLookup.texture.value ? RTHandles.Alloc(m_ColorLookup.texture.value) : null;
-            TextureHandle userLutTexture = userLutRThdl != null ? renderGraph.ImportTexture(userLutRThdl) : TextureHandle.nullHandle;
+            TextureHandle userLutTexture = TryGetCachedUserLutTextureHandle(renderGraph);
             Vector4 userLutParams = !m_ColorLookup.IsActive()
                 ? Vector4.zero
                 : new Vector4(1f / m_ColorLookup.texture.value.width,
@@ -1810,24 +1833,15 @@ namespace UnityEngine.Rendering.Universal
 
             using (var builder = renderGraph.AddRasterRenderPass<UberPostPassData>("Blit Post Processing", out var passData, ProfilingSampler.Get(URPProfileId.RG_UberPost)))
             {
-                UniversalRenderer renderer = cameraData.renderer as UniversalRenderer;
                 UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
 
-                if (cameraData.requiresDepthTexture && renderer != null)
-                {
-                    if (renderer.renderingModeActual != RenderingMode.Deferred)
-                    {
-                        builder.UseGlobalTexture(s_CameraDepthTextureID);
-                        passData.depthTexture = resourceData.activeDepthTexture;
-                    }
-                    else if (renderer.deferredLights.GbufferDepthIndex != -1)
-                    {
-                        builder.UseTexture(resourceData.gBuffer[renderer.deferredLights.GbufferDepthIndex]);
-                        passData.depthTexture = resourceData.gBuffer[renderer.deferredLights.GbufferDepthIndex];
-                    }
-                }
+                // Only the UniversalRenderer guarantees that global textures will be available at this point
+                bool isUniversalRenderer = (cameraData.renderer as UniversalRenderer) != null;
 
-                if (cameraData.requiresOpaqueTexture && renderer != null)
+                if (cameraData.requiresDepthTexture && isUniversalRenderer)
+                    builder.UseGlobalTexture(s_CameraDepthTextureID);
+
+                if (cameraData.requiresOpaqueTexture && isUniversalRenderer)
                     builder.UseGlobalTexture(s_CameraOpaqueTextureID);
 
                 builder.AllowGlobalStateModification(true);
@@ -1846,7 +1860,7 @@ namespace UnityEngine.Rendering.Universal
 
                 if (m_Bloom.IsActive())
                     builder.UseTexture(_BloomMipUp[0], AccessFlags.Read);
-                if (requireHDROutput && m_EnableColorEncodingIfNeeded)
+                if (requireHDROutput && m_EnableColorEncodingIfNeeded && overlayUITexture.IsValid())
                     builder.UseTexture(overlayUITexture, AccessFlags.Read);
 
                 passData.userLutParams = userLutParams;
@@ -1863,8 +1877,6 @@ namespace UnityEngine.Rendering.Universal
                     var material = data.material;
                     RTHandle sourceTextureHdl = data.sourceTexture;
 
-                    if(data.depthTexture.IsValid())
-                        material.SetTexture(s_CameraDepthTextureID, data.depthTexture);
                     material.SetTexture(ShaderConstants._InternalLut, data.lutTexture);
                     material.SetVector(ShaderConstants._Lut_Params, data.lutParams);
                     material.SetTexture(ShaderConstants._UserLut, data.userLutTexture);
@@ -2082,7 +2094,7 @@ namespace UnityEngine.Rendering.Universal
                     // Otherwise encoding will happen in the final post process pass or the final blit pass
                     HDROutputUtils.Operation hdrOperations = !m_HasFinalPass && m_EnableColorEncodingIfNeeded ? HDROutputUtils.Operation.ColorEncoding : HDROutputUtils.Operation.None;
 
-                    SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, m_Materials.uber, hdrOperations);
+                    SetupHDROutput(cameraData.hdrDisplayInformation, cameraData.hdrDisplayColorGamut, m_Materials.uber, hdrOperations, cameraData.rendersOverlayUI);
                 }
 
                 bool enableAlphaOutput = cameraData.isAlphaOutputEnabled;

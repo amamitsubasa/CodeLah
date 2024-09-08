@@ -5,15 +5,22 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
 {
     internal class ComputeRayTracingShader : IRayTracingShader
     {
-        ComputeShader m_Shader;
-        int m_KernelIndex;
+        readonly ComputeShader m_Shader;
+        readonly int m_KernelIndex;
+        readonly int m_ComputeIndirectDispatchDimsKernelIndex;
         uint3 m_ThreadGroupSizes;
-        private GraphicsBuffer m_DispatchBuffer; // This is a buffer to hold dispatch arguments when using non indirect dispatch
+
+        // Temp buffer containing the dispatch dimensions
+        // For standard dispatches, it contains the dims counted in work groups.
+        // For indirect dispatches, it contains the dims counted in threads.
+
+        readonly GraphicsBuffer m_DispatchBuffer;
 
         internal ComputeRayTracingShader(ComputeShader shader, string dispatchFuncName, GraphicsBuffer dispatchBuffer)
         {
             m_Shader = shader;
             m_KernelIndex = m_Shader.FindKernel(dispatchFuncName);
+            m_ComputeIndirectDispatchDimsKernelIndex = m_Shader.FindKernel("ComputeIndirectDispatchDims");
             m_Shader.GetKernelThreadGroupSizes(m_KernelIndex,
                 out m_ThreadGroupSizes.x, out m_ThreadGroupSizes.y, out m_ThreadGroupSizes.z);
             m_DispatchBuffer = dispatchBuffer;
@@ -22,15 +29,6 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public uint3 GetThreadGroupSizes()
         {
             return m_ThreadGroupSizes;
-        }
-
-        public void PopulateDispatchDimensionBuffer(CommandBuffer cmd, GraphicsBuffer dispatchDimensionsBuffer, uint3 dimensions)
-        {
-            Assert.IsTrue((dispatchDimensionsBuffer.target & GraphicsBuffer.Target.IndirectArguments) != 0);
-            Assert.IsTrue((dispatchDimensionsBuffer.target & GraphicsBuffer.Target.Structured) != 0);
-            Assert.IsTrue(dispatchDimensionsBuffer.count * dispatchDimensionsBuffer.stride == 24);
-            uint3 workgroups = GraphicsHelpers.DivUp(dimensions, m_ThreadGroupSizes);
-            cmd.SetBufferData(dispatchDimensionsBuffer, new uint[] { dimensions.x, dimensions.y, dimensions.z, workgroups.x, workgroups.y, workgroups.z });
         }
 
         public void SetAccelerationStructure(CommandBuffer cmd, string name, IRayTracingAccelStruct accelStruct)
@@ -78,41 +76,46 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public void Dispatch(CommandBuffer cmd, GraphicsBuffer scratchBuffer, uint width, uint height, uint depth)
         {
             var requiredScratchSize = GetTraceScratchBufferRequiredSizeInBytes(width, height, depth);
-            if (requiredScratchSize > 0 && (scratchBuffer == null || ((ulong)(scratchBuffer.count * scratchBuffer.stride) < requiredScratchSize)))
+            if (requiredScratchSize > 0)
             {
-                throw new System.ArgumentException("scratchBuffer size is too small");
-            }
-
-            if (requiredScratchSize > 0 && scratchBuffer.stride != 4)
-            {
-                throw new System.ArgumentException("scratchBuffer stride must be 4");
+                Debug.Assert(scratchBuffer != null && ((ulong)(scratchBuffer.count * scratchBuffer.stride) >= requiredScratchSize), "scratchBuffer size is too small");
+                Debug.Assert(scratchBuffer.stride == 4, "scratchBuffer stride must be 4");
             }
 
             cmd.SetComputeBufferParam(m_Shader, m_KernelIndex, RadeonRays.SID.g_stack, scratchBuffer);
+            cmd.SetBufferData(m_DispatchBuffer, new uint[] { width, height, depth });
+            SetBufferParam(cmd, RadeonRays.SID.g_dispatch_dimensions, m_DispatchBuffer);
 
             uint workgroupsX = (uint)GraphicsHelpers.DivUp((int)width, m_ThreadGroupSizes.x);
             uint workgroupsY = (uint)GraphicsHelpers.DivUp((int)height, m_ThreadGroupSizes.y);
             uint workgroupsZ = (uint)GraphicsHelpers.DivUp((int)depth, m_ThreadGroupSizes.z);
-
-            PopulateDispatchDimensionBuffer(cmd, m_DispatchBuffer, new uint3(width, height, depth));
-            SetBufferParam(cmd, RadeonRays.SID.g_dispatch_dimensions, m_DispatchBuffer);
             cmd.DispatchCompute(m_Shader, m_KernelIndex, (int)workgroupsX, (int)workgroupsY, (int)workgroupsZ);
+        }
+
+        public void Dispatch(CommandBuffer cmd, GraphicsBuffer scratchBuffer, GraphicsBuffer argsBuffer)
+        {
+            SetIndirectDispatchDimensions(cmd, argsBuffer);
+            DispatchIndirect(cmd, scratchBuffer, argsBuffer);
+        }
+
+        internal void SetIndirectDispatchDimensions(CommandBuffer cmd, GraphicsBuffer argsBuffer)
+        {
+            cmd.SetComputeBufferParam(m_Shader, m_ComputeIndirectDispatchDimsKernelIndex, RadeonRays.SID.g_dispatch_dimensions, argsBuffer);
+            cmd.SetComputeBufferParam(m_Shader, m_ComputeIndirectDispatchDimsKernelIndex, RadeonRays.SID.g_dispatch_dims_in_workgroups, m_DispatchBuffer);
+            cmd.DispatchCompute(m_Shader, m_ComputeIndirectDispatchDimsKernelIndex, 1, 1, 1);
+        }
+
+        internal void DispatchIndirect(CommandBuffer cmd, GraphicsBuffer scratchBuffer, GraphicsBuffer argsBuffer)
+        {
+            cmd.SetComputeBufferParam(m_Shader, m_KernelIndex, RadeonRays.SID.g_stack, scratchBuffer);
+            cmd.SetComputeBufferParam(m_Shader, m_KernelIndex, RadeonRays.SID.g_dispatch_dimensions, argsBuffer);
+            cmd.DispatchCompute(m_Shader, m_KernelIndex, m_DispatchBuffer, 0);
         }
 
         public ulong GetTraceScratchBufferRequiredSizeInBytes(uint width, uint height, uint depth)
         {
             uint rayCount = width * height * depth;
             return (RadeonRays.RadeonRaysAPI.GetTraceMemoryRequirements(rayCount) * 4);
-        }
-
-        public void Dispatch(CommandBuffer cmd, GraphicsBuffer scratchBuffer, GraphicsBuffer argsBuffer)
-        {
-            Assert.IsTrue((argsBuffer.target & GraphicsBuffer.Target.IndirectArguments) != 0);
-            Assert.IsTrue((argsBuffer.target & GraphicsBuffer.Target.Structured) != 0);
-            Assert.IsTrue(argsBuffer.count * argsBuffer.stride == 24);
-            cmd.SetComputeBufferParam(m_Shader, m_KernelIndex, RadeonRays.SID.g_stack, scratchBuffer);
-            SetBufferParam(cmd, RadeonRays.SID.g_dispatch_dimensions, argsBuffer);
-            cmd.DispatchCompute(m_Shader, m_KernelIndex, argsBuffer, RayTracingHelper.k_GroupSizeByteOffset);
         }
     }
 }

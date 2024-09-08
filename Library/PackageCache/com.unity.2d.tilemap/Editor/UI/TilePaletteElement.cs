@@ -179,6 +179,7 @@ namespace UnityEditor.Tilemaps
         private void OnEditToggleChanged(bool unlock)
         {
             clipboardUnlocked = unlock;
+            clipboardView.Repaint();
         }
 
         private void OnUnlockedChanged(bool unlock)
@@ -189,11 +190,13 @@ namespace UnityEditor.Tilemaps
         private void OnGridToggleChanged(bool drawGridGizmo)
         {
             GridPaintingState.drawGridGizmo = drawGridGizmo;
+            clipboardView.Repaint();
         }
 
         private void OnGizmoToggleChanged(bool drawGizmo)
         {
             GridPaintingState.drawGizmos = drawGizmo;
+            clipboardView.Repaint();
         }
 
         private void UpdateToggleState()

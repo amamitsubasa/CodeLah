@@ -428,13 +428,14 @@ namespace UnityEngine.Rendering.Universal
         {
             for (var i = 0; i < blendStyleIndices.Length; i++)
             {
-                var blendStyle = lightBlendStyles[blendStyleIndices[i]];
-                if (i >= k_BlendFactorsPropIDs.Length)
+                var blendStyleIndex = blendStyleIndices[i];
+                if (blendStyleIndex >= k_BlendFactorsPropIDs.Length)
                     break;
 
-                cmd.SetGlobalVector(k_BlendFactorsPropIDs[i], blendStyle.blendFactors);
-                cmd.SetGlobalVector(k_MaskFilterPropIDs[i], blendStyle.maskTextureChannelFilter.mask);
-                cmd.SetGlobalVector(k_InvertedFilterPropIDs[i], blendStyle.maskTextureChannelFilter.inverted);
+                var blendStyle = lightBlendStyles[blendStyleIndex];
+                cmd.SetGlobalVector(k_BlendFactorsPropIDs[blendStyleIndex], blendStyle.blendFactors);
+                cmd.SetGlobalVector(k_MaskFilterPropIDs[blendStyleIndex], blendStyle.maskTextureChannelFilter.mask);
+                cmd.SetGlobalVector(k_InvertedFilterPropIDs[blendStyleIndex], blendStyle.maskTextureChannelFilter.inverted);
             }
         }
 
@@ -557,7 +558,7 @@ namespace UnityEngine.Rendering.Universal
             }
         }
 
-        internal static void RenderNormals(this IRenderPass2D pass, ScriptableRenderContext context, RenderingData renderingData, DrawingSettings drawSettings, FilteringSettings filterSettings, RTHandle depthTarget)
+        internal static void RenderNormals(this IRenderPass2D pass, ScriptableRenderContext context, RenderingData renderingData, DrawingSettings drawSettings, FilteringSettings filterSettings, RTHandle depthTarget, bool bFirstClear)
         {
             var cmd = renderingData.commandBuffer;
 
@@ -575,7 +576,7 @@ namespace UnityEngine.Rendering.Universal
 
                 var msaaEnabled = renderingData.cameraData.cameraTargetDescriptor.msaaSamples > 1;
                 var storeAction = msaaEnabled ? RenderBufferStoreAction.Resolve : RenderBufferStoreAction.Store;
-                var clearFlag = pass.rendererData.useDepthStencilBuffer ? ClearFlag.All : ClearFlag.Color;
+                var clearFlag = pass.rendererData.useDepthStencilBuffer && bFirstClear ? ClearFlag.All : ClearFlag.Color;
 
                 if (depthTarget != null)
                 {
@@ -704,7 +705,6 @@ namespace UnityEngine.Rendering.Universal
                     SetBlendModes(material, BlendMode.One, BlendMode.One);
                 else
                 {
-                    material.SetInt("_HandleZTest", (int)CompareFunction.Disabled);
                     SetBlendModes(material, BlendMode.SrcAlpha, BlendMode.One);
                 }
             }

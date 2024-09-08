@@ -439,7 +439,7 @@ namespace UnityEditor.U2D.Aseprite
         /// <returns>TextureImporterPlatformSettings used for importing the texture for the build target.</returns>
         public TextureImporterPlatformSettings GetImporterPlatformSettings(BuildTarget buildTarget)
         {
-            return TextureImporterUtilities.GetPlatformTextureSettings(buildTarget, in m_PlatformSettings);
+            return TextureImporterPlatformUtilities.GetPlatformTextureSettings(buildTarget, m_PlatformSettings);
         }
 
         /// <summary>
@@ -466,6 +466,11 @@ namespace UnityEditor.U2D.Aseprite
             /// </summary>
             public readonly AssetImportContext context;
 
+            /// <summary>
+            /// Constructor for ImportEventArgs.
+            /// </summary>
+            /// <param name="importer">The Aseprite Importer that fired the event.</param>
+            /// <param name="context">The Asset Import Context that is being used for the import.</param>
             public ImportEventArgs(AsepriteImporter importer, AssetImportContext context)
             {
                 this.importer = importer;
@@ -473,6 +478,10 @@ namespace UnityEditor.U2D.Aseprite
             }
         }
 
+        /// <summary>
+        /// Delegate for Aseprite Import Events.
+        /// </summary>
+        /// <param name="args">The ImportEventArgs that are being used for the import.</param>
         public delegate void AsepriteImportEventHandler(ImportEventArgs args);
 
         /// <summary>

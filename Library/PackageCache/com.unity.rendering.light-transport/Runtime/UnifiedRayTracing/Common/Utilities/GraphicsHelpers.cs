@@ -2,7 +2,7 @@ using Unity.Mathematics;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing
 {
-    internal class GraphicsHelpers
+    internal static class GraphicsHelpers
     {
         static public void CopyBuffer(ComputeShader copyShader, CommandBuffer cmd, GraphicsBuffer src, int srcOffsetInDWords, GraphicsBuffer dst, int dstOffsetInDwords, int sizeInDWords)
         {
@@ -10,7 +10,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             const int elementsPerThread = 8;
             const int maxThreadGroups = 65535;  // gfx device limitation
             const int maxBatchSizeInDWords = groupSize * elementsPerThread * maxThreadGroups;
-            
+
             int remainingDWords = sizeInDWords;
 
             cmd.SetComputeBufferParam(copyShader, 0, "_SrcBuffer", src);

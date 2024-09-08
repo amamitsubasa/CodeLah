@@ -13,6 +13,12 @@ namespace UnityEditor.U2D.Sprites
         // overrides for SpriteFrameModuleBase
         public override void DoMainGUI()
         {
+            // Do nothing when extension is activated.
+            if (m_CurrentMode != null)
+            {
+                m_CurrentMode.DoMainGUI();
+                return;
+            }
             base.DoMainGUI();
             DrawSpriteRectGizmos();
             DrawPotentialSpriteRectGizmos();
@@ -56,7 +62,7 @@ namespace UnityEditor.U2D.Sprites
 
         public override void DoToolbarGUI(Rect toolbarRect)
         {
-            using (new EditorGUI.DisabledScope(!containsMultipleSprites || spriteEditor.editingDisabled || m_TextureDataProvider.GetReadableTexture2D() == null))
+            using (new EditorGUI.DisabledScope(!containsMultipleSprites || spriteEditor.editingDisabled || m_TextureDataProvider.GetReadableTexture2D() == null || m_CurrentMode != null))
             {
                 GUIStyle skin = EditorStyles.toolbarPopup;
 
@@ -67,7 +73,7 @@ namespace UnityEditor.U2D.Sprites
                 {
                     if (GUI.Button(adjustedDrawArea, SpriteFrameModuleStyles.sliceButtonLabel, skin))
                     {
-                        if (SpriteEditorMenu.ShowAtPosition(adjustedDrawArea, this, m_TextureDataProvider))
+                        if (SpriteEditorMenu.ShowAtPosition(adjustedDrawArea, this, this))
                             GUIUtility.ExitGUI();
                     }
                 });
@@ -97,7 +103,7 @@ namespace UnityEditor.U2D.Sprites
             GUIStyle dragDotActive = styles.dragdotactive;
             var color = Color.white;
 
-            Rect rect = new Rect(selectedSpriteRect);
+            Rect rect = new Rect(selectedSpriteRect_Rect);
 
             float left = rect.xMin;
             float right = rect.xMax;
@@ -127,7 +133,7 @@ namespace UnityEditor.U2D.Sprites
             if (!hasSelected)
                 return;
 
-            Rect rect = new Rect(selectedSpriteRect);
+            Rect rect = new Rect(selectedSpriteRect_Rect);
 
             float left = rect.xMin;
             float right = rect.xMax;
@@ -167,12 +173,12 @@ namespace UnityEditor.U2D.Sprites
                 Rect textureBounds = new Rect(0, 0, textureActualWidth, textureActualHeight);
                 EditorGUI.BeginChangeCheck();
 
-                Rect oldRect = selectedSpriteRect;
+                Rect oldRect = selectedSpriteRect_Rect;
                 Rect newRect = SpriteEditorUtility.ClampedRect(SpriteEditorUtility.RoundedRect(SpriteEditorHandles.SliderRect(oldRect)), textureBounds, true);
 
                 if (EditorGUI.EndChangeCheck())
                 {
-                    selectedSpriteRect = newRect;
+                    selectedSpriteRect_Rect = newRect;
                     UpdatePositionField(null);
                 }
             }
@@ -218,6 +224,14 @@ namespace UnityEditor.U2D.Sprites
 
                 evt.Use();
             }
+        }
+
+        public override void DoPostGUI()
+        {
+            if (m_CurrentMode != null)
+                m_CurrentMode.DoPostGUI();
+            else
+                base.DoPostGUI();
         }
     }
 }

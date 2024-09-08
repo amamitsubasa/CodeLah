@@ -143,6 +143,9 @@ namespace UnityEditor.U2D.Aseprite.Common
 
         void UpdateActorSize()
         {
+            if (m_Renderers == null || m_Renderers.Length == 0)
+                return;
+
             var ppu = m_Renderers[0].sprite.pixelsPerUnit;
             var bounds = GetRenderableBounds(m_Renderers);
 

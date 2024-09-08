@@ -59,19 +59,17 @@ Hit TraceRayClosestHit(DispatchInfo dispatchInfo, RayTracingAccelStruct accelStr
     TraceParams traceParams;
     traceParams.bvh = accelStruct.bvh;
     traceParams.bottom_bvhs = accelStruct.bottom_bvhs;
+    traceParams.bottom_bvh_leaves = accelStruct.bottom_bvh_leaves;
     traceParams.stack = g_stack;
     traceParams.instance_infos = accelStruct.instance_infos;
     traceParams.globalThreadIndex = dispatchInfo.globalThreadIndex;
     traceParams.localThreadIndex = dispatchInfo.localThreadIndex;
-
-    VertexPoolDesc vertex_pool_desc;
-    vertex_pool_desc.index_buffer = accelStruct.indexBuffer;
-    vertex_pool_desc.vertex_buffer = accelStruct.vertexBuffer;
-    vertex_pool_desc.vertex_stride = accelStruct.vertexStride;
+    traceParams.bottom_bvhs_vertices = accelStruct.vertexBuffer;
+    traceParams.bottom_bvhs_vertex_stride = accelStruct.vertexStride;
 
     int cull_mode = GetCullMode(rayFlags);
 
-    TraceHitResult hitData = TraceRay(traceParams, vertex_pool_desc, ray.origin, ray.tMin, ray.direction, ray.tMax, instanceMask, cull_mode, true);
+    TraceHitResult hitData = TraceRaySoftware(traceParams, ray.origin, ray.tMin, ray.direction, ray.tMax, instanceMask, cull_mode, true);
 
     Hit res;
     res.instanceID = hitData.inst_id != -1 ? GetUserInstanceID(traceParams, hitData.inst_id) : -1;
@@ -88,19 +86,17 @@ bool TraceRayAnyHit(DispatchInfo dispatchInfo, RayTracingAccelStruct accelStruct
     TraceParams traceParams;
     traceParams.bvh = accelStruct.bvh;
     traceParams.bottom_bvhs = accelStruct.bottom_bvhs;
+    traceParams.bottom_bvh_leaves = accelStruct.bottom_bvh_leaves;
     traceParams.stack = g_stack;
     traceParams.instance_infos = accelStruct.instance_infos;
     traceParams.globalThreadIndex = dispatchInfo.globalThreadIndex;
     traceParams.localThreadIndex = dispatchInfo.localThreadIndex;
-
-    VertexPoolDesc vertex_pool_desc;
-    vertex_pool_desc.index_buffer = accelStruct.indexBuffer;
-    vertex_pool_desc.vertex_buffer = accelStruct.vertexBuffer;
-    vertex_pool_desc.vertex_stride = accelStruct.vertexStride;
+    traceParams.bottom_bvhs_vertices = accelStruct.vertexBuffer;
+    traceParams.bottom_bvhs_vertex_stride = accelStruct.vertexStride;
 
     int cull_mode = GetCullMode(rayFlags);
 
-    TraceHitResult hit = TraceRay(traceParams, vertex_pool_desc, ray.origin, ray.tMin, ray.direction, ray.tMax, instanceMask, cull_mode, false);
+    TraceHitResult hit = TraceRaySoftware(traceParams, ray.origin, ray.tMin, ray.direction, ray.tMax, instanceMask, cull_mode, false);
 
     return hit.inst_id != INVALID_NODE;
 }

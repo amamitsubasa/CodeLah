@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -64,16 +63,26 @@ namespace UnityEditor.U2D.Aseprite
 
         public static implicit operator UnityEditor.AssetImporters.SpriteImportData(SpriteMetaData value)
         {
-            var output = new UnityEditor.AssetImporters.SpriteImportData();
-            output.name = value.name;
-            output.alignment = value.alignment;
-            output.rect = value.rect;
-            output.border = value.border;
-            output.pivot = value.pivot;
-            output.tessellationDetail = value.tessellationDetail;
-            output.spriteID = value.spriteID.ToString();
-            if (value.spriteOutline != null)
-                output.outline = value.spriteOutline.Select(x => x.outline).ToList();
+            var output = new UnityEditor.AssetImporters.SpriteImportData
+            {
+                name = value.name,
+                alignment = value.alignment,
+                rect = value.rect,
+                border = value.border,
+                pivot = value.pivot,
+                tessellationDetail = value.tessellationDetail,
+                spriteID = value.spriteID.ToString()
+            };
+
+            if (value.spriteOutline == null)
+                return output;
+
+            output.outline = new List<Vector2[]>();
+            foreach (var outline in value.spriteOutline)
+            {
+                output.outline.Add(outline.outline);
+            }
+
 
             return output;
         }

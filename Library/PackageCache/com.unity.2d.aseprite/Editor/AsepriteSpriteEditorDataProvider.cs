@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor.AssetImporters;
 using UnityEditor.U2D.Sprites;
 
@@ -115,10 +114,25 @@ namespace UnityEditor.U2D.Aseprite
                 switch (m_AsepriteImporterSettings.fileImportMode)
                 {
                     case FileImportModes.SpriteSheet:
-                        return m_SpriteSheetImportData.Select(x => new SpriteMetaData(x) as SpriteRect).ToArray();
+                        {
+                            var spriteRects = new SpriteRect[m_SpriteSheetImportData.Count];
+                            for (var i = 0; i < spriteRects.Length; i++)
+                            {
+                                spriteRects[i] = new SpriteMetaData(m_SpriteSheetImportData[i]);
+                            }
+                            return spriteRects;
+                        }
                     case FileImportModes.AnimatedSprite:
                     default:
-                        return m_AnimatedSpriteImportData.Select(x => new SpriteMetaData(x) as SpriteRect).ToArray();
+                        {
+                            var spriteRects = new SpriteRect[m_AnimatedSpriteImportData.Count];
+                            for (var i = 0; i < spriteRects.Length; i++)
+                            {
+                                spriteRects[i] = new SpriteMetaData(m_AnimatedSpriteImportData[i]);
+                            }
+                            return spriteRects;
+                        }
+
                 }
             }
             return new[] { new SpriteMetaData(m_SingleSpriteImportData[0]) };
@@ -138,10 +152,35 @@ namespace UnityEditor.U2D.Aseprite
             var spriteImportData = GetSpriteImportData();
             if (spriteImportModeToUse == SpriteImportMode.Multiple)
             {
-                spriteImportData.RemoveAll(data => spriteRects.FirstOrDefault(x => x.spriteID == data.spriteID) == null);
+                for (var i = 0; i < spriteImportData.Count; i++)
+                {
+                    var found = false;
+                    foreach (var spriteRect in spriteRects)
+                    {
+                        if (spriteRect.spriteID != spriteImportData[i].spriteID)
+                            continue;
+
+                        found = true;
+                        break;
+                    }
+
+                    if (found)
+                        continue;
+
+                    spriteImportData.RemoveAt(i);
+                    --i;
+                }
                 foreach (var sr in spriteRects)
                 {
-                    var importData = spriteImportData.FirstOrDefault(x => x.spriteID == sr.spriteID);
+                    SpriteMetaData importData = null;
+                    foreach (var metaData in spriteImportData)
+                    {
+                        if (metaData.spriteID != sr.spriteID)
+                            continue;
+
+                        importData = metaData;
+                        break;
+                    }
                     if (importData == null)
                         spriteImportData.Add(new SpriteMetaData(sr));
                     else

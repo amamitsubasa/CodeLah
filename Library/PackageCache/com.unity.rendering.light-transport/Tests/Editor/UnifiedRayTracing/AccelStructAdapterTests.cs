@@ -10,9 +10,9 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
 
     [TestFixture("Compute")]
     [TestFixture("Hardware")]
-    public class AccelStructAdapterTests
+    internal class AccelStructAdapterTests
     {
-        RayTracingBackend m_Backend;
+        readonly RayTracingBackend m_Backend;
         RayTracingContext m_Context;
         AccelStructAdapter m_AccelStruct;
         IRayTracingShader m_Shader;
@@ -49,40 +49,14 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             DisposeRayTracingResources();
         }
 
-
-        enum UVDimension
+        void RayTraceAndCheckUVs(Mesh mesh, float2 expected, int uvChannel, float tolerance = 0.01f)
         {
-            Dim2,
-            Dim3,
-            Dim4
-        }
-
-        void RayTraceAndCheckUVs(Mesh mesh, Vector4 expected, int uvChannel, float tolerance = 0.0001f)
-        {
-            int uvDimension = mesh.GetVertexAttributeDimension(uvChannel == 1 ? VertexAttribute.TexCoord1 : VertexAttribute.TexCoord0);
-            UVDimension dim = UVDimension.Dim2;
-            switch (uvDimension)
-            {
-                case 2:
-                    dim = UVDimension.Dim2;
-                    break;
-                case 3:
-                    dim = UVDimension.Dim3;
-                    break;
-                case 4:
-                    dim = UVDimension.Dim4;
-                    break;
-                default:
-                    Assert.Fail("Unexpected UV dimension.");
-                    break;
-            };
-
             const int instanceCount = 4;
             CreateMatchingRaysAndInstanceDescs(instanceCount, mesh, out RayWithFlags[] rays, out MeshInstanceDesc[] instanceDescs);
 
             for (int i = 0; i < instanceCount; ++i)
             {
-                m_AccelStruct.AddInstance(i, instanceDescs[i].mesh, instanceDescs[i].localToWorldMatrix, new uint[]{ 0xFFFFFFFF }, new uint[]{ 0xFFFFFFFF });
+                m_AccelStruct.AddInstance(i, instanceDescs[i].mesh, instanceDescs[i].localToWorldMatrix, new uint[]{ 0xFFFFFFFF }, new uint[]{ 0xFFFFFFFF }, 1);
             }
 
             HitGeomAttributes[] hitAttributes = null;
@@ -90,13 +64,9 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             for (int i = 0; i < rays.Length; ++i)
             {
                 Assert.IsTrue(hits[i].Valid(), "Expected ray to hit the mesh.");
-                float4 uv = uvChannel == 1 ? hitAttributes[i].uv1 : hitAttributes[i].uv0;
+                float2 uv = uvChannel == 1 ? hitAttributes[i].uv1 : hitAttributes[i].uv0;
                 Assert.AreEqual(expected.x, uv.x, tolerance, $"Expected x (from uv{uvChannel}) to be fetched correctly in the ray tracing shader.");
                 Assert.AreEqual(expected.y, uv.y, tolerance, $"Expected y (from uv{uvChannel}) to be fetched correctly in the ray tracing shader.");
-                if (dim == UVDimension.Dim3 || dim == UVDimension.Dim4)
-                    Assert.AreEqual(expected.z, uv.z, tolerance, $"Expected z (from uv{uvChannel}) to be fetched correctly in the ray tracing shader.");
-                if (dim == UVDimension.Dim4)
-                    Assert.AreEqual(expected.w, uv.w, tolerance, $"Expected w (from uv{uvChannel}) to be fetched correctly in the ray tracing shader.");
             }
         }
 
@@ -111,7 +81,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             var uvs = new Vector2[] { new Vector2(x, y), new Vector2(x, y), new Vector2(x, y) };
             // Here we use the Vector2 version for setting the UVs on the mesh
             mesh.SetUVs(uvChannel, uvs);
-            RayTraceAndCheckUVs(mesh, new Vector4(x, y, 0.0f, 0.0f), uvChannel);
+            RayTraceAndCheckUVs(mesh, new float2(x, y), uvChannel);
         }
 
         [Test]
@@ -126,7 +96,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             var uvs = new Vector3[] { new Vector3(x, y, z), new Vector3(x, y, z), new Vector3(x, y, z) };
             // Here we use the Vector3 version for setting the UVs on the mesh
             mesh.SetUVs(uvChannel, uvs);
-            RayTraceAndCheckUVs(mesh, new Vector4(x, y, z, 0.0f), uvChannel);
+            RayTraceAndCheckUVs(mesh, new float2(x, y), uvChannel);
         }
 
         [Test]
@@ -142,7 +112,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             var uvs = new Vector4[] { new Vector4(x, y, z, w), new Vector4(x, y, z, w), new Vector4(x, y, z, w) };
             // Here we use the Vector4 version for setting the UVs on the mesh
             mesh.SetUVs(uvChannel, uvs);
-            RayTraceAndCheckUVs(mesh, new Vector4(x, y, z, w), uvChannel);
+            RayTraceAndCheckUVs(mesh, new float2(x, y), uvChannel);
         }
 
         [Test]
@@ -158,7 +128,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             var uvs = new Vector4[] { new Vector4(x, y, z, w), new Vector4(x, y, z, w), new Vector4(x, y, z, w) };
             // Here we use the Vector4 version for setting the UVs on the mesh
             mesh.SetUVs(uvChannel, uvs);
-            RayTraceAndCheckUVs(mesh, new Vector4(x, y, z, w), uvChannel, 0.2f);
+            RayTraceAndCheckUVs(mesh, new float2(x, y), uvChannel, 0.2f);
         }
 
         [Test]
@@ -173,7 +143,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             var uvs = new Vector4[] { new Vector4(x, x, x, x), new Vector4(y, y, y, y), new Vector4(z, z, z, z) };
             // Here we use the Vector4 version for setting the UVs on the mesh
             mesh.SetUVs(uvChannel, uvs);
-            RayTraceAndCheckUVs(mesh, new Vector4(4.333f, 4.333f, 4.333f, 4.333f), uvChannel, 0.001f);
+            RayTraceAndCheckUVs(mesh, new float2(4.333f, 4.333f), uvChannel, 0.001f);
         }
 
         void CreateMatchingRaysAndInstanceDescs(uint instanceCount, Mesh mesh, out RayWithFlags[] rays, out MeshInstanceDesc[] instanceDescs)
@@ -231,12 +201,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
 
             m_Context = new RayTracingContext(m_Backend, resources);
             m_AccelStruct = new AccelStructAdapter(m_Context.CreateAccelerationStructure(new AccelerationStructureOptions()), resources);
-
-            Type type = BackendHelpers.GetTypeOfShader(m_Backend);
-            string filename = BackendHelpers.GetFileNameOfShader(m_Backend, $"Tests/Editor/UnifiedRayTracing/TraceRaysAndFetchAttributes");
-            Object shader = AssetDatabase.LoadAssetAtPath($"Packages/com.unity.rendering.light-transport/{filename}", type);
-
-            m_Shader = m_Context.CreateRayTracingShader(shader);
+            m_Shader = m_Context.LoadRayTracingShader("Packages/com.unity.rendering.light-transport/Tests/Editor/UnifiedRayTracing/TraceRaysAndFetchAttributes.urtshader");
         }
 
         void DisposeRayTracingResources()
@@ -291,8 +256,8 @@ namespace UnityEngine.Rendering.UnifiedRayTracing.Tests
             public float3 position;
             public float3 normal;
             public float3 faceNormal;
-            public float4 uv0;
-            public float4 uv1;
+            public float2 uv0;
+            public float2 uv1;
         }
     }
 }

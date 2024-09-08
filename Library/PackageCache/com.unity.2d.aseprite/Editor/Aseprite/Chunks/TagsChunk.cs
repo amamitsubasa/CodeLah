@@ -8,9 +8,13 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public enum LoopAnimationDirection
     {
+        /// <summary>Loop direction - Forward</summary>
         Forward = 0,
+        /// <summary>Loop direction - Reverse</summary>
         Reverse = 1,
+        /// <summary>Loop direction - PingPong</summary>
         PingPong = 2,
+        /// <summary>Loop direction - PingPongReverse</summary>
         PingPongReverse = 3,
     }
 
@@ -50,6 +54,7 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public class TagsChunk : BaseChunk
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.Tags;
 
         /// <summary>
@@ -65,6 +70,10 @@ namespace UnityEditor.U2D.Aseprite
 
         internal TagsChunk(uint chunkSize) : base(chunkSize) { }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             noOfTags = reader.ReadUInt16();

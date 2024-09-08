@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor.U2D.Aseprite.Common;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -18,8 +18,14 @@ namespace UnityEditor.U2D.Aseprite
         public List<SpriteBone> GetBones(GUID guid)
         {
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
-            Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
-            return sprite.spriteBone != null ? sprite.spriteBone.ToList() : new List<SpriteBone>();
+            Assert.IsNotNull(sprite, $"Sprite not found for GUID:{guid.ToString()}");
+            var returnValue = new List<SpriteBone>();
+            if (sprite.spriteBone != null)
+            {
+                returnValue.AddRange(sprite.spriteBone);
+            }
+
+            return returnValue;
         }
 
         public void SetBones(GUID guid, List<SpriteBone> bones)
@@ -35,7 +41,7 @@ namespace UnityEditor.U2D.Aseprite
         Texture2D m_ReadableTexture;
         Texture2D m_OriginalTexture;
 
-        AsepriteImporter textureImporter { get { return (AsepriteImporter)dataProvider.targetObject; } }
+        AsepriteImporter textureImporter => (AsepriteImporter)dataProvider.targetObject;
 
         public Texture2D texture
         {
@@ -47,10 +53,7 @@ namespace UnityEditor.U2D.Aseprite
             }
         }
 
-        public Texture2D previewTexture
-        {
-            get { return texture; }
-        }
+        public Texture2D previewTexture => texture;
 
         public Texture2D GetReadableTexture2D()
         {
@@ -74,8 +77,8 @@ namespace UnityEditor.U2D.Aseprite
     {
         public SecondarySpriteTexture[] textures
         {
-            get { return dataProvider.secondaryTextures; }
-            set { dataProvider.secondaryTextures = value; }
+            get => dataProvider.secondaryTextures;
+            set => dataProvider.secondaryTextures = value;
         }
     }
 
@@ -84,19 +87,33 @@ namespace UnityEditor.U2D.Aseprite
         public List<Vector2[]> GetOutlines(GUID guid)
         {
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
-            Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
+            Assert.IsNotNull(sprite, $"Sprite not found for GUID:{guid.ToString()}");
 
             var outline = sprite.spriteOutline;
+            var returnValue = new List<Vector2[]>();
             if (outline != null)
-                return outline.Select(x => x.outline).ToList();
-            return new List<Vector2[]>();
+            {
+                for (int i = 0; i < outline.Count; ++i)
+                {
+                    returnValue.Add(outline[i].outline);
+                }
+            }
+
+            return returnValue;
         }
 
         public void SetOutlines(GUID guid, List<Vector2[]> data)
         {
             var sprite = dataProvider.GetSpriteData(guid);
-            if (sprite != null)
-                ((SpriteMetaData)sprite).spriteOutline = data.Select(x => new SpriteOutline() { outline = x }).ToList();
+            if (sprite == null)
+                return;
+
+            var list = new List<SpriteOutline>();
+            foreach (var outline in data)
+            {
+                list.Add(new SpriteOutline() { outline = outline });
+            }
+            ((SpriteMetaData)sprite).spriteOutline = list;
         }
 
         public float GetTessellationDetail(GUID guid)
@@ -119,17 +136,27 @@ namespace UnityEditor.U2D.Aseprite
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
             Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
             var outline = sprite.spritePhysicsOutline;
-            if (outline != null)
-                return outline.Select(x => x.outline).ToList();
+            var returnValue = new List<Vector2[]>();
+            if (outline == null)
+                return returnValue;
 
-            return new List<Vector2[]>();
+            foreach (var spriteOutline in outline)
+                returnValue.Add(spriteOutline.outline);
+            return returnValue;
         }
 
         public void SetOutlines(GUID guid, List<Vector2[]> data)
         {
             var sprite = dataProvider.GetSpriteData(guid);
-            if (sprite != null)
-                ((SpriteMetaData)sprite).spritePhysicsOutline = data.Select(x => new SpriteOutline() { outline = x }).ToList();
+            if (sprite == null)
+                return;
+
+            var list = new List<SpriteOutline>();
+            foreach (var outline in data)
+            {
+                list.Add(new SpriteOutline() { outline = outline });
+            }
+            ((SpriteMetaData)sprite).spritePhysicsOutline = list;
         }
 
         public float GetTessellationDetail(GUID guid)
@@ -150,30 +177,35 @@ namespace UnityEditor.U2D.Aseprite
         public Vertex2DMetaData[] GetVertices(GUID guid)
         {
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
-            Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
+            Assert.IsNotNull(sprite, $"Sprite not found for GUID:{guid.ToString()}");
             var v = sprite.vertices;
-            if (v != null)
-                return v.ToArray();
+            if (v == null)
+                return Array.Empty<Vertex2DMetaData>();
 
-            return new Vertex2DMetaData[0];
+            var returnValue = new Vertex2DMetaData[v.Count];
+            for (var i = 0; i < returnValue.Length; ++i)
+            {
+                returnValue[i] = v[i];
+            }
+            return returnValue;
         }
 
         public void SetVertices(GUID guid, Vertex2DMetaData[] vertices)
         {
             var sprite = dataProvider.GetSpriteData(guid);
             if (sprite != null)
-                ((SpriteMetaData)sprite).vertices = vertices.ToList();
+                ((SpriteMetaData)sprite).vertices = new List<Vertex2DMetaData>(vertices);
         }
 
         public int[] GetIndices(GUID guid)
         {
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
-            Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
+            Assert.IsNotNull(sprite, $"Sprite not found for GUID:{guid.ToString()}");
             var v = sprite.indices;
             if (v != null)
                 return v;
 
-            return new int[0];
+            return Array.Empty<int>();
         }
 
         public void SetIndices(GUID guid, int[] indices)
@@ -186,12 +218,12 @@ namespace UnityEditor.U2D.Aseprite
         public Vector2Int[] GetEdges(GUID guid)
         {
             var sprite = ((SpriteMetaData)dataProvider.GetSpriteData(guid));
-            Assert.IsNotNull(sprite, string.Format("Sprite not found for GUID:{0}", guid.ToString()));
+            Assert.IsNotNull(sprite, $"Sprite not found for GUID:{guid.ToString()}");
             var v = sprite.edges;
             if (v != null)
                 return v;
 
-            return new Vector2Int[0];
+            return Array.Empty<Vector2Int>();
         }
 
         public void SetEdges(GUID guid, Vector2Int[] edges)

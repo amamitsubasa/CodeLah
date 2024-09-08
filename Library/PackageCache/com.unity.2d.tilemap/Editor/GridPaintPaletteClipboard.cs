@@ -64,6 +64,12 @@ namespace UnityEditor.Tilemaps
         [SerializeField]
         private GridPaletteUtility.GridPaletteType m_FirstUserPaletteType = GridPaletteUtility.GridPaletteType.Rectangle;
 
+        internal GridPaletteUtility.GridPaletteType firstUserPaletteType
+        {
+            get => m_FirstUserPaletteType;
+            set => m_FirstUserPaletteType = value;
+        }
+
         [SerializeField] private bool m_CameraInitializedToBounds;
         [SerializeField] public bool m_CameraPositionSaved;
         [SerializeField] public Vector3 m_CameraPosition;
@@ -77,6 +83,7 @@ namespace UnityEditor.Tilemaps
         private GridBrushBase gridBrush => GridPaintingState.gridBrush;
 
         private PreviewRenderUtility m_PreviewUtility;
+        private PreviewRenderUtility m_PreviewUtilityGizmo;
 
         internal Vector3 cameraPosition
         {
@@ -130,7 +137,7 @@ namespace UnityEditor.Tilemaps
         private int m_LastGridHash;
         private Material m_GridMaterial;
         private static readonly PrefColor k_GridColor = new PrefColor("2D/Tile Palette Grid", 255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 25.5f / 255.0f);
-        private static readonly PrefColor tilePaletteBackgroundColor = new PrefColor("2D/Tile Palette Background"
+        internal static readonly PrefColor tilePaletteBackgroundColor = new PrefColor("2D/Tile Palette Background"
             , 1.0f / 255.0f // Light
             , 35.0f / 255.0f
             , 90.0f / 255.0f
@@ -298,9 +305,10 @@ namespace UnityEditor.Tilemaps
 
         public bool isModified { get { return m_PaletteNeedsSave; } }
 
-        public VisualElement attachedVisualElement
+        internal VisualElement attachedVisualElement
         {
-            set { m_VisualElement = value; }
+            private get => m_VisualElement;
+            set => m_VisualElement = value;
         }
 
         public void OnBeforePaletteSelectionChanged()
@@ -344,6 +352,10 @@ namespace UnityEditor.Tilemaps
             m_PreviewUtility.camera.orthographicSize = m_CameraOrthographicSize;
             m_PreviewUtility.camera.nearClipPlane = 0.01f;
             m_PreviewUtility.camera.farClipPlane = 100f;
+            m_PreviewUtilityGizmo.camera.transform.position = m_CameraPosition;
+            m_PreviewUtilityGizmo.camera.orthographicSize = m_CameraOrthographicSize;
+            m_PreviewUtilityGizmo.camera.nearClipPlane = 0.01f;
+            m_PreviewUtilityGizmo.camera.farClipPlane = 100f;
         }
 
         private Vector3 GetCameraPositionFromXYZ(Vector3 xyzPosition)
@@ -446,6 +458,12 @@ namespace UnityEditor.Tilemaps
             m_PreviewUtility.camera.orthographicSize = 5f;
             m_PreviewUtility.camera.transform.position = new Vector3(0f, 0f, -10f);
             m_PreviewUtility.ambientColor = new Color(1f, 1f, 1f, 0);
+
+            m_PreviewUtilityGizmo = new PreviewRenderUtility(true, true);
+            m_PreviewUtilityGizmo.camera.orthographic = true;
+            m_PreviewUtilityGizmo.camera.orthographicSize = 5f;
+            m_PreviewUtilityGizmo.camera.transform.position = new Vector3(0f, 0f, -10f);
+            m_PreviewUtilityGizmo.ambientColor = new Color(1f, 1f, 1f, 0);
         }
 
         public void ResetPreviewInstance()
@@ -579,6 +597,7 @@ namespace UnityEditor.Tilemaps
             if (palette != null)
                 return;
 
+            m_DelayedResetPaletteInstance = false;
             DestroyPreviewInstance();
 
             m_PaletteInstance = new GameObject("First User Palette", typeof(Grid), typeof(Tilemap),
@@ -737,6 +756,9 @@ namespace UnityEditor.Tilemaps
             if (m_PreviewUtility != null)
                 m_PreviewUtility.Cleanup();
             m_PreviewUtility = null;
+            if (m_PreviewUtilityGizmo != null)
+                m_PreviewUtilityGizmo.Cleanup();
+            m_PreviewUtilityGizmo = null;
 
             Undo.undoRedoPerformed -= UndoRedoPerformed;
             PrefabUtility.prefabInstanceUpdated -= PrefabInstanceUpdated;
@@ -780,6 +802,30 @@ namespace UnityEditor.Tilemaps
                 RefreshAllTiles();
                 Repaint();
             }
+        }
+
+        private bool IsGUIRectValid()
+        {
+            if (guiRect.width <= 0f
+                || guiRect.height <= 0f
+                || float.IsNaN(guiRect.width)
+                || float.IsNaN(guiRect.height))
+                return false;
+            return true;
+        }
+
+        public Texture HandleIMGUI()
+        {
+            if (!IsGUIRectValid())
+                return null;
+
+            HandleUtility.BeginHandles();
+            m_PreviewUtilityGizmo.BeginPreview(guiRect, null);
+            Handles.SetCamera(m_PreviewUtility.camera);
+            CallOnSceneGUI();
+            m_PreviewUtilityGizmo.EndPreview();
+            HandleUtility.EndHandles();
+            return Event.current.type == EventType.Repaint ? RenderTexture() : null;
         }
 
         public void HandleExecuteCommandEvent(ExecuteCommandEvent evt)
@@ -836,6 +882,7 @@ namespace UnityEditor.Tilemaps
                     TilemapEditorTool.SetActiveEditorTool(typeof(PickingTool));
                 }
 
+                OnBrushPickCancelled();
                 m_MarqueeStart = mouseGridPosition;
                 m_MarqueeType = MarqueeType.Pick;
                 evt.StopPropagation();
@@ -1476,9 +1523,10 @@ namespace UnityEditor.Tilemaps
             m_GridMesh = null;
         }
 
+
         public Texture RenderTexture()
         {
-            if (guiRect.width <= 0f || guiRect.height <= 0f)
+            if (!IsGUIRectValid())
                 return null;
 
             if (m_DelayedResetPaletteInstance)
@@ -1819,7 +1867,6 @@ namespace UnityEditor.Tilemaps
                 FrameEntirePalette();
             }
 
-            GUIUtility.ExitGUI();
             return true;
         }
 
@@ -1944,8 +1991,7 @@ namespace UnityEditor.Tilemaps
 
         public override void Repaint()
         {
-            if (m_VisualElement != null)
-                m_VisualElement.MarkDirtyRepaint();
+            attachedVisualElement?.MarkDirtyRepaint();
         }
 
         protected override void ClearGridSelection()
@@ -1955,9 +2001,9 @@ namespace UnityEditor.Tilemaps
 
         public override bool isActive => grid != null;
 
-        public override Rect rectPosition => m_VisualElement.worldBound;
+        public override Rect rectPosition => attachedVisualElement.worldBound;
 
-        public override VisualElement windowRoot => m_VisualElement?.GetRoot();
+        public override VisualElement windowRoot => attachedVisualElement?.GetRoot();
 
         protected override void OnBrushPickStarted()
         {
@@ -2069,7 +2115,10 @@ namespace UnityEditor.Tilemaps
 
         private void CallOnPaintSceneGUI(Vector2Int position)
         {
-            if (!activeDragAndDrop && !unlocked && !TilemapEditorTool.IsActive(typeof(SelectTool)) && !TilemapEditorTool.IsActive(typeof(PickingTool)))
+            if (activeDragAndDrop)
+                return;
+
+            if (!unlocked && !TilemapEditorTool.IsActive(typeof(SelectTool)) && !TilemapEditorTool.IsActive(typeof(PickingTool)))
                 return;
 
             var hasSelection = GridSelection.active && GridSelection.target == brushTarget;

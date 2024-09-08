@@ -12,5 +12,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         IRayTracingAccelStruct CreateAccelerationStructure(
             AccelerationStructureOptions options,
             ReferenceCounter counter);
+
+        ulong GetRequiredTraceScratchBufferSizeInBytes(uint width, uint height, uint depth);
     }
 }

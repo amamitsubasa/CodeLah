@@ -18,6 +18,11 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             return new HardwareRayTracingAccelStruct(options, m_Resources.hardwareRayTracingMaterial, counter, options.enableCompaction);
         }
 
-        RayTracingResources m_Resources;
+        public ulong GetRequiredTraceScratchBufferSizeInBytes(uint width, uint height, uint depth)
+        {
+            return 0;
+        }
+
+        readonly RayTracingResources m_Resources;
     }
 }

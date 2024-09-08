@@ -203,10 +203,10 @@ namespace UnityEditor.U2D.Aseprite.Common
 
         public void ShowPlatformSpecificSettings()
         {
-            BaseTextureImportPlatformSettings.InitPlatformSettings(m_PlatformSettings.ConvertAll<BaseTextureImportPlatformSettings>(x => x as BaseTextureImportPlatformSettings));
+            BaseTextureImportPlatformSettings.InitPlatformSettings(m_PlatformSettings.ConvertAll(x => x as BaseTextureImportPlatformSettings));
             m_PlatformSettings.ForEach(settings => settings.CacheSerializedProperties(m_DataProvider.platformSettingsArray));
             //Show platform grouping
-            int selectedPage = EditorGUILayout.BeginPlatformGrouping(BaseTextureImportPlatformSettings.GetBuildPlayerValidPlatforms(), EditorGUIUtility.TrTextContent("Default"), EditorStyles.frameBox, idx =>
+            var selectedPage = EditorGUILayout.BeginPlatformGrouping(BaseTextureImportPlatformSettings.GetBuildPlayerValidPlatforms(), EditorGUIUtility.TrTextContent("Default"), EditorStyles.frameBox, idx =>
             {
                 var ps = m_PlatformSettings[idx + 1];
                 var model = ps.model;

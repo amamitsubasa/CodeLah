@@ -1,4 +1,9 @@
 # Changelog
+## [1.1.5] - 2024-06-19
+### Fixed
+- Reduced the font size slightly in the importer headers to match other inspector headers in Unity. (DANB-644) 
+- Fixed an issue where the Sort Order would not be reset in Animation Clips when making use of the Z-index in Aseprite.
+
 ## [1.1.4] - 2024-05-02
 ### Fixed
 - Fixed an issue where Sprite Renderers would be hidden after transitioning from one Animation Clip to another.

@@ -125,6 +125,9 @@ namespace UnityEditor.U2D.Aseprite
             m_FrameData[index] = data;
         }
 
+        /// <summary>
+        /// Disposes the loaded Aseprite file.
+        /// </summary>
         public void Dispose()
         {
             for (var i = 0; i < m_FrameData.Length; ++i)

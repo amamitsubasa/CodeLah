@@ -115,7 +115,7 @@ namespace UnityEditor.Tilemaps
                     var sceneViewPosition = GetSceneViewPositionRect(sceneView);
                     if (sceneViewPosition.Contains(guiPoint))
                     {
-                        if (GridPaintingState.activeGrid != this)
+                        if (GridPaintingState.activeGrid != this && EditorWindow.mouseOverWindow == sceneView)
                         {
                             OnMouseEnter(sceneView);
                         }

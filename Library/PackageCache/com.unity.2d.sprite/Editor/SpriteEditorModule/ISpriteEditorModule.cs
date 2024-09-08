@@ -39,6 +39,103 @@ namespace UnityEditor.U2D.Sprites
         /// <param name="apply">True when user wants to apply the data, false when user wants to revert.</param>
         /// <returns>Return true to trigger a reimport.</returns>
         public abstract bool ApplyRevert(bool apply);
+
+    }
+
+    /// <summary>
+    /// Base class for having SpriteEditorModule use as a mode in another SpriteEditorModuleBase
+    /// </summary>
+    internal abstract class SpriteEditorModuleModeSupportBase : SpriteEditorModuleBase
+    {
+        List<SpriteEditorModeBase> m_Modes = new();
+        event Action m_OnModuleActivate;
+        /// <summary>
+        /// Modes that the module can be activated as.
+        /// </summary>
+        /// <param name="modes">Enumerable list of mode Type that can be activated</param>
+        public virtual void SetModuleModes(IEnumerable<Type> modes)
+        {
+            m_Modes.Clear();
+            foreach (var t in modes)
+            {
+                var mode = Activator.CreateInstance(t);
+                if (mode is SpriteEditorModeBase moduleMode)
+                {
+                    moduleMode.spriteEditor = modeSpriteEditor;
+                    if (moduleMode.CanBeActivated())
+                    {
+                        m_Modes.Add(moduleMode);
+                    }
+                }
+            }
+        }
+
+        public List<SpriteEditorModeBase> modes => m_Modes;
+        public virtual ISpriteEditor modeSpriteEditor => spriteEditor;
+
+        public void RegisterModuleActivate(Action onActivate)
+        {
+            m_OnModuleActivate += onActivate;
+        }
+
+        public void UnregisterModuleActivate(Action onActivate)
+        {
+            m_OnModuleActivate -= onActivate;
+        }
+        
+        public void SignalModuleActivate()
+        {
+            m_OnModuleActivate?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Base class for having SpriteEditorModuleBase use as a mode in another SpriteEditorModuleBase
+    /// </summary>
+    internal abstract class SpriteEditorModeBase : SpriteEditorModuleBase
+    {
+        /// <summary>
+        /// This is called when a SpriteEditorModeBase is activated as a mode.
+        /// </summary>
+        /// <returns>Return true if the mode is activated</returns>
+        public abstract bool ActivateMode();
+
+        /// <summary>
+        /// This is called when SpriteEditorModeBase is deactivated as a mode.
+        /// </summary>
+        public abstract void DeactivateMode();
+
+        /// <summary>
+        /// This is called SpriteEditorModeBase is added to a module.
+        /// </summary>
+        /// <param name="module">The module that added this mode</param>
+        public abstract void OnAddToModule(SpriteEditorModuleModeSupportBase module);
+
+        /// <summary>
+        /// This is called SpriteEditorModeBase is removed from a module.
+        /// </summary>
+        /// <param name="module">The module that removed this mode</param>
+        public abstract void OnRemoveFromModule(SpriteEditorModuleModeSupportBase module);
+
+        /// <summary>
+        /// Register a callback to be called when the mode is activated.
+        /// </summary>
+        /// <param name="onActivate">Callback delegate</param>
+        public abstract void RegisterOnModeRequestActivate(Action<SpriteEditorModeBase> onActivate);
+
+        /// <summary>
+        /// Unregister a previously registered callback.
+        /// </summary>
+        /// <param name="onActivate">Callback delegate</param>
+        public abstract void UnregisterOnModeRequestActivate(Action<SpriteEditorModeBase> onActivate);
+
+        /// <summary>
+        /// Inform the mode to apply or revert data changes.
+        /// </summary>
+        /// <param name="apply">True when data needs to be apply.</param>
+        /// <param name="dataProviderTypes">List of data provider type that has data applied before. Append to the list if new data type has changed.</param>
+        /// /// <returns>Return true to trigger a reimport.</returns>
+        public abstract bool ApplyModeData(bool apply, HashSet<Type> dataProviderTypes);
     }
 
     /// <summary>Interface that defines the functionality available for classes that inherits SpriteEditorModuleBase.</summary>
@@ -76,6 +173,17 @@ namespace UnityEditor.U2D.Sprites
         /// <returns>Root VisualElement for the main view.</returns>
         /// <remarks>This method returns the root VisualElement for SpriteEditorModuleBase which uses the UIElement instead of IMGUI for its UI.A VisualElement that is added to this container has the same draw order as SpriteEditorModuleBase.DoPostGUI.</remarks>
         VisualElement GetMainVisualContainer();
+
+        /// <summary>
+        /// Returns a VisualElement for attaching child Toolbar onto the toolbar of a ISpriteEditor.
+        /// </summary>
+        /// <returns>Root VisualElement for the toolbar.</returns>
+        /// <remarks>This method returns the root VisualElement for SpriteEditorModuleBase which uses the UIElement instead of IMGUI for its UI.</remarks>
+        VisualElement GetToolbarRootElement()
+        {
+            return null;
+        }
+
         /// <summary>Sets a custom texture to be used by the ISpriteEditor during setup of the editing space.</summary>
         /// <param name = "texture" > The custom preview texture.</param>
         /// <param name = "width" > The width dimension to render the preview texture.</param>
@@ -150,6 +258,39 @@ namespace UnityEditor.U2D.Sprites
             {
                 return provider.HasDataProvider(x);
             }).Count() == m_Types.Length;
+        }
+    }
+
+    /// <summary>
+    /// Attribute to indicate the module that this module can be activated as a mode in.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    internal class SpriteEditorModuleModeAttribute : Attribute
+    {
+        Type[] m_Types;
+        bool m_ShowAsModule;
+
+        /// <summary>Use the attribute to indicate the custom data provider that SpriteEditorBaseModule needs.</summary>
+        /// <param name="showAsModule">Indicate if this module should still be listed as a module.</param>
+        /// <param name="types">Type of module this can be activated as mode</param>
+        public SpriteEditorModuleModeAttribute(bool showAsModule = false,  params Type[] types)
+        {
+            m_Types = types;
+            m_ShowAsModule = showAsModule;
+        }
+
+        /// <summary>
+        /// Indicate if this module should still be listed as a module.
+        /// </summary>
+        internal bool showAsModule => m_ShowAsModule;
+
+        /// <summary>
+        /// Modules that this module can be activated as a mode.
+        /// </summary>
+        /// <returns>List of module Type.</returns>
+        internal IEnumerable<Type> GetModuleTypes()
+        {
+            return m_Types;
         }
     }
 }

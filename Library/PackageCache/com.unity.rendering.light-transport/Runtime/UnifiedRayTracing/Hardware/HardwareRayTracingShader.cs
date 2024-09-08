@@ -5,8 +5,8 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
 {
     internal class HardwareRayTracingShader : IRayTracingShader
     {
-        RayTracingShader m_Shader;
-        string m_ShaderDispatchFuncName;
+        readonly RayTracingShader m_Shader;
+        readonly string m_ShaderDispatchFuncName;
 
         internal HardwareRayTracingShader(RayTracingShader shader, string dispatchFuncName, GraphicsBuffer unused)
         {
@@ -16,15 +16,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
 
         public uint3 GetThreadGroupSizes()
         {
-            return new uint3(0, 0, 0);
-        }
-
-        public void PopulateDispatchDimensionBuffer(CommandBuffer cmd, GraphicsBuffer dispatchDimensionsBuffer, uint3 dimensions)
-        {
-            Assert.IsTrue((dispatchDimensionsBuffer.target & GraphicsBuffer.Target.IndirectArguments) != 0);
-            Assert.IsTrue((dispatchDimensionsBuffer.target & GraphicsBuffer.Target.Structured) != 0);
-            Assert.IsTrue(dispatchDimensionsBuffer.count * dispatchDimensionsBuffer.stride == 24);
-            cmd.SetBufferData(dispatchDimensionsBuffer, new uint[] { dimensions.x, dimensions.y, dimensions.z, 0, 0, 0 });
+            return new uint3(1, 1, 1);
         }
 
         public void SetAccelerationStructure(CommandBuffer cmd, string name, IRayTracingAccelStruct accelStruct)
@@ -76,11 +68,6 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             cmd.DispatchRays(m_Shader, m_ShaderDispatchFuncName, width, height, depth, null);
         }
 
-        public ulong GetTraceScratchBufferRequiredSizeInBytes(uint width, uint height, uint depth)
-        {
-            return 0;
-        }
-
         public void Dispatch(CommandBuffer cmd, GraphicsBuffer scratchBuffer, GraphicsBuffer argsBuffer)
         {
             Assert.IsTrue((argsBuffer.target & GraphicsBuffer.Target.IndirectArguments) != 0);
@@ -88,6 +75,11 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             Assert.IsTrue(argsBuffer.count * argsBuffer.stride == 24);
             cmd.DispatchRays(m_Shader, m_ShaderDispatchFuncName, argsBuffer, RayTracingHelper.k_DimensionByteOffset);
         }
+        public ulong GetTraceScratchBufferRequiredSizeInBytes(uint width, uint height, uint depth)
+        {
+            return 0;
+        }
+
     }
 }
 

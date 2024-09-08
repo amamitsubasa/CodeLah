@@ -976,7 +976,7 @@ namespace UnityEditor.U2D.Sprites
                 foreach (var spriteRect in rectCache)
                 {
                     var outlines = s_CopyOutline.ToListVectorCapped(spriteRect.rect);
-                    ReplaceOutline(m_Selected.spriteID, outlines);
+                    ReplaceOutline(spriteRect.spriteID, outlines);
                 }
             }
             spriteEditorWindow.SetDataModified();

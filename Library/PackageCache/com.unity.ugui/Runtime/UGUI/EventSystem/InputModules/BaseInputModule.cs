@@ -43,8 +43,12 @@ namespace UnityEngine.EventSystems
         /// True if pointer hover events will be sent to the parent
         /// </summary>
         [SerializeField] private bool m_SendPointerHoverToParent = true;
+
         //This is needed for testing
-        internal bool sendPointerHoverToParent { get { return m_SendPointerHoverToParent; } set { m_SendPointerHoverToParent = value; } }
+        /// <summary>
+        /// True if pointer hover events will be sent to the parent
+        /// </summary>
+        protected internal bool sendPointerHoverToParent { get { return m_SendPointerHoverToParent; } set { m_SendPointerHoverToParent = value; } }
 
         private AxisEventData m_AxisEventData;
 

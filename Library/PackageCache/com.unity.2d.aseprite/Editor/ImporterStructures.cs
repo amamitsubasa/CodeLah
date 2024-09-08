@@ -168,7 +168,9 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public enum FileImportModes
     {
+        /// <summary>The file is imported as a Sprite Sheet, and can be sliced up in the Sprite Editor.</summary>
         SpriteSheet = 0,
+        /// <summary>The file is imported with animation in mind. Animation assets are generated and attached to a model prefab on import.</summary>
         AnimatedSprite = 1,
     }
 

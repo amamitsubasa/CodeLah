@@ -45,8 +45,7 @@ namespace UnityEditor.U2D.Aseprite.Common
         /// Packs image buffer into a single buffer. Image buffers are assumed to be 4 bytes per pixel in RGBA format
         /// </summary>
         /// <param name="buffers">Image buffers to pack</param>
-        /// <param name="width">Image buffers width</param>
-        /// <param name="height">Image buffers height</param>
+        /// <param name="size">Image buffers width and height</param>
         /// <param name="padding">Padding between each packed image</param>
         /// <param name="spriteSizeExpand">Pack sprite expand size</param>
         /// <param name="requireSquarePOT">If true, the final texture will be power of two with equally sized sides</param>
@@ -55,14 +54,14 @@ namespace UnityEditor.U2D.Aseprite.Common
         /// <param name="outPackedBufferHeight">Packed image buffer's height</param>
         /// <param name="outPackedRect">Location of each image buffers in the packed buffer</param>
         /// <param name="outUVTransform">Translation data from image original buffer to packed buffer</param>
-        public static void Pack(NativeArray<Color32>[] buffers, int[] width, int[] height, int padding, uint spriteSizeExpand, bool requireSquarePOT, out NativeArray<Color32> outPackedBuffer, out int outPackedBufferWidth, out int outPackedBufferHeight, out RectInt[] outPackedRect, out Vector2Int[] outUVTransform)
+        public static void Pack(NativeArray<Color32>[] buffers, int2[] size, int padding, uint spriteSizeExpand, bool requireSquarePOT, out NativeArray<Color32> outPackedBuffer, out int outPackedBufferWidth, out int outPackedBufferHeight, out RectInt[] outPackedRect, out Vector2Int[] outUVTransform)
         {
             UnityEngine.Profiling.Profiler.BeginSample("Pack");
             // Determine the area that contains data in the buffer
             outPackedBuffer = default(NativeArray<Color32>);
             try
             {
-                var tightRects = FindTightRectJob.Execute(buffers, width, height);
+                var tightRects = FindTightRectJob.Execute(buffers, size);
                 var tightRectArea = new RectInt[tightRects.Length];
                 for (var i = 0; i < tightRects.Length; ++i)
                 {
@@ -85,7 +84,7 @@ namespace UnityEditor.U2D.Aseprite.Common
                 }
                 outPackedBuffer = new NativeArray<Color32>(outPackedBufferWidth * outPackedBufferHeight, Allocator.Persistent);
 
-                Blit(outPackedBuffer, outPackedRect, outPackedBufferWidth, buffers, tightRects, width, padding);
+                Blit(outPackedBuffer, outPackedRect, outPackedBufferWidth, buffers, tightRects, size, padding);
             }
             catch (Exception ex)
             {
@@ -145,7 +144,7 @@ namespace UnityEditor.U2D.Aseprite.Common
             return root;
         }
 
-        public static void Blit(NativeArray<Color32> buffer, RectInt[] blitToArea, int bufferBytesPerRow, NativeArray<Color32>[] originalBuffer, RectInt[] blitFromArea, int[] bytesPerRow, int padding)
+        public static void Blit(NativeArray<Color32> buffer, RectInt[] blitToArea, int bufferBytesPerRow, NativeArray<Color32>[] originalBuffer, RectInt[] blitFromArea, int2[] size, int padding)
         {
             UnityEngine.Profiling.Profiler.BeginSample("Blit");
 
@@ -158,7 +157,7 @@ namespace UnityEditor.U2D.Aseprite.Common
                 {
                     var originalBufferPtr = (Color32*)originalBuffer[bufferIndex].GetUnsafeReadOnlyPtr();
                     var outputBufferPtr = (Color32*)buffer.GetUnsafePtr();
-                    BurstedBlit(originalBufferPtr, in fromArea, in toArea, bytesPerRow[bufferIndex], bufferBytesPerRow, outputBufferPtr);
+                    BurstedBlit(originalBufferPtr, in fromArea, in toArea, size[bufferIndex].x, bufferBytesPerRow, outputBufferPtr);
                 }
             }
 

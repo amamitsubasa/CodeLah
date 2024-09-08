@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing
 {
-    internal class AccelStructInstances : IDisposable
+    internal sealed class AccelStructInstances : IDisposable
     {
         internal AccelStructInstances(GeometryPool geometryPool)
         {
@@ -29,18 +29,35 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public IReadOnlyCollection<InstanceEntry> instances { get => m_Instances.Values; }
         public GeometryPool geometryPool { get => m_GeometryPool; }
 
-        public int AddInstance(MeshInstanceDesc meshInstance, uint materialID)
+        public int AddInstance(MeshInstanceDesc meshInstance, uint materialID, uint renderingLayerMask)
         {
+            var slot = m_InstanceBuffer.Add(1)[0];
+            AddInstance(slot, meshInstance, materialID, renderingLayerMask);
+            return slot.block.offset;
+        }
 
-            if (meshInstance.mesh == null)
-                throw new System.ArgumentException("targetRenderer.mesh is null");
+        public int AddInstances(Span<MeshInstanceDesc> meshInstances, Span<uint> materialIDs, Span<uint> renderingLayerMask)
+        {
+            Assert.IsTrue(meshInstances.Length == materialIDs.Length);
+
+            var slots = m_InstanceBuffer.Add(meshInstances.Length);
+
+            for (int i = 0; i < meshInstances.Length; ++i)
+                AddInstance(slots[i], meshInstances[i], materialIDs[i], renderingLayerMask[i]);
+
+            return slots[0].block.offset;
+        }
+
+        void AddInstance(BlockAllocator.Allocation slotAllocation, in MeshInstanceDesc meshInstance, uint materialID, uint renderingLayerMask)
+        {
+            Debug.Assert(meshInstance.mesh != null, "targetRenderer.mesh is null");
 
             GeometryPoolHandle geometryHandle;
             if (!m_GeometryPool.Register(meshInstance.mesh, out geometryHandle))
                 throw new System.InvalidOperationException("Failed to allocate geometry data for instance");
             m_GeometryPool.SendGpuCommands();
 
-            var slotAllocation = m_InstanceBuffer.Add(
+             m_InstanceBuffer.Set(slotAllocation,
                 new RTInstance
                 {
                     localToWorld = meshInstance.localToWorldMatrix,
@@ -48,7 +65,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                     previousLocalToWorld = meshInstance.localToWorldMatrix,
                     userMaterialID = materialID,
                     instanceMask = meshInstance.mask,
-                    userInstanceID = meshInstance.instanceID,
+                    renderingLayerMask = renderingLayerMask,
                     geometryIndex = (uint)(m_GeometryPool.GetEntryGeomAllocation(geometryHandle).meshChunkTableAlloc.block.offset + meshInstance.subMeshIndex)
                 });
 
@@ -64,8 +81,6 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                 indexOffset = (uint)allocInfo.indexAlloc.block.offset,
             };
             m_Instances.Add(slotAllocation.block.offset, instanceEntry);
-
-            return slotAllocation.block.offset;
         }
 
         public GeometryPool.MeshChunk GetEntryGeomAllocation(GeometryPoolHandle handle, int submeshIndex)
@@ -126,14 +141,14 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             m_InstanceBuffer.Set(instanceEntry.indexInInstanceBuffer, instanceInfo);
         }
 
-        public void UpdateInstanceID(int instanceHandle, uint instanceID)
+        public void UpdateRenderingLayerMask(int instanceHandle, uint renderingLayerMask)
         {
             InstanceEntry instanceEntry;
             bool success = m_Instances.TryGetValue(instanceHandle, out instanceEntry);
             Assert.IsTrue(success);
 
             var instanceInfo = m_InstanceBuffer.Get(instanceEntry.indexInInstanceBuffer);
-            instanceInfo.userInstanceID = instanceID;
+            instanceInfo.renderingLayerMask = renderingLayerMask;
             m_InstanceBuffer.Set(instanceEntry.indexInInstanceBuffer, instanceInfo);
         }
 
@@ -187,15 +202,15 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             return new float4x4(math.inverse(math.transpose(t)), new float3(0.0));
         }
 
-        GeometryPool m_GeometryPool;
-        PersistentGpuArray<RTInstance> m_InstanceBuffer = new PersistentGpuArray<RTInstance>(100);
+        readonly GeometryPool m_GeometryPool;
+        readonly PersistentGpuArray<RTInstance> m_InstanceBuffer = new PersistentGpuArray<RTInstance>(100);
 
         public struct RTInstance
         {
             public float4x4 localToWorld;
             public float4x4 previousLocalToWorld;
             public float4x4 localToWorldNormals;
-            public uint userInstanceID;
+            public uint renderingLayerMask;
             public uint instanceMask;
             public uint userMaterialID;
             public uint geometryIndex;
@@ -210,7 +225,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             public uint indexOffset;
         }
 
-        Dictionary<int, InstanceEntry> m_Instances = new Dictionary<int, InstanceEntry>();
+        readonly Dictionary<int, InstanceEntry> m_Instances = new Dictionary<int, InstanceEntry>();
         uint m_FrameTimestamp = 0;
         uint m_TransformTouchedLastTimestamp = 0;
     }

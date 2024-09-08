@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor.EditorTools;
 using UnityEditor.Overlays;
@@ -56,8 +57,9 @@ namespace UnityEditor.Tilemaps
         private const float k_ActiveTargetLabelWidth = 90f;
         private const float k_ActiveTargetDropdownWidth = 130f;
         private const float k_ActiveTargetWarningSize = 20f;
+        private const float k_SceneViewToggleSize = 68f;
         private const float k_MinClipboardHeight = 200f;
-        private static readonly Vector2 k_MinWindowSize = new Vector2(k_ActiveTargetLabelWidth + k_ActiveTargetDropdownWidth + k_ActiveTargetWarningSize, k_MinClipboardHeight);
+        private static readonly Vector2 k_MinWindowSize = new Vector2(k_ActiveTargetLabelWidth + k_ActiveTargetDropdownWidth + k_ActiveTargetWarningSize + k_SceneViewToggleSize, k_MinClipboardHeight);
 
         internal static class ShortcutIds
         {
@@ -355,6 +357,8 @@ namespace UnityEditor.Tilemaps
             m_ActiveTargetsVisualElement.AddManipulator(new TilePaletteContextMenuHandler(DoContextMenu));
 
             m_ClipboardSplitView.AddManipulator(new TilePaletteDragHandler(DragUpdatedForConvertGridPrefabToPalette, DragPerformedForConvertGridPrefabToPalette));
+
+            UpdateWindowMinSize();
         }
 
         private void OnGUI()
@@ -455,10 +459,11 @@ namespace UnityEditor.Tilemaps
             GridSelection.gridSelectionChanged += OnGridSelectionChanged;
             EditorApplication.projectWasLoaded += OnProjectLoaded;
             ToolManager.activeToolChanged += ActiveToolChanged;
+            TilemapEditorToolPreferences.tilemapEditorToolsChanged += UpdateWindowMinSize;
+            GridPaintingState.brushToolsChanged += UpdateWindowMinSize;
 
             wantsMouseMove = true;
             wantsMouseEnterLeaveWindow = true;
-            minSize = k_MinWindowSize;
 
             GridPaintingState.RegisterPainterInterest(this);
         }
@@ -473,10 +478,25 @@ namespace UnityEditor.Tilemaps
             Repaint();
         }
 
+        private void UpdateWindowMinSize()
+        {
+            var minWindowSize = k_MinWindowSize;
+
+            var tools = TilemapEditorTool.tilemapEditorTools;
+            var width = tools != null ? tools.Length * 32f + 4f : 0f;
+
+            // Calculate min width from tools and fixed active targets
+            minWindowSize.x = Math.Max(minWindowSize.x, width);
+
+            minSize = minWindowSize;
+        }
+
         internal void OnDisable()
         {
             GridPaintingState.UnregisterPainterInterest(this);
 
+            TilemapEditorToolPreferences.tilemapEditorToolsChanged -= UpdateWindowMinSize;
+            GridPaintingState.brushToolsChanged -= UpdateWindowMinSize;
             ToolManager.activeToolChanged -= ActiveToolChanged;
             GridSelection.gridSelectionChanged -= OnGridSelectionChanged;
             EditorApplication.projectWasLoaded -= OnProjectLoaded;

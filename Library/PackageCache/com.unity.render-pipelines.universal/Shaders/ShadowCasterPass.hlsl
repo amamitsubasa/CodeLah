@@ -30,7 +30,6 @@ struct Varyings
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
-#define EPSILON 0.001
 float4 GetShadowPositionHClip(Attributes input)
 {
     float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
@@ -49,7 +48,12 @@ float4 GetShadowPositionHClip(Attributes input)
     #else
         float clamped = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
     #endif
-    positionCS.z = lerp(positionCS.z, clamped, saturate(_ShadowBias.y + EPSILON));
+
+    // The current implementation of vertex clamping in Universal RP is the same as in Unity Built-In RP.
+    // This does not work well with Point Lights, which is why it is disabled in Built-In RP
+    // (see: https://github.cds.internal.unity3d.com/unity/unity/blob/a9c916ba27984da43724ba18e70f51469e0c34f5/Runtime/Camera/Shadows.cpp#L1685-L1686)
+    // We follow the same convention in Universal RP:
+    positionCS.z = lerp(clamped, positionCS.z, IsPointLight());
 
     return positionCS;
 }

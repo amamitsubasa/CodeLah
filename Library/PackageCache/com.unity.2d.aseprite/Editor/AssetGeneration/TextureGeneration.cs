@@ -14,7 +14,7 @@ namespace UnityEditor.U2D.Aseprite
             int textureWidth,
             int textureHeight,
             SpriteMetaData[] sprites,
-            in List<TextureImporterPlatformSettings> allPlatformSettings,
+            IReadOnlyList<TextureImporterPlatformSettings> allPlatformSettings,
             in TextureImporterSettings textureImporterSettings,
             string spritePackingTag,
             SecondarySpriteTexture[] secondarySpriteTextures)
@@ -26,7 +26,7 @@ namespace UnityEditor.U2D.Aseprite
             UnityEngine.Profiling.Profiler.BeginSample("ImportTexture");
             try
             {
-                var platformSettings = TextureImporterUtilities.GetPlatformTextureSettings(ctx.selectedBuildTarget, in allPlatformSettings);
+                var platformSettings = TextureImporterPlatformUtilities.GetPlatformTextureSettings(ctx.selectedBuildTarget, allPlatformSettings);
 
                 var textureSettings = textureImporterSettings.ExtractTextureSettings();
                 textureSettings.assetPath = ctx.assetPath;

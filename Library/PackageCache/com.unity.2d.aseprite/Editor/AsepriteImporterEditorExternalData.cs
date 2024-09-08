@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace UnityEditor.U2D.Aseprite
@@ -7,32 +6,36 @@ namespace UnityEditor.U2D.Aseprite
     internal class AsepriteImporterEditorExternalData : ScriptableObject
     {
         [SerializeField]
-        public List<TextureImporterPlatformSettings> platformSettings = new List<TextureImporterPlatformSettings>();
+        public List<TextureImporterPlatformSettings> platformSettings = new();
 
         public void Init(AsepriteImporter importer, IList<TextureImporterPlatformSettings> platformSettingsNeeded)
         {
             var importerPlatformSettings = importer.GetAllPlatformSettings();
 
-            for (var i = 0; i < importerPlatformSettings.Length; ++i)
+            foreach (var tip in importerPlatformSettings)
             {
-                var tip = importerPlatformSettings[i];
-                var setting = platformSettings.FirstOrDefault(x => x.name == tip.name);
-                if (setting == null)
+                var j = 0;
+                for (j = 0; j < platformSettings.Count; ++j)
                 {
-                    TextureImporterUtilities.UpdateWithDefaultSettings(ref tip);
-                    platformSettings.Add(tip);
+                    if (platformSettings[j].name == tip.name)
+                        break;
                 }
+
+                if (j >= platformSettings.Count)
+                    platformSettings.Add(tip);
             }
 
-            for (var i = 0; i < platformSettingsNeeded.Count; ++i)
+            foreach (var ps in platformSettingsNeeded)
             {
-                var ps = platformSettingsNeeded[i];
-                var setting = platformSettings.FirstOrDefault(x => x.name == ps.name);
-                if (setting == null)
+                var j = 0;
+                for (j = 0; j < platformSettings.Count; ++j)
                 {
-                    TextureImporterUtilities.UpdateWithDefaultSettings(ref ps);
-                    platformSettings.Add(ps);
+                    if (platformSettings[j].name == ps.name)
+                        break;
                 }
+
+                if (j >= platformSettings.Count)
+                    platformSettings.Add(ps);
             }
         }
     }

@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing
 {
-    internal class AccelStructAdapter : IDisposable
+    internal sealed class AccelStructAdapter : IDisposable
     {
         private IRayTracingAccelStruct _accelStruct;
         AccelStructInstances _instances;
@@ -57,7 +57,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             _objectHandleToInstances.Clear();
         }
 
-        public void AddInstance(int objectHandle, Component meshRendererOrTerrain, uint[] perSubMeshMask, uint[] perSubMeshMaterialIDs)
+        public void AddInstance(int objectHandle, Component meshRendererOrTerrain, Span<uint> perSubMeshMask, Span<uint> perSubMeshMaterialIDs, uint renderingLayerMask)
         {
             if (meshRendererOrTerrain is Terrain terrain)
             {
@@ -74,11 +74,11 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                 Debug.Assert(meshRenderer.enabled, "Mesh renderers are expected to be enabled.");
                 Debug.Assert(!meshRenderer.isPartOfStaticBatch, "Mesh renderers are expected to not be part of static batch.");
                 var mesh = meshRenderer.GetComponent<MeshFilter>().sharedMesh;
-                AddInstance(objectHandle, mesh, meshRenderer.transform.localToWorldMatrix, perSubMeshMask, perSubMeshMaterialIDs);
+                AddInstance(objectHandle, mesh, meshRenderer.transform.localToWorldMatrix, perSubMeshMask, perSubMeshMaterialIDs, renderingLayerMask);
             }
         }
 
-        public void AddInstance(int objectHandle, Mesh mesh, Matrix4x4 localToWorldMatrix, uint[] perSubMeshMask, uint[] perSubMeshMaterialIDs)
+        public void AddInstance(int objectHandle, Mesh mesh, Matrix4x4 localToWorldMatrix, Span<uint> perSubMeshMask, Span<uint> perSubMeshMaterialIDs, uint renderingLayerMask)
         {
             int subMeshCount = mesh.subMeshCount;
 
@@ -91,7 +91,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                     mask = perSubMeshMask[i],
                 };
 
-                instances[i].InstanceID = _instances.AddInstance(instanceDesc, perSubMeshMaterialIDs[i]);
+                instances[i].InstanceID = _instances.AddInstance(instanceDesc, perSubMeshMaterialIDs[i], renderingLayerMask);
                 instanceDesc.instanceID = (uint)instances[i].InstanceID;
                 instances[i].AccelStructID = _accelStruct.AddInstance(instanceDesc);
             }
@@ -119,7 +119,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             instanceDesc.enableTriangleCulling = terrainDesc.enableTriangleCulling;
             instanceDesc.frontTriangleCounterClockwise = terrainDesc.frontTriangleCounterClockwise;
 
-            instanceHandles.Add(AddInstance(instanceDesc, terrainDesc.materialID));
+            instanceHandles.Add(AddInstance(instanceDesc, terrainDesc.materialID, terrainDesc.renderingLayerMask));
 
         }
 
@@ -148,7 +148,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                 }
                 if (!go.TryGetComponent<MeshFilter>(out var filter))
                     continue;
-                
+
                 var mesh = filter.sharedMesh;
                 for (int i = 0; i < mesh.subMeshCount; ++i)
                 {
@@ -157,15 +157,15 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
                     instanceDesc.mask = terrainDesc.mask;
                     instanceDesc.enableTriangleCulling = terrainDesc.enableTriangleCulling;
                     instanceDesc.frontTriangleCounterClockwise = terrainDesc.frontTriangleCounterClockwise;
-                    instanceHandles.Add(AddInstance(instanceDesc, terrainDesc.materialID));
+                    instanceHandles.Add(AddInstance(instanceDesc, terrainDesc.materialID, 1u << prefab.gameObject.layer));
                 }
             }
         }
 
-        InstanceIDs AddInstance(MeshInstanceDesc instanceDesc, uint materialID)
+        InstanceIDs AddInstance(MeshInstanceDesc instanceDesc, uint materialID, uint renderingLayerMask)
         {
             InstanceIDs res = new InstanceIDs();
-            res.InstanceID = _instances.AddInstance(instanceDesc, materialID);
+            res.InstanceID = _instances.AddInstance(instanceDesc, materialID, renderingLayerMask);
             instanceDesc.instanceID = (uint)res.InstanceID;
             res.AccelStructID = _accelStruct.AddInstance(instanceDesc);
 
@@ -199,7 +199,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             }
         }
 
-        public void UpdateInstanceMaterialIDs(int objectHandle, uint[] perSubMeshMaterialIDs)
+        public void UpdateInstanceMaterialIDs(int objectHandle, Span<uint> perSubMeshMaterialIDs)
         {
             bool success = _objectHandleToInstances.TryGetValue(objectHandle, out var instances);
             Assert.IsTrue(success);
@@ -211,11 +211,28 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             }
         }
 
-        public void UpdateInstanceMask(int objectHandle, uint[] perSubMeshMask)
+        public void UpdateInstanceMask(int objectHandle, Span<uint> perSubMeshMask)
         {
             bool success = _objectHandleToInstances.TryGetValue(objectHandle, out var instances);
             Assert.IsTrue(success);
             Assert.IsTrue(perSubMeshMask.Length >= instances.Length);
+            int i = 0;
+            foreach (var instance in instances)
+            {
+                _instances.UpdateInstanceMask(instance.InstanceID, perSubMeshMask[i]);
+                _accelStruct.UpdateInstanceMask(instance.AccelStructID, perSubMeshMask[i]);
+                i++;
+            }
+        }
+
+        public void UpdateInstanceMask(int objectHandle, uint mask)
+        {
+            bool success = _objectHandleToInstances.TryGetValue(objectHandle, out var instances);
+            Assert.IsTrue(success);
+
+            var perSubMeshMask = new uint[instances.Length];
+            Array.Fill(perSubMeshMask, mask);
+
             int i = 0;
             foreach (var instance in instances)
             {
@@ -255,6 +272,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public Terrain terrain;
         public Matrix4x4 localToWorldMatrix;
         public uint mask;
+        public uint renderingLayerMask;
         public uint materialID;
         public bool enableTriangleCulling;
         public bool frontTriangleCounterClockwise;
@@ -264,6 +282,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             this.terrain = terrain;
             localToWorldMatrix = Matrix4x4.identity;
             mask = 0xFFFFFFFF;
+            renderingLayerMask = 0xFFFFFFFF;
             materialID = 0;
             enableTriangleCulling = true;
             frontTriangleCounterClockwise = false;

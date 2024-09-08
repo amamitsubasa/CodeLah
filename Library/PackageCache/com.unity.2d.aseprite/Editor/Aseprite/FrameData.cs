@@ -51,6 +51,9 @@ namespace UnityEditor.U2D.Aseprite
             m_Chunks[index] = data;
         }
 
+        /// <summary>
+        /// Dispose of the frame data.
+        /// </summary>
         public void Dispose()
         {
             for (var i = 0; i < m_Chunks.Length; ++i)

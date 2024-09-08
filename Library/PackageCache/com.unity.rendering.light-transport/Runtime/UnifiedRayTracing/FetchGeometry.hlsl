@@ -58,8 +58,8 @@ struct HitGeomAttributes
     float3 position;
     float3 normal;
     float3 faceNormal;
-    float4 uv0;
-    float4 uv1;
+    float2 uv0;
+    float2 uv1;
 };
 
 HitGeomAttributes FetchHitGeomAttributes(int geometryIndex, int primitiveIndex, float2 uvBarycentrics, uint attributesToFetch = kGeomAttribAll)

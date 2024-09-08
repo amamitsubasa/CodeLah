@@ -5,7 +5,6 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
     internal interface IRayTracingShader
     {
         uint3 GetThreadGroupSizes();
-        void PopulateDispatchDimensionBuffer(CommandBuffer cmd, GraphicsBuffer dispatchDimensionsBuffer, uint3 dimensions);
         void SetAccelerationStructure(CommandBuffer cmd, string name, IRayTracingAccelStruct accelStruct);
         void SetIntParam(CommandBuffer cmd, int nameID, int val);
         void SetFloatParam(CommandBuffer cmd, int nameID, float val);

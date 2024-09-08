@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UnityEditor.Tilemaps
@@ -20,8 +21,20 @@ namespace UnityEditor.Tilemaps
             public static readonly string whiteboxButtonInfo = L10n.Tr("Create");
         }
 
-        [SerializeField]
         private GridPaletteUtility.GridPaletteType m_FirstUserPaletteType = GridPaletteUtility.GridPaletteType.Rectangle;
+        internal GridPaletteUtility.GridPaletteType firstUserPaletteType
+        {
+            get => m_FirstUserPaletteType;
+            set
+            {
+                m_FirstUserPaletteType = value;
+                m_PaletteTypeField.SetValueWithoutNotify(m_FirstUserPaletteType);
+            }
+        }
+
+        private EnumField m_PaletteTypeField;
+
+        internal event Action<GridPaletteUtility.GridPaletteType> onFirstUserPaletteTypeChanged;
 
         public TilePaletteClipboardFirstUserElement()
         {
@@ -44,14 +57,14 @@ namespace UnityEditor.Tilemaps
             var left = new Label();
             left.text = Styles.emptyProjectLeftInfo;
 
-            var enumField = new EnumField(m_FirstUserPaletteType);
-            enumField.RegisterCallback<ChangeEvent<GridPaletteUtility.GridPaletteType>>(OnFirstUserPaletteTypeChanged);
+            m_PaletteTypeField = new EnumField(m_FirstUserPaletteType);
+            m_PaletteTypeField.RegisterValueChangedCallback(OnFirstUserPaletteTypeChanged);
 
             var right = new Label();
             right.text = Styles.emptyProjectRightInfo;
 
             he2.Add(left);
-            he2.Add(enumField);
+            he2.Add(m_PaletteTypeField);
             he2.Add(right);
 
             ve.Add(he1);
@@ -59,9 +72,10 @@ namespace UnityEditor.Tilemaps
             Add(ve);
         }
 
-        private void OnFirstUserPaletteTypeChanged(ChangeEvent<GridPaletteUtility.GridPaletteType> evt)
+        private void OnFirstUserPaletteTypeChanged(ChangeEvent<Enum> evt)
         {
-            m_FirstUserPaletteType = evt.newValue;
+            m_FirstUserPaletteType = (GridPaletteUtility.GridPaletteType)evt.newValue;
+            onFirstUserPaletteTypeChanged?.Invoke(m_FirstUserPaletteType);
         }
     }
 }

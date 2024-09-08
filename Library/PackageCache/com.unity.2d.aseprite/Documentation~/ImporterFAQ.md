@@ -1,5 +1,12 @@
 # Frequently asked questions
 
+## How are the layers sorted in Unity?
+When an Aseprite file is imported using the **Import Mode: Individual**, every layer from the source file becomes a GameObject inside the generated model prefab. If the layer is a normal layer (and not a group layer), it has a SpriteRenderer compontent added to it. To make sure each SpriteRenderer renders in the same order as inside of Aseprite, Unity automatically assigns a value to the **Order in Layer** field on the SpriteRenderer component. This value is a combination of two variables, the order of the layer inside of Aseprite, where the bottom layer has the value of 0 and the top layer has the value of `Number of layers`, e.g. if the source file contains 5 layers, the top layer will have the value of 5. The second value is the z-index, which can be set per cell in Aseprite. The final formula to calculate the **Order in Layer** value is: `Layer count from the bottom + Z-Index of the current cell`.
+
+Apart from the Order in Layer value, Unity also adds a [Sorting Group component](https://docs.unity3d.com/Manual/class-SortingGroup.html) onto the root GameObject of the model prefab, to make sure that every SpriteRenderer within the prefab is sorted together.
+
+For more information about general 2D sorting in Unity, see [the 2D Sorting page](https://docs.unity3d.com/Manual/2DSorting.html) in the Unity manual.
+
 ## How to combine multiple sprite sheets into one?
 You can make use of Sprite Atlases to combine multiple sprite sheets into a single texture. Read more about Sprite Atlas [here](https://docs.unity3d.com/2021.3/Documentation/Manual/class-SpriteAtlas.html). Combining multiple sprite sheets into one is a good way to reduce the draw calls in a scene.
 

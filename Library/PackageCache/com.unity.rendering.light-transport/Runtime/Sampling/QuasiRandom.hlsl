@@ -37,11 +37,10 @@ These last 2 aren't low discrepancy sequences but traditional Pseudorandom numbe
 static const uint kMaxSobolDim = QRNG_SOBOL_GENERATIVE_DIMS;
 #endif
 
-uint PixelHash(uint2 pixelCoord)
+uint PixelHash(uint2 pixelCoord, uint seed = 0)
 {
-    return LowBiasHash32((pixelCoord.x & 0xFFFF) | (pixelCoord.y << 16));
+    return LowBiasHash32((pixelCoord.x & 0xFFFF) | (pixelCoord.y << 16), seed);
 }
-
 
 #if defined(QRNG_METHOD_SOBOL)
 
@@ -184,7 +183,7 @@ struct QuasiRandomGenerator
 
     void Init(uint2 pixelCoord, uint startSampleIndex)
     {
-        state = PixelHash(pixelCoord);
+        state = PixelHash(pixelCoord, startSampleIndex);
     }
 
     float GetFloat(uint dimension)

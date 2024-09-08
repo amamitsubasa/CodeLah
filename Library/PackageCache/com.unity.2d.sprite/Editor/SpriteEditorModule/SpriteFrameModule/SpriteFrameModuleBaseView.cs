@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEngine;
 
 namespace UnityEditor.U2D.Sprites
 {
-    internal abstract partial class SpriteFrameModuleBase : SpriteEditorModuleBase
+    internal abstract partial class SpriteFrameModuleBase : SpriteEditorModuleModeSupportBase
     {
         protected enum GizmoMode
         {
@@ -79,6 +78,7 @@ namespace UnityEditor.U2D.Sprites
         private FloatField m_CustomPivotFieldX;
         private FloatField m_CustomPivotFieldY;
         private VisualElement m_SelectedFrameInspector;
+        bool m_EnableInspector = true;
 
         private bool ShouldShowRectScaling()
         {
@@ -107,10 +107,10 @@ namespace UnityEditor.U2D.Sprites
         {
             if (hasSelected)
             {
-                m_PositionFieldX.SetValueWithoutNotify((int)selectedSpriteRect.x);
-                m_PositionFieldY.SetValueWithoutNotify((int)selectedSpriteRect.y);
-                m_PositionFieldW.SetValueWithoutNotify((int)selectedSpriteRect.width);
-                m_PositionFieldH.SetValueWithoutNotify((int)selectedSpriteRect.height);
+                m_PositionFieldX.SetValueWithoutNotify((int)selectedSpriteRect_Rect.x);
+                m_PositionFieldY.SetValueWithoutNotify((int)selectedSpriteRect_Rect.y);
+                m_PositionFieldW.SetValueWithoutNotify((int)selectedSpriteRect_Rect.width);
+                m_PositionFieldH.SetValueWithoutNotify((int)selectedSpriteRect_Rect.height);
             }
         }
 
@@ -146,11 +146,11 @@ namespace UnityEditor.U2D.Sprites
         {
             if (hasSelected)
             {
-                var rect = selectedSpriteRect;
+                var rect = selectedSpriteRect_Rect;
                 rect.x = evt.newValue;
-                selectedSpriteRect = rect;
-                SetDragFieldLimit(m_PositionFieldX, (int)selectedSpriteRect.x);
-                m_PositionFieldW.SetValueWithoutNotify((int)selectedSpriteRect.width);
+                selectedSpriteRect_Rect = rect;
+                SetDragFieldLimit(m_PositionFieldX, (int)selectedSpriteRect_Rect.x);
+                m_PositionFieldW.SetValueWithoutNotify((int)selectedSpriteRect_Rect.width);
             }
         }
 
@@ -158,11 +158,11 @@ namespace UnityEditor.U2D.Sprites
         {
             if (hasSelected)
             {
-                var rect = selectedSpriteRect;
+                var rect = selectedSpriteRect_Rect;
                 rect.y = evt.newValue;
-                selectedSpriteRect = rect;
-                SetDragFieldLimit(m_PositionFieldY, (int)selectedSpriteRect.y);
-                m_PositionFieldH.SetValueWithoutNotify((int)selectedSpriteRect.height);
+                selectedSpriteRect_Rect = rect;
+                SetDragFieldLimit(m_PositionFieldY, (int)selectedSpriteRect_Rect.y);
+                m_PositionFieldH.SetValueWithoutNotify((int)selectedSpriteRect_Rect.height);
             }
         }
 
@@ -170,11 +170,11 @@ namespace UnityEditor.U2D.Sprites
         {
             if (hasSelected)
             {
-                var rect = selectedSpriteRect;
+                var rect = selectedSpriteRect_Rect;
                 rect.width = evt.newValue;
-                selectedSpriteRect = rect;
-                SetDragFieldLimit(m_PositionFieldW, (int)selectedSpriteRect.width);
-                m_PositionFieldX.SetValueWithoutNotify((int)selectedSpriteRect.x);
+                selectedSpriteRect_Rect = rect;
+                SetDragFieldLimit(m_PositionFieldW, (int)selectedSpriteRect_Rect.width);
+                m_PositionFieldX.SetValueWithoutNotify((int)selectedSpriteRect_Rect.x);
             }
         }
 
@@ -182,11 +182,11 @@ namespace UnityEditor.U2D.Sprites
         {
             if (hasSelected)
             {
-                var rect = selectedSpriteRect;
+                var rect = selectedSpriteRect_Rect;
                 rect.height = evt.newValue;
-                selectedSpriteRect = rect;
-                SetDragFieldLimit(m_PositionFieldH, (int)selectedSpriteRect.height);
-                m_PositionFieldY.SetValueWithoutNotify((int)selectedSpriteRect.y);
+                selectedSpriteRect_Rect = rect;
+                SetDragFieldLimit(m_PositionFieldH, (int)selectedSpriteRect_Rect.height);
+                m_PositionFieldY.SetValueWithoutNotify((int)selectedSpriteRect_Rect.y);
             }
         }
 
@@ -217,7 +217,7 @@ namespace UnityEditor.U2D.Sprites
             if (hasSelected)
             {
                 var border = selectedSpriteBorder;
-                border.z = (evt.newValue + border.x) <= selectedSpriteRect.width ? evt.newValue : selectedSpriteRect.width - border.x;
+                border.z = (evt.newValue + border.x) <= selectedSpriteRect_Rect.width ? evt.newValue : selectedSpriteRect_Rect.width - border.x;
                 selectedSpriteBorder = border;
                 SetDragFieldLimit(m_BorderFieldR, (int)selectedSpriteBorder.z);
             }
@@ -228,7 +228,7 @@ namespace UnityEditor.U2D.Sprites
             if (hasSelected)
             {
                 var border = selectedSpriteBorder;
-                border.w = (evt.newValue + border.y) <= selectedSpriteRect.height ? evt.newValue : selectedSpriteRect.height - border.y;
+                border.w = (evt.newValue + border.y) <= selectedSpriteRect_Rect.height ? evt.newValue : selectedSpriteRect_Rect.height - border.y;
                 selectedSpriteBorder = border;
                 SetDragFieldLimit(m_BorderFieldT, (int)selectedSpriteBorder.w);
             }
@@ -325,7 +325,7 @@ namespace UnityEditor.U2D.Sprites
                 {
                     float newValue = (float)evt.newValue;
                     float pivotX = pivotUnitMode == PivotUnitMode.Pixels
-                        ? ConvertFromRectToNormalizedSpace(new Vector2(newValue, 0.0f), selectedSpriteRect).x
+                        ? ConvertFromRectToNormalizedSpace(new Vector2(newValue, 0.0f), selectedSpriteRect_Rect).x
                         : newValue;
 
                     var pivot = selectedSpritePivot;
@@ -341,7 +341,7 @@ namespace UnityEditor.U2D.Sprites
                 {
                     float newValue = (float)evt.newValue;
                     float pivotY = pivotUnitMode == PivotUnitMode.Pixels
-                        ? ConvertFromRectToNormalizedSpace(new Vector2(0.0f, newValue), selectedSpriteRect).y
+                        ? ConvertFromRectToNormalizedSpace(new Vector2(0.0f, newValue), selectedSpriteRect_Rect).y
                         : newValue;
 
                     var pivot = selectedSpritePivot;
@@ -364,9 +364,15 @@ namespace UnityEditor.U2D.Sprites
             mainView.Add(m_SelectedFrameInspector);
         }
 
+        protected void EnableInspector(bool value)
+        {
+            m_EnableInspector = value;
+            SelectionChange(new SpriteSelectionChangeEvent());
+        }
+
         private void SelectionChange(SpriteSelectionChangeEvent evt)
         {
-            m_SelectedFrameInspector.style.display = hasSelected ? DisplayStyle.Flex : DisplayStyle.None;
+            m_SelectedFrameInspector.style.display = hasSelected && m_EnableInspector ? DisplayStyle.Flex : DisplayStyle.None;
             PopulateSpriteFrameInspectorField();
         }
 
@@ -377,13 +383,13 @@ namespace UnityEditor.U2D.Sprites
 
         protected void PopulateSpriteFrameInspectorField()
         {
-            m_SelectedFrameInspector.style.display = hasSelected ?  DisplayStyle.Flex : DisplayStyle.None;
+            m_SelectedFrameInspector.style.display = hasSelected && m_EnableInspector ?  DisplayStyle.Flex : DisplayStyle.None;
             if (!hasSelected)
                 return;
             m_NameElement.SetEnabled(containsMultipleSprites);
             m_NameField.SetValueWithoutNotify(selectedSpriteName);
             m_PositionElement.SetEnabled(containsMultipleSprites);
-            var spriteRect = selectedSpriteRect;
+            var spriteRect = selectedSpriteRect_Rect;
             m_PositionFieldX.SetValueWithoutNotify(Mathf.RoundToInt(spriteRect.x));
             m_PositionFieldY.SetValueWithoutNotify(Mathf.RoundToInt(spriteRect.y));
             m_PositionFieldW.SetValueWithoutNotify(Mathf.RoundToInt(spriteRect.width));
@@ -493,7 +499,7 @@ namespace UnityEditor.U2D.Sprites
 
             SpriteAlignment alignment = selectedSpriteAlignment;
             Vector2 pivot = selectedSpritePivot;
-            Rect rect = selectedSpriteRect;
+            Rect rect = selectedSpriteRect_Rect;
             pivot = ApplySpriteAlignmentToPivot(pivot, rect, alignment);
             Vector2 pivotHandlePosition = SpriteEditorHandles.PivotSlider(rect, pivot, styles.pivotdot, styles.pivotdotactive);
 
@@ -523,7 +529,7 @@ namespace UnityEditor.U2D.Sprites
             GUIStyle dragDotActive = styles.dragBorderDotActive;
             var color = new Color(0f, 1f, 0f);
 
-            Rect rect = selectedSpriteRect;
+            Rect rect = selectedSpriteRect_Rect;
             Vector4 border = selectedSpriteBorder;
 
             float left = rect.xMin + border.x;
@@ -568,7 +574,7 @@ namespace UnityEditor.U2D.Sprites
             GUIStyle dragDotActive = styles.dragBorderDotActive;
             var color = new Color(0f, 1f, 0f);
 
-            Rect rect = selectedSpriteRect;
+            Rect rect = selectedSpriteRect_Rect;
             Vector4 border = selectedSpriteBorder;
 
             float left = rect.xMin + border.x;
@@ -600,7 +606,7 @@ namespace UnityEditor.U2D.Sprites
             if (hasSelected == false)
                 return;
 
-            Rect rect = new Rect(selectedSpriteRect);
+            Rect rect = new Rect(selectedSpriteRect_Rect);
             Vector4 border = selectedSpriteBorder;
 
             float left = rect.xMin + border.x;
@@ -703,7 +709,7 @@ namespace UnityEditor.U2D.Sprites
 
             if (ShouldShowRectScaling())
             {
-                Rect r = selectedSpriteRect;
+                Rect r = selectedSpriteRect_Rect;
                 SpriteEditorUtility.BeginLines(new Color(0f, 0.1f, 0.3f, 0.25f));
                 SpriteEditorUtility.DrawBox(new Rect(r.xMin + 1f / m_Zoom, r.yMin + 1f / m_Zoom, r.width, r.height));
                 SpriteEditorUtility.EndLines();

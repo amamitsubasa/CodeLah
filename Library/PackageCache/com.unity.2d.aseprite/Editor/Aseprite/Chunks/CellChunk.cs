@@ -11,9 +11,13 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public enum CellTypes
     {
+        /// <summary>Raw pixel data</summary>
         RawImage = 0,
+        /// <summary>Cell linked to another cell</summary>
         LinkedCell = 1,
+        /// <summary>Compressed pixel data</summary>
         CompressedImage = 2,
+        /// <summary>Compressed tilemap data</summary>
         CompressedTileMap = 3
     }
 
@@ -22,6 +26,7 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public class CellChunk : BaseChunk
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.Cell;
 
         internal CellChunk(uint chunkSize, ushort colorDepth, ReadOnlyCollection<PaletteEntry> paletteEntries, byte alphaPaletteEntry) : base(chunkSize)
@@ -81,6 +86,10 @@ namespace UnityEditor.U2D.Aseprite
         /// </summary>
         public UserDataChunk dataChunk { get; set; }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             layerIndex = reader.ReadUInt16();
@@ -163,6 +172,9 @@ namespace UnityEditor.U2D.Aseprite
             }
         }
 
+        /// <summary>
+        /// Dispose of the image data.
+        /// </summary>
         public override void Dispose()
         {
             image.DisposeIfCreated();

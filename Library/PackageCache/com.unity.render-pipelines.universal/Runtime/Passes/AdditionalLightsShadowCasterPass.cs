@@ -617,8 +617,17 @@ namespace UnityEngine.Rendering.Universal.Internal
         [Obsolete(DeprecationMessage.CompatibilityScriptingAPIObsolete, false)]
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
+             
             if (m_CreateEmptyShadowmap && !m_EmptyShadowmapNeedsClear)
+            {
+                // UUM-63146 - glClientWaitSync: Expected application to have kicked everything until job: 96089 (possibly by calling glFlush)" are thrown in the Android Player on some devices with PowerVR Rogue GE8320
+                // Resetting of target would clean up the color attachment buffers and depth attachment buffers, which inturn is preventing the leak in the said platform. This is likely a symptomatic fix, but is solving the problem for now.
+
+                if (Application.platform == RuntimePlatform.Android && PlatformAutoDetect.isRunningOnPowerVRGPU)
+                    ResetTarget();
+
                 return;
+            }
 
             // Disable obsolete warning for internal usage
             #pragma warning disable CS0618
@@ -716,8 +725,7 @@ namespace UnityEngine.Rendering.Universal.Internal
                 if (shadowSlicesCount > 0)
                     cmd.SetKeyword(ShaderGlobalKeywords.CastingPunctualLightShadow, true);
 
-                float lastDepthBias = -10f;
-                float lastNormalBias = -10f;
+                Vector4 lastShadowBias = new Vector4(-10f, -10f, -10f, -10f);
                 for (int globalShadowSliceIndex = 0; globalShadowSliceIndex < shadowSlicesCount; ++globalShadowSliceIndex)
                 {
                     int additionalLightIndex = m_ShadowSliceToAdditionalLightIndex[globalShadowSliceIndex];
@@ -734,13 +742,10 @@ namespace UnityEngine.Rendering.Universal.Internal
                     Vector4 shadowBias = ShadowUtils.GetShadowBias(ref shadowLight, visibleLightIndex, data.shadowData, shadowSliceData.projectionMatrix, shadowSliceData.resolution);
 
                     // Update the bias when rendering the first slice or when the bias has changed
-                    if (   globalShadowSliceIndex == 0
-                        || !ShadowUtils.FastApproximately(shadowBias.x, lastDepthBias)
-                        || !ShadowUtils.FastApproximately(shadowBias.y, lastNormalBias))
+                    if (globalShadowSliceIndex == 0 || !ShadowUtils.FastApproximately(shadowBias, lastShadowBias))
                     {
                         ShadowUtils.SetShadowBias(cmd, shadowBias);
-                        lastDepthBias = shadowBias.x;
-                        lastNormalBias = shadowBias.y;
+                        lastShadowBias = shadowBias;
                     }
 
                     // Update light position

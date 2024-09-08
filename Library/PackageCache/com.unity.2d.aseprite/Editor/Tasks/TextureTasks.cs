@@ -1,6 +1,7 @@
 using System;
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace UnityEditor.U2D.Aseprite
@@ -22,18 +23,18 @@ namespace UnityEditor.U2D.Aseprite
         }
 
         [BurstCompile]
-        public static void FlipTextureY(ref NativeArray<Color32> texture, int width, int height)
+        public static void FlipTextureY(ref NativeArray<Color32> texture, in int2 size)
         {
-            if (width == 0 || height == 0)
+            if (size.x == 0 || size.y == 0)
                 return;
 
             var outputTexture = new NativeArray<Color32>(texture.Length, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
-            for (var y = 0; y < height; ++y)
+            for (var y = 0; y < size.y; ++y)
             {
-                var inRow = ((height - 1) - y) * width;
-                var outRow = y * width;
+                var inRow = ((size.y - 1) - y) * size.x;
+                var outRow = y * size.x;
 
-                for (var x = 0; x < width; ++x)
+                for (var x = 0; x < size.x; ++x)
                 {
                     var inIndex = x + inRow;
                     var outIndex = x + outRow;

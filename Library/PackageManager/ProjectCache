@@ -5,22 +5,22 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638611966992024662
-    m_Hash: 1037427373
+      ticks: 638614086610546939
+    m_Hash: 2944580016
   m_LockFileStatus:
     m_FilePath: C:/Users/User/CodeLah/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638611966992064655
-    m_Hash: 14031946
+      ticks: 638614086988467798
+    m_Hash: 3287526967
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/User/CodeLah/Packages
-m_EditorVersion: 6000.0.12f1 (7defd84cdab8)
+m_EditorVersion: 6000.0.18f1 (3699cf869f9b)
 m_ResolvedPackages:
 - packageId: com.unity.collab-proxy@2.4.4
   testable: 0
@@ -116,9 +116,10 @@ m_ResolvedPackages:
     - 2.3.1
     - 2.4.3
     - 2.4.4
+    - 2.5.1
     compatible:
-    - 2.4.3
     - 2.4.4
+    - 2.5.1
     recommended: 2.4.4
     deprecated: []
   dependencies: []
@@ -159,7 +160,7 @@ m_ResolvedPackages:
     revision: 03b1de8d838eb1e427cb1b1d8bf9157f33377542
     path: 
   unityLifecycle:
-    version: 2.4.3
+    version: 2.4.4
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -176,7 +177,7 @@ m_ResolvedPackages:
   fingerprint: f073ab5b7d4916dd0953caa6b29a435a4e9a3df8
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 2.4.3
+    minimumPackageVersion: 2.4.4
     minimumUnityVersion: 2020.3.48f1
 - packageId: com.unity.feature.2d@2.0.1
   testable: 0
@@ -225,11 +226,11 @@ m_ResolvedPackages:
     version: default
   resolvedDependencies:
   - name: com.unity.2d.animation
-    version: 10.1.2
+    version: 10.1.3
   - name: com.unity.2d.common
-    version: 9.0.5
+    version: 9.0.6
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -247,9 +248,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.hierarchycore
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -273,7 +274,7 @@ m_ResolvedPackages:
   - name: com.unity.ugui
     version: 2.0.0
   - name: com.unity.2d.aseprite
-    version: 1.1.4
+    version: 1.1.5
   keywords: []
   registry:
     id: main
@@ -485,7 +486,7 @@ m_ResolvedPackages:
     version: 1.1.9
   resolvedDependencies:
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.modules.imgui
@@ -810,7 +811,7 @@ m_ResolvedPackages:
   - name: com.unity.render-pipelines.core
     version: 17.0.3
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -822,9 +823,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.imgui
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -884,7 +885,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 0220c3cdb0ea62410d2af1dcc6e918b9b3292f3b
+  fingerprint: 6be5a017ad91cf1df08edd7c10912cc3dc77fd78
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 17.0.3
@@ -958,11 +959,11 @@ m_ResolvedPackages:
     version: 1.0.0
   - name: com.unity.services.core
     version: 1.13.0
-  - name: com.unity.modules.unitywebrequest
+  - name: com.unity.modules.androidjni
     version: 1.0.0
   - name: com.unity.nuget.newtonsoft-json
     version: 3.2.1
-  - name: com.unity.modules.androidjni
+  - name: com.unity.modules.unitywebrequest
     version: 1.0.0
   keywords: []
   registry:
@@ -1006,10 +1007,10 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 3.3.3
     minimumUnityVersion: 2020.3.0a1
-- packageId: com.unity.test-framework@1.4.4
+- packageId: com.unity.test-framework@1.4.5
   testable: 0
   isDirectDependency: 1
-  version: 1.4.4
+  version: 1.4.5
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.test-framework
   assetPath: Packages/com.unity.test-framework
@@ -1079,7 +1080,6 @@ m_ResolvedPackages:
     - 2.0.1-pre.12
     - 2.0.1-pre.18
     compatible:
-    - 1.4.4
     - 1.4.5
     - 2.0.1-exp.1
     - 2.0.1-exp.2
@@ -1116,16 +1116,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638485092580000000
+  datePublishedTicks: 638575054880000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.test-framework@1.4/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.com/Unity-Technologies/com.unity.test-framework.git
-    revision: c9f8df94dd6b521dfd42d4d21d026130455299a5
+    revision: e50747c90fb18ab9f4f350b60d0fcdcae19bdebc
     path: 
   unityLifecycle:
-    version: 1.4.4
+    version: 1.4.5
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -1135,17 +1135,40 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"- Fix the issue where playmode controller wasn''t being
-    set and cleaned up correctly, causing issues post test run. (DSTR-1025)\n- Fixed
-    an issue where Oculus Quest headsets might timeout before the test run starts
-    (DSTR-404).\n- Fixed a regression where the console output would no longer get
-    attached to the test result for PlayMode."}'
+  upmReserved: '{"changelog":"- Fixed an issue where batchmode test runs would never
+    finish if a test yielded WaitForEndOfFrame (DSTR-1009).\n- Fixed an issue where
+    the location prompt was required when using the Install all tests in ''build''
+    folder option during test builds.\n- Canceling a PlayMode test run now correctly
+    restores the scene setup, instead of leaving the editor in the test scene.\n-
+    Fixed an issue where UnitySetUp did not fail when nested coroutines threw an
+    exception (DSTR-1007).\n- When selecting multiple tests and running them, the
+    test runner now correctly updates the details of the first selected test (UTF-602).\n-
+    The interaction mode and application idle time settings is now being changes
+    when running tests, resulting in faster test runs if not already in use (applies
+    to 2020.3 and later) (DSTR-690).\n- Fixed an issue where some NUnit attributes
+    caused errors and stopped async test runs (DSTR-1040).\n- Added support for the
+    MaxTime attribute on async and UnityTest methods (DSTR-1040).\n- Fixed a memory
+    leak issue where a large number of domain reloads within the same test could
+    crash the editor (DSTR-1023).\n- Changed to use a progress bar inside the test
+    runner window when running tests. This ensures that the progress bar is not fighting
+    to display when e.g. compiling scripts and also makes it easier to cancel a run.
+    This progress bar is displayed for all types of runs (EditMode, PlayMode and
+    Player). (UTF-596).\n- Fixed an issue where ignored tests with an attributes
+    did not display the ignore reason in the test runner UI.\n- Having multiple tests
+    with the same unique id no longer gives a error with ''An item with the same
+    key has already been added'', but instead logs an warning about the duplicate
+    id.\n- The result icons for test suites should no longer flicker when running
+    tests.\n- Ensured that test results ignored in the editor but run on a player
+    are not overwritten with ignore status when shown in the UI (DSTR-1042).\n- Fixed
+    an issue where the RunStarted event was not invoked correctly during a test run
+    (DSTR-1046).\n- Fixed an issue where TestStarted and TestFinished events were
+    repeated for ignored test fixtures after a domain reload (DSTR-986)."}'
   assetStore:
     productId: 
-  fingerprint: 4e62d75b705a73b10f689eb9441e75e69dcd0116
+  fingerprint: 0a21eb82d95cd331643a1e0ce4e8e9a5f18954c8
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 1.4.4
+    minimumPackageVersion: 1.4.5
     minimumUnityVersion: 2019.4.0a10
 - packageId: com.unity.timeline@1.8.7
   testable: 0
@@ -1417,7 +1440,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: c49f7ad8654de6b29c1cbfb1caa775d65269fdc8
+  fingerprint: b0e0b1c828561e8a0d130fa0e71078e9684ef47f
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 2.0.0
@@ -4048,7 +4071,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: 
+  type: assets
   description: 'This package defines common components used by multiple Game Service
     packages.
 
@@ -4057,24 +4080,53 @@ m_ResolvedPackages:
   errors: []
   versions:
     all:
+    - 1.0.1
+    - 1.1.0-pre.7
+    - 1.1.0-pre.8
+    - 1.1.0-pre.9
+    - 1.1.0-pre.10
+    - 1.1.0-pre.11
+    - 1.1.0-pre.41
+    - 1.1.0-pre.69
+    - 1.2.0
+    - 1.3.1
+    - 1.3.2
+    - 1.4.0
+    - 1.4.1
+    - 1.4.2
+    - 1.4.3
+    - 1.5.2
+    - 1.6.0
+    - 1.7.0
+    - 1.7.1
+    - 1.8.1
+    - 1.8.2
+    - 1.9.0
+    - 1.10.1
+    - 1.11.0
+    - 1.12.0
+    - 1.12.1
+    - 1.12.2
+    - 1.12.4
+    - 1.12.5
     - 1.13.0
     compatible:
     - 1.13.0
     recommended: 1.13.0
     deprecated: []
   dependencies:
-  - name: com.unity.modules.unitywebrequest
+  - name: com.unity.modules.androidjni
     version: 1.0.0
   - name: com.unity.nuget.newtonsoft-json
     version: 3.2.1
-  - name: com.unity.modules.androidjni
+  - name: com.unity.modules.unitywebrequest
     version: 1.0.0
   resolvedDependencies:
-  - name: com.unity.modules.unitywebrequest
+  - name: com.unity.modules.androidjni
     version: 1.0.0
   - name: com.unity.nuget.newtonsoft-json
     version: 3.2.1
-  - name: com.unity.modules.androidjni
+  - name: com.unity.modules.unitywebrequest
     version: 1.0.0
   keywords: []
   registry:
@@ -4087,9 +4139,9 @@ m_ResolvedPackages:
     configSource: 0
   hideInEditor: 1
   entitlements:
-    licensingModel: 0
+    licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 0
+  datePublishedTicks: 638542134710000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.services.core@1.13/manual/index.html
   hasRepository: 1
   repository:
@@ -4145,6 +4197,21 @@ m_ResolvedPackages:
   errors: []
   versions:
     all:
+    - 1.0.0-preview.2
+    - 1.0.0-preview.3
+    - 1.0.0-preview.4
+    - 1.0.1-preview.1
+    - 1.1.2
+    - 2.0.0-preview
+    - 2.0.0-preview.1
+    - 2.0.0-preview.2
+    - 2.0.0
+    - 2.0.1-preview.1
+    - 2.0.2
+    - 3.0.1
+    - 3.0.2
+    - 3.1.0
+    - 3.2.0
     - 3.2.1
     compatible:
     - 3.2.1
@@ -4163,9 +4230,9 @@ m_ResolvedPackages:
     configSource: 0
   hideInEditor: 1
   entitlements:
-    licensingModel: 0
+    licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 0
+  datePublishedTicks: 638186318800000000
   documentationUrl: 
   hasRepository: 1
   repository:
@@ -4340,7 +4407,7 @@ m_ResolvedPackages:
     version: 1.0.1
   resolvedDependencies:
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -4352,9 +4419,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.imgui
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -4402,7 +4469,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 54dc713680d5d1cbea7044a58b3ba06f74d7a5f4
+  fingerprint: 827e6ead9a4ad2bb24e403b7b284e3aaacf9b81b
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 17.0.3
@@ -4541,7 +4608,7 @@ m_ResolvedPackages:
   - name: com.unity.render-pipelines.core
     version: 17.0.3
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -4553,9 +4620,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.imgui
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -4605,7 +4672,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 451db51a0d39948afecb8c8df4a6b25c19e297af
+  fingerprint: 5793fb6ccd4a776bb5cf2d3ae3af1691c4dd6007
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 17.0.3
@@ -4641,7 +4708,7 @@ m_ResolvedPackages:
   - name: com.unity.render-pipelines.core
     version: 17.0.3
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -4653,9 +4720,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.imgui
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -4708,10 +4775,10 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 17.0.3
     minimumUnityVersion: 6000.0.0a1
-- packageId: com.unity.2d.animation@10.1.2
+- packageId: com.unity.2d.animation@10.1.3
   testable: 0
   isDirectDependency: 0
-  version: 10.1.2
+  version: 10.1.3
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.animation
   assetPath: Packages/com.unity.2d.animation
@@ -4722,7 +4789,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 2D
-  type: assets
+  type: asset
   description: 2D Animation provides all the necessary tooling and runtime components
     for skeletal animation using Sprites.
   errors: []
@@ -4856,13 +4923,12 @@ m_ResolvedPackages:
     - 10.1.2
     - 10.1.3
     compatible:
-    - 10.1.2
     - 10.1.3
     recommended: 10.1.3
     deprecated: []
   dependencies:
   - name: com.unity.2d.common
-    version: 9.0.4
+    version: 9.0.6
   - name: com.unity.2d.sprite
     version: 1.0.0
   - name: com.unity.collections
@@ -4873,9 +4939,9 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.2d.common
-    version: 9.0.5
+    version: 9.0.6
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -4893,9 +4959,9 @@ m_ResolvedPackages:
   - name: com.unity.modules.hierarchycore
     version: 1.0.0
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.nuget.mono-cecil
@@ -4917,16 +4983,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638518837240000000
+  datePublishedTicks: 638587939350000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.2d.animation@10.1/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/2d.git
-    revision: a9b408c1401f5388a343ce948ac7a264ddb85a73
+    revision: 8e3a56a8fe7951b15f737aee13ba8a90be9d2dc5
     path: 
   unityLifecycle:
-    version: 10.1.2
+    version: 10.1.3
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -4936,21 +5002,26 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"### Fixed\n- Sprite Library''s labels and categories
-    cannot be reordered. (case DANB-593)\n- Added safety checks to SpriteSkin''s
-    public APIs. (case DANB-598)\n- Fixed the IK bones flipped at certain angels.
-    (case DANB-595)\n- Fixed the the memory leak in the SpriteSkin component. (case
-    DANB-603)\n- Fixed the incorrect transform cache capacity in the SpriteSkin component.
-    (case DANB-615)\n\n### Changed\n- Updated the Editor Analytics to use the latest
-    APIs.\n- Updated the UI Elements to use the latest APIs.\n- Remove implicit NativeArray
-    cast from MeshUtilities.\n- Updated the SpriteSkin''s deformation system to improve
-    performance."}'
+  upmReserved: '{"changelog":"### Fixed\n- Sprite Swap overlay Label selection not
+    reacting to mouse clicks. (case DANB-627)\n- Sprite Swap overlay selection lock
+    behavior. (case DANB-629)\n- Sprite Bone Influence tab bone reordering. (case
+    DANB-634)\n- Documentation, comments, and other requirements to conform to Package
+    Validation. (DANB-653)\n- Wrong Label is deleted when a newly created Label is
+    deleted in the Sprite Library Editor. (case DANB-665)\n- Cannot select multiple
+    Labels in the Sprite Library Editor when using Grid View. (case DANB-670)\n-
+    Documentation, comments, and other requirements to conform to Package Validation.
+    (DANB-653)\n- Support for renaming Sprite Library Editor entries with ''F2''
+    on Windows. (DANB-674)\n- Renaming functionality for Labels is available to users
+    when multiple Labels are selected. (case DANB-668)\n- Fixed SpriteSkin''s playmode
+    test failures. (case DANB-678)\n- Modifying the Sprite Skin component through
+    public API.\n- Skinning Editor bone and mesh Visibility sliders too short. (case
+    DANB-681)"}'
   assetStore:
     productId: 
-  fingerprint: 6eb19a9b029c2401d3e26b6d071912c3be0b1131
+  fingerprint: 482d8d36f6a871bb441aac7eba62cccb09b1848e
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 10.1.2
+    minimumPackageVersion: 10.1.3
     minimumUnityVersion: 2023.1.0a1
 - packageId: com.unity.2d.pixel-perfect@5.0.3
   testable: 0
@@ -5158,9 +5229,9 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.2d.common
-    version: 9.0.5
+    version: 9.0.6
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -5287,7 +5358,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 0e3cfd27a2b4d364334434d9dcc1bf1f6d795736
+  fingerprint: b0dd32b64256b7cc7ae5c0e91e62d40c380b6581
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 1.0.0
@@ -5414,9 +5485,9 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.2d.common
-    version: 9.0.5
+    version: 9.0.6
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -5564,7 +5635,7 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 6c40dcf2e8ac14012cdc046522369db9f24c8f30
+  fingerprint: cf9771037a2571b3bca1d1d81e6b255605ad023d
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 1.0.0
@@ -5712,10 +5783,10 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 4.0.2
     minimumUnityVersion: 2023.1.0a1
-- packageId: com.unity.2d.aseprite@1.1.4
+- packageId: com.unity.2d.aseprite@1.1.5
   testable: 0
   isDirectDependency: 0
-  version: 1.1.4
+  version: 1.1.5
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.aseprite
   assetPath: Packages/com.unity.2d.aseprite
@@ -5726,7 +5797,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 2D
-  type: assets
+  type: asset
   description: 2D Aseprite Importer is a package which enables the import of .aseprite
     files from the Pixel Art tool Aseprite.
   errors: []
@@ -5746,7 +5817,6 @@ m_ResolvedPackages:
     - 1.1.5
     - 1.1.6
     compatible:
-    - 1.1.4
     - 1.1.5
     - 1.1.6
     recommended: 1.1.6
@@ -5762,9 +5832,9 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.2d.common
-    version: 9.0.5
+    version: 9.0.6
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -5799,16 +5869,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638509289520000000
+  datePublishedTicks: 638596743300000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.2d.aseprite@1.1/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/AsepriteImporter.git
-    revision: 331d65bad3469b434c81f625682efc587a1e9258
+    revision: a0426783b27ec99b71c186c0c6b834a26b2d43e0
     path: 
   unityLifecycle:
-    version: 1.1.4
+    version: 1.1.5
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -5818,15 +5888,16 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"### Fixed\n- Fixed an issue where Sprite Renderers
-    would be hidden after transitioning from one Animation Clip to another.\n- Fixed
-    an issue where generated AnimationClips would be 0.01 seconds too long."}'
+  upmReserved: '{"changelog":"### Fixed\n- Reduced the font size slightly in the
+    importer headers to match other inspector headers in Unity. (DANB-644) \n- Fixed
+    an issue where the Sort Order would not be reset in Animation Clips when making
+    use of the Z-index in Aseprite."}'
   assetStore:
     productId: 
-  fingerprint: c4a13c2a313eb592869561819ae6ab0c0f997662
+  fingerprint: 0e4f2cce4d7da1df9a83df9a921c38747f539432
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 1.1.4
+    minimumPackageVersion: 1.1.5
     minimumUnityVersion: 2021.3.15f1
 - packageId: com.unity.searcher@4.9.2
   testable: 0
@@ -5912,10 +5983,10 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 4.9.2
     minimumUnityVersion: 2019.1.0a1
-- packageId: com.unity.burst@1.8.16
+- packageId: com.unity.burst@1.8.17
   testable: 0
   isDirectDependency: 0
-  version: 1.8.16
+  version: 1.8.17
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.burst
   assetPath: Packages/com.unity.burst
@@ -6065,7 +6136,6 @@ m_ResolvedPackages:
     - 1.8.16
     - 1.8.17
     compatible:
-    - 1.8.16
     - 1.8.17
     recommended: 1.8.17
     deprecated: []
@@ -6092,16 +6162,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638538904590000000
+  datePublishedTicks: 638573293750000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/burst.git
-    revision: c26d24707e3090f86fd59f265b377ec2fe17f690
+    revision: 234303811291ae524719609ac4e9ca24be4b58dd
     path: 
   unityLifecycle:
-    version: 1.8.16
+    version: 1.8.17
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -6111,14 +6181,25 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"### Fixed\n- Fixed compiler crash caused by faulty
-    alias analysis"}'
+  upmReserved: '{"changelog":"### Added\n\n### Removed\n\n### Changed\n- Improved
+    performance of Burst-compiled code in the Windows x64 Editor by only emitting
+    context-saving code when the code being compiled contains a `throw`\n- Improved
+    error message for pointer-like types in non-`readonly` `static` fields\n\n###
+    Fixed\n- Fixed another compiler crash caused by faulty alias analysis\n- BurstAotSettings
+    files are no longer written to disk unless default settings are changed\n- Fixed
+    the `BurstDebugInformation_DoNotShip` folder not being saved outside the player
+    build folder for Embedded Linux and QNX platforms\n- Fixed direct negation of
+    enums was not correctly promoting the underlying type, causing wrong results.\n-
+    Fixed that `Mathf.Approximately` would return the wrong result approximately
+    all of the time\n- Fixed an issue with default interface methods which would
+    result in compiler errors due to IL corruption.\n- Creating a project with a
+    space in the path would cause burst to fail on windows arm64.\n\n### Known Issues"}'
   assetStore:
     productId: 
-  fingerprint: 000840f9394643fba72955ad6e31718ddf96ec36
+  fingerprint: 3aba14bc08eea56d416846e80adc0dc70d40a448
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 1.8.16
+    minimumPackageVersion: 1.8.17
     minimumUnityVersion: 2020.3.0a1
 - packageId: com.unity.mathematics@1.3.2
   testable: 0
@@ -6210,10 +6291,10 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 1.3.1
     minimumUnityVersion: 2021.3.0a1
-- packageId: com.unity.collections@2.4.1
+- packageId: com.unity.collections@2.4.3
   testable: 0
   isDirectDependency: 0
-  version: 2.4.1
+  version: 2.4.3
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.collections
   assetPath: Packages/com.unity.collections
@@ -6224,7 +6305,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: assets
+  type: asset
   description: A C# collections library providing data structures that can be used
     in jobs, and optimized by Burst compiler.
   errors: []
@@ -6300,9 +6381,6 @@ m_ResolvedPackages:
     - 2.5.0-exp.1
     - 2.5.0-pre.2
     compatible:
-    - 2.4.0
-    - 2.4.1
-    - 2.4.2
     - 2.4.3
     - 2.5.0-exp.1
     - 2.5.0-pre.2
@@ -6319,13 +6397,13 @@ m_ResolvedPackages:
     version: 3.0.3
   resolvedDependencies:
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.modules.imgui
@@ -6350,16 +6428,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638502382870000000
+  datePublishedTicks: 638593176350000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.collections@2.4/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/dots.git
-    revision: 6ecf7a215623cca37079c6f1a3e6f2f686c91721
+    revision: 3229c084d74b90980f151fe926f426ae38a63b44
     path: 
   unityLifecycle:
-    version: 2.4.0
+    version: 2.4.3
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -6369,14 +6447,13 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"### Changed\n* Release preparation\n* Updated Burst
-    dependency to version 1.8.13"}'
+  upmReserved: '{"changelog":"* Update entities package dependencies"}'
   assetStore:
     productId: 
-  fingerprint: 6fee59cd6ff39d27e6f29da7a92f8e37c60f5e72
+  fingerprint: eba9b2ae55c09c3548eaeac72a96dda87b0640cf
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 2.4.0
+    minimumPackageVersion: 2.4.3
     minimumUnityVersion: 2022.3.11f1
 - packageId: com.unity.rendering.light-transport@1.0.1
   testable: 0
@@ -6412,15 +6489,15 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.collections
-    version: 2.4.1
+    version: 2.4.3
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
     version: 1.0.0
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.modules.imgui
@@ -6469,15 +6546,15 @@ m_ResolvedPackages:
   upmReserved: 
   assetStore:
     productId: 
-  fingerprint: 93d45dde68636ce4c7eeb2212a06d38327ea3821
+  fingerprint: 8e780c06f5c1408ffa25004f2c90b6802481bbd8
   editorCompatibility:
     compatibilityLevel: 0
     minimumPackageVersion: 1.0.1
     minimumUnityVersion: 2023.3.0b1
-- packageId: com.unity.2d.common@9.0.5
+- packageId: com.unity.2d.common@9.0.6
   testable: 0
   isDirectDependency: 0
-  version: 9.0.5
+  version: 9.0.6
   source: 1
   resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.common
   assetPath: Packages/com.unity.2d.common
@@ -6488,7 +6565,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 2D
-  type: assets
+  type: asset
   description: 2D Common is a package that contains shared functionalities that are
     used by most of the other 2D packages.
   errors: []
@@ -6552,7 +6629,6 @@ m_ResolvedPackages:
     - 9.0.5
     - 9.0.6
     compatible:
-    - 9.0.5
     - 9.0.6
     recommended: 9.0.6
     deprecated: []
@@ -6569,7 +6645,7 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.burst
-    version: 1.8.16
+    version: 1.8.17
   - name: com.unity.mathematics
     version: 1.3.2
   - name: com.unity.modules.jsonserialize
@@ -6600,16 +6676,16 @@ m_ResolvedPackages:
   entitlements:
     licensingModel: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 638518837260000000
+  datePublishedTicks: 638587939290000000
   documentationUrl: https://docs.unity3d.com/Packages/com.unity.2d.common@9.0/manual/index.html
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/2d.git
-    revision: b009d23a412c592ab6466e0cf4f455415030308d
+    revision: 8e3a56a8fe7951b15f737aee13ba8a90be9d2dc5
     path: 
   unityLifecycle:
-    version: 9.0.5
+    version: 9.0.6
     nextVersion: 
     recommendedVersion: 
     isDeprecated: 0
@@ -6619,14 +6695,14 @@ m_ResolvedPackages:
   git:
     hash: 
     revision: 
-  upmReserved: '{"changelog":"- ### Fixed\n- DANB-604 Fix case where Spriteshape
-    vertex array exceeds limit even though it has not reached 64K."}'
+  upmReserved: '{"changelog":"### Added\n- Internal functionality to support 2D Muse.\n\n###
+    Changed\n- Atlas sample to use correct filepath when building for Android."}'
   assetStore:
     productId: 
-  fingerprint: c307e941ccd13ed5f537acb4874d1eb5a8bec663
+  fingerprint: a819feaf03690d15a1e56c9aaf0bcd8e7e275bc5
   editorCompatibility:
     compatibilityLevel: 0
-    minimumPackageVersion: 9.0.5
+    minimumPackageVersion: 9.0.6
     minimumUnityVersion: 2023.1.0a1
 - packageId: com.unity.nuget.mono-cecil@1.11.4
   testable: 0
@@ -6790,7 +6866,7 @@ m_ResolvedPackages:
     version: 1.0.0
   resolvedDependencies:
   - name: com.unity.test-framework
-    version: 1.4.4
+    version: 1.4.5
   - name: com.unity.ext.nunit
     version: 2.0.5
   - name: com.unity.modules.imgui
@@ -6843,4 +6919,4 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 3.0.3
     minimumUnityVersion: 2020.3.0a1
-m_BuiltInPackagesHash: 0336f64b6178097e6a656c929f5787fa508049ae
+m_BuiltInPackagesHash: c9fb3817a895082dd98fc4bf7f43f4d92307ba89

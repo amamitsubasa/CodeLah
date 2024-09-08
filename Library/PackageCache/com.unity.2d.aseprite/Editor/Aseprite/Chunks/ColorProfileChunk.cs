@@ -26,6 +26,7 @@ namespace UnityEditor.U2D.Aseprite
     /// </summary>
     public class ColorProfileChunk : BaseChunk
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.ColorProfile;
 
         /// <summary>
@@ -44,6 +45,10 @@ namespace UnityEditor.U2D.Aseprite
 
         internal ColorProfileChunk(uint chunkSize) : base(chunkSize) { }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             profileType = (ColorProfileTypes)reader.ReadUInt16();

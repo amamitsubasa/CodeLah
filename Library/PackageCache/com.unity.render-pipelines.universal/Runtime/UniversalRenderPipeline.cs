@@ -163,7 +163,7 @@ namespace UnityEngine.Rendering.Universal
         private UniversalRenderPipelineGlobalSettings m_GlobalSettings;
 
         internal UniversalRenderPipelineRuntimeTextures runtimeTextures { get; private set; }
-        
+
         /// <summary>
         /// The default Render Pipeline Global Settings.
         /// </summary>
@@ -661,6 +661,12 @@ namespace UnityEngine.Rendering.Universal
             if (additionalCameraData != null && additionalCameraData.renderType != CameraRenderType.Base)
             {
                 Debug.LogWarning("Only Base cameras can be rendered with standalone RenderSingleCamera. Camera will be skipped.");
+                return;
+            }
+
+            if (camera.targetTexture.width == 0 || camera.targetTexture.height == 0 || camera.pixelWidth == 0 || camera.pixelHeight == 0)
+            {
+                Debug.LogWarning($"Camera '{camera.name}' has an invalid render target size (width: {camera.targetTexture.width}, height: {camera.targetTexture.height}) or pixel dimensions (width: {camera.pixelWidth}, height: {camera.pixelHeight}). Camera will be skipped.");
                 return;
             }
 
@@ -1227,8 +1233,7 @@ namespace UnityEngine.Rendering.Universal
             if (!cameraData.postProcessEnabled)
                 return false;
 
-            if ((cameraData.antialiasing == AntialiasingMode.SubpixelMorphologicalAntiAliasing || cameraData.IsTemporalAAEnabled())
-                && cameraData.renderType == CameraRenderType.Base)
+            if (cameraData.IsTemporalAAEnabled() && (cameraData.renderType == CameraRenderType.Base))
                 return true;
 
             return CheckPostProcessForDepth();
@@ -1572,7 +1577,7 @@ namespace UnityEngine.Rendering.Universal
 
             UniversalRenderingData data = frameData.Get<UniversalRenderingData>();
             data.supportsDynamicBatching = settings.supportsDynamicBatching;
-            data.perObjectData = GetPerObjectLightFlags(universalLightData.additionalLightsCount, isForwardPlus);
+            data.perObjectData = GetPerObjectLightFlags(universalLightData.additionalLightsCount, isForwardPlus, settings.reflectionProbeBlending);
 
             // Render graph does not support RenderingData.commandBuffer as its execution timeline might break.
             // RenderingData.commandBuffer is available only for the old non-RG execute code path.
@@ -1907,7 +1912,7 @@ namespace UnityEngine.Rendering.Universal
 #endif
         }
 
-        static PerObjectData GetPerObjectLightFlags(int additionalLightsCount, bool isForwardPlus)
+        static PerObjectData GetPerObjectLightFlags(int additionalLightsCount, bool isForwardPlus, bool reflectionProbeBlending)
         {
             using var profScope = new ProfilingScope(Profiling.Pipeline.getPerObjectLightFlags);
 
@@ -1916,6 +1921,10 @@ namespace UnityEngine.Rendering.Universal
             if (!isForwardPlus)
             {
                 configuration |= PerObjectData.ReflectionProbes | PerObjectData.LightData;
+            }
+            else if (!reflectionProbeBlending)
+            {
+                configuration |= PerObjectData.ReflectionProbes;
             }
 
             if (additionalLightsCount > 0 && !isForwardPlus)

@@ -9,10 +9,10 @@ namespace UnityEditor.U2D.Aseprite
         const string k_RootName = "Root";
 
         public static AnimationClip[] Generate(string assetName,
-            Sprite[] sprites,
+            IReadOnlyList<Sprite> sprites,
             AsepriteFile file,
-            List<Layer> layers,
-            List<Frame> frames,
+            IReadOnlyList<Layer> layers,
+            IReadOnlyList<Frame> frames,
             List<Tag> tags,
             Dictionary<int, GameObject> layerIdToGameObject)
         {
@@ -33,6 +33,12 @@ namespace UnityEditor.U2D.Aseprite
                 if (DoesLayerDisableRenderer(layers[i], tags))
                     layersWithDisabledRenderer.Add(layers[i]);
             }
+            var layersWithCustomSortingOrder = new HashSet<Layer>();
+            for (var i = 0; i < layers.Count; ++i)
+            {
+                if (DoesLayerHaveCustomSorting(layers[i]))
+                    layersWithCustomSortingOrder.Add(layers[i]);
+            }
 
             var clips = new List<AnimationClip>(tags.Count);
             var animationNames = new HashSet<string>(tags.Count);
@@ -48,7 +54,8 @@ namespace UnityEditor.U2D.Aseprite
                     Debug.LogWarning($"The animation clip name {tags[i].name} is already in use. Renaming to {clipName}.");
                 }
 
-                clips.Add(CreateClip(tags[i], clipName, layers, layersWithDisabledRenderer, frames, sprites, layerIdToGameObject));
+                var clip = CreateClip(tags[i], clipName, layers, layersWithDisabledRenderer, layersWithCustomSortingOrder, frames, sprites, layerIdToGameObject);
+                clips.Add(clip);
                 animationNames.Add(clipName);
             }
 
@@ -95,7 +102,43 @@ namespace UnityEditor.U2D.Aseprite
             return false;
         }
 
-        static AnimationClip CreateClip(Tag tag, string clipName, List<Layer> layers, HashSet<Layer> layersWithDisabledRenderer, IReadOnlyList<Frame> frames, Sprite[] sprites, Dictionary<int, GameObject> layerIdToGameObject)
+        static bool DoesLayerHaveCustomSorting(Layer layer)
+        {
+            if (layer.layerType != LayerTypes.Normal)
+                return false;
+            
+            var cells = layer.cells;
+            var linkedCells = layer.linkedCells;
+
+            foreach(var cell in cells)
+            {
+                if (cell.additiveSortOrder != 0)
+                    return true;
+            }
+
+            foreach (var linkedCell in linkedCells)
+            {
+                var cellIndex = cells.FindIndex(x => x.frameIndex == linkedCell.linkedToFrame);
+                if (cellIndex == -1)
+                    continue;
+
+                var cell = cells[cellIndex];
+                if (cell.additiveSortOrder != 0)
+                    return true;
+            }
+            
+            return false;            
+        }
+
+        static AnimationClip CreateClip(
+            Tag tag, 
+            string clipName, 
+            IReadOnlyList<Layer> layers, 
+            IReadOnlyCollection<Layer> layersWithDisabledRenderer, 
+            IReadOnlyCollection<Layer> layersWithCustomSorting, 
+            IReadOnlyList<Frame> frames, 
+            IReadOnlyList<Sprite> sprites, 
+            IReadOnlyDictionary<int, GameObject> layerIdToGameObject)
         {
             var animationClip = new AnimationClip()
             {
@@ -118,31 +161,33 @@ namespace UnityEditor.U2D.Aseprite
                     continue;
 
                 var doesLayerDisableRenderer = layersWithDisabledRenderer.Contains(layer);
+                var doesLayerHaveCustomSorting = layersWithCustomSorting.Contains(layer);
+                
                 var layerTransform = layerGo.transform;
                 var spriteKeyframes = new List<ObjectReferenceKeyframe>();
 
                 var cells = layer.cells;
-                var activeFrames = AddCellsToClip(cells, in tag, in sprites, frames, ref spriteKeyframes);
+                var activeFrames = AddCellsToClip(cells, tag, sprites, frames, spriteKeyframes);
 
                 var linkedCells = layer.linkedCells;
-                activeFrames.UnionWith(AddLinkedCellsToClip(linkedCells, in cells, in tag, in sprites, frames, ref spriteKeyframes));
+                activeFrames.UnionWith(AddLinkedCellsToClip(linkedCells, cells, tag, sprites, frames, spriteKeyframes));
 
                 spriteKeyframes.Sort((x, y) => x.time.CompareTo(y.time));
-                DuplicateLastFrame(ref spriteKeyframes, frames[tag.toFrame - 1], animationClip.frameRate);
+                DuplicateLastFrame(spriteKeyframes, frames[tag.toFrame - 1], animationClip.frameRate);
 
                 var path = GetTransformPath(layerTransform);
                 var spriteBinding = EditorCurveBinding.PPtrCurve(path, typeof(SpriteRenderer), "m_Sprite");
                 AnimationUtility.SetObjectReferenceCurve(animationClip, spriteBinding, spriteKeyframes.ToArray());
 
-                AddEnabledKeyframes(layerTransform, tag, frames, doesLayerDisableRenderer, in activeFrames, in animationClip);
-                AddSortOrderKeyframes(layerTransform, layer, tag, frames, in cells, in animationClip);
-                AddAnimationEvents(in tag, frames, animationClip);
+                AddEnabledKeyframes(layerTransform, tag, frames, doesLayerDisableRenderer, activeFrames, animationClip);
+                AddSortOrderKeyframes(layerTransform, layer, tag, frames, cells, doesLayerHaveCustomSorting, animationClip);
+                AddAnimationEvents(tag, frames, animationClip);
             }
 
             return animationClip;
         }
 
-        static HashSet<int> AddCellsToClip(IReadOnlyList<Cell> cells, in Tag tag, in Sprite[] sprites, IReadOnlyList<Frame> frames, ref List<ObjectReferenceKeyframe> keyFrames)
+        static HashSet<int> AddCellsToClip(IReadOnlyList<Cell> cells, Tag tag, IReadOnlyList<Sprite> sprites, IReadOnlyList<Frame> frames, List<ObjectReferenceKeyframe> keyFrames)
         {
             var activeFrames = new HashSet<int>();
             var startTime = GetTimeFromFrame(frames, tag.fromFrame);
@@ -153,7 +198,7 @@ namespace UnityEditor.U2D.Aseprite
                     cell.frameIndex >= tag.toFrame)
                     continue;
 
-                var sprite = Array.Find(sprites, x => x.GetSpriteID() == cell.spriteId);
+                var sprite = sprites.Find(x => x.GetSpriteID() == cell.spriteId);
                 if (sprite == null)
                     continue;
 
@@ -168,7 +213,7 @@ namespace UnityEditor.U2D.Aseprite
             return activeFrames;
         }
 
-        static HashSet<int> AddLinkedCellsToClip(IReadOnlyList<LinkedCell> linkedCells, in List<Cell> cells, in Tag tag, in Sprite[] sprites, IReadOnlyList<Frame> frames, ref List<ObjectReferenceKeyframe> keyFrames)
+        static HashSet<int> AddLinkedCellsToClip(IReadOnlyList<LinkedCell> linkedCells, IReadOnlyList<Cell> cells, Tag tag, IReadOnlyList<Sprite> sprites, IReadOnlyList<Frame> frames, List<ObjectReferenceKeyframe> keyFrames)
         {
             var activeFrames = new HashSet<int>();
             var startTime = GetTimeFromFrame(frames, tag.fromFrame);
@@ -178,13 +223,13 @@ namespace UnityEditor.U2D.Aseprite
                 if (linkedCell.frameIndex < tag.fromFrame ||
                     linkedCell.frameIndex >= tag.toFrame)
                     continue;
-
+                
                 var cellIndex = cells.FindIndex(x => x.frameIndex == linkedCell.linkedToFrame);
                 if (cellIndex == -1)
                     continue;
 
                 var cell = cells[cellIndex];
-                var sprite = Array.Find(sprites, x => x.GetSpriteID() == cell.spriteId);
+                var sprite = sprites.Find(x => x.GetSpriteID() == cell.spriteId);
                 if (sprite == null)
                     continue;
 
@@ -199,7 +244,7 @@ namespace UnityEditor.U2D.Aseprite
             return activeFrames;
         }
 
-        static void DuplicateLastFrame(ref List<ObjectReferenceKeyframe> keyFrames, Frame lastFrame, float frameRate)
+        static void DuplicateLastFrame(List<ObjectReferenceKeyframe> keyFrames, Frame lastFrame, float frameRate)
         {
             if (keyFrames.Count == 0)
                 return;
@@ -230,7 +275,7 @@ namespace UnityEditor.U2D.Aseprite
             return path;
         }
 
-        static void AddEnabledKeyframes(Transform layerTransform, Tag tag, IReadOnlyList<Frame> frames, bool doesLayerDisableRenderer, in HashSet<int> activeFrames, in AnimationClip animationClip)
+        static void AddEnabledKeyframes(Transform layerTransform, Tag tag, IReadOnlyList<Frame> frames, bool doesLayerDisableRenderer, IReadOnlyCollection<int> activeFrames, AnimationClip animationClip)
         {
             if (activeFrames.Count == tag.noOfFrames && !doesLayerDisableRenderer)
                 return;
@@ -274,7 +319,7 @@ namespace UnityEditor.U2D.Aseprite
             AnimationUtility.SetEditorCurve(animationClip, enabledBinding, animCurve);
         }
 
-        static void AddSortOrderKeyframes(Transform layerTransform, Layer layer, Tag tag, IReadOnlyList<Frame> frames, in List<Cell> cells, in AnimationClip animationClip)
+        static void AddSortOrderKeyframes(Transform layerTransform, Layer layer, Tag tag, IReadOnlyList<Frame> frames, IReadOnlyList<Cell> cells, bool doesLayerHaveCustomSorting, AnimationClip animationClip)
         {
             var layerGo = layerTransform.gameObject;
             var spriteRenderer = layerGo.GetComponent<SpriteRenderer>();
@@ -289,13 +334,16 @@ namespace UnityEditor.U2D.Aseprite
             var hasKeyOnFirstFrame = false;
             for (var i = 0; i < cells.Count; ++i)
             {
+                var previousCell = i > 0 ? cells[i - 1] : default;
                 var cell = cells[i];
-                if (cell.frameIndex < tag.fromFrame ||
-                    cell.frameIndex >= tag.toFrame)
+                if (cell.frameIndex < tag.fromFrame || cell.frameIndex >= tag.toFrame)
                     continue;
 
                 var additiveSortOrder = cell.additiveSortOrder;
-                if (additiveSortOrder == 0)
+                
+                // We want to add a keyframe if the current cell has additive sorting, or if the previous cell had additive sorting.
+                // This is to ensure that we reset the sort order to 0 if the previous cell had additive sorting.
+                if (additiveSortOrder == 0 && previousCell.additiveSortOrder == 0)
                     continue;
 
                 if (cell.frameIndex == tag.fromFrame)
@@ -306,7 +354,7 @@ namespace UnityEditor.U2D.Aseprite
                 sortOrderKeyframes.Add(keyframe);
             }
 
-            if (sortOrderKeyframes.Count == 0)
+            if (sortOrderKeyframes.Count == 0 && !doesLayerHaveCustomSorting)
                 return;
 
             if (!hasKeyOnFirstFrame)
@@ -349,7 +397,7 @@ namespace UnityEditor.U2D.Aseprite
             return keyframe;
         }
 
-        static void AddAnimationEvents(in Tag tag, IReadOnlyList<Frame> frames, AnimationClip animationClip)
+        static void AddAnimationEvents(Tag tag, IReadOnlyList<Frame> frames, AnimationClip animationClip)
         {
             var events = new List<AnimationEvent>();
 

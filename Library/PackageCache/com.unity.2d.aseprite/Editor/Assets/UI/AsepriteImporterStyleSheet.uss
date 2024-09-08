@@ -13,7 +13,7 @@ Foldout > VisualElement {
 }
 
 Foldout VisualElement Label {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 Foldout>Toggle.asepriteImporter-editor-dark {

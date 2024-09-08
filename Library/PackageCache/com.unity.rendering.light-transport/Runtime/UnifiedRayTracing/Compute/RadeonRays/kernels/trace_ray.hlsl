@@ -18,6 +18,7 @@ THE SOFTWARE.
 ********************************************************************/
 #ifndef TRACE_RAY_HLSL
 #define TRACE_RAY_HLSL
+
 #include "intersect_structures.hlsl"
 #include "transform.hlsl"
 #include "intersector_common.hlsl"
@@ -81,6 +82,10 @@ struct TraceParams
 {
     StructuredBuffer<BvhNode> bvh;
     StructuredBuffer<BvhNode> bottom_bvhs;
+    StructuredBuffer<uint4> bottom_bvh_leaves;
+    StructuredBuffer<uint> bottom_bvhs_vertices;
+    int bottom_bvhs_vertex_stride;
+
     RWStructuredBuffer<uint> stack;
     StructuredBuffer<InstanceInfo> instance_infos;
 
@@ -88,8 +93,8 @@ struct TraceParams
     uint localThreadIndex;
 };
 
-TraceHitResult TraceRay(
-    TraceParams params, VertexPoolDesc vertex_pool_desc,
+TraceHitResult TraceRaySoftware(
+    TraceParams params,
     float3 rayOrigin, float tmin, float3 rayDirection, float tmax,
     uint rayMask,
     int ray_cull_mode,
@@ -118,30 +123,30 @@ TraceHitResult TraceRay(
     bool closest_front_face = true;
 
     int vertex_offset = 0;
-    int index_offset = 0;
+    int bottom_bvh_leaves_offset = 0;
     int cull_mode = ray_cull_mode;
 
-    // entry point is 0
+    // get root node index from bvh header
     uint node_index = params.bvh[0].parent;
-    BvhNode node = params.bvh[1+node_index];
     uint bottom_bvh_offset;
 
-    while (node_index != INVALID_NODE)
+    while (node_index != INVALID_NODE )
     {
-        if (current_instance == INVALID_NODE)
-        {
-            node = params.bvh[1 + node_index];
-        }
-        else
-        {
-            node = params.bottom_bvhs[bottom_bvh_offset+1 + node_index];
-        }
-
-        bool is_leaf = (node.left_child == INVALID_NODE);
+        bool is_leaf = IS_LEAF_NODE(node_index);
         bool skip_popstack = false;
 
         if (!is_leaf)
         {
+            BvhNode node;
+            if (current_instance == INVALID_NODE)
+            {
+                node = params.bvh[1 + node_index];
+            }
+            else
+            {
+                node = params.bottom_bvhs[bottom_bvh_offset + 1 + node_index];
+            }
+
             uint2 result = IntersectInternalNode(node, ray_invd, ray_o, ray_mint, ray_maxt);
             if (result.y != INVALID_NODE)
             {
@@ -157,7 +162,7 @@ TraceHitResult TraceRay(
         // top-level leaf: adjust ray respecively to transforms
         else if (current_instance == INVALID_NODE)
         {
-            uint instance_in_leaf_node = node.right_child;
+            uint instance_in_leaf_node = GET_LEAF_NODE_FIRST_PRIM(node_index);
             uint instance_mask = params.instance_infos[instance_in_leaf_node].instance_mask;
 
             if ((instance_mask & rayMask) != 0)
@@ -169,7 +174,7 @@ TraceHitResult TraceRay(
                 bottom_bvh_offset   = params.instance_infos[current_instance].blas_offset;
                 Transform transform = params.instance_infos[current_instance].world_to_local_transform;
                 vertex_offset       = params.instance_infos[current_instance].vertex_offset;
-                index_offset        = params.instance_infos[current_instance].index_offset;
+                bottom_bvh_leaves_offset = params.instance_infos[current_instance].blas_leaves_offset;
 
                 cull_mode = ray_cull_mode;
                 if (params.instance_infos[current_instance].invert_triangle_culling)
@@ -197,15 +202,16 @@ TraceHitResult TraceRay(
         // bottom-level leaf
         else
         {
-            int first_triangle = node.right_child;
-            int node_triangle_count = node.data[0];
+            int first_triangle = GET_LEAF_NODE_FIRST_PRIM(node_index);
+            int node_triangle_count = GET_LEAF_NODE_PRIM_COUNT(node_index);
 
             for (int i = 0; i < node_triangle_count; ++i)
             {
-                int prim_id = first_triangle + i;
+                uint4 leafNode = params.bottom_bvh_leaves[bottom_bvh_leaves_offset + (first_triangle + i)];
+                uint prim_id = leafNode.w;
                 float2 uv = 0.0f;
                 bool is_front_face = false;
-                if (IntersectLeafTriangle(vertex_pool_desc, vertex_offset, index_offset, cull_mode, node, prim_id, ray_d, ray_o, ray_mint, ray_maxt, uv, is_front_face))
+                if (IntersectLeafTriangle(params.bottom_bvhs_vertices, params.bottom_bvhs_vertex_stride, vertex_offset, leafNode, cull_mode, ray_d, ray_o, ray_mint, ray_maxt, uv, is_front_face))
                 {
                     intersection_found_in_bottom_level = true;
                     if (closestHit)

@@ -10,17 +10,21 @@ namespace UnityEditor.U2D.Aseprite
     [Flags]
     public enum TileSetFlags
     {
+        /// <summary>Includes a link to an external file</summary>
         IncludesLinkToExternal = 1,
+        /// <summary>Includes a link to files in this file</summary>
         IncludesTilesInFile = 2,
+        /// <summary>Misc</summary>
         Misc = 4,
     }
 
     /// <summary>
     /// Parsed representation of an Aseprite Tileset chunk.
+    /// Not supported yet.
     /// </summary>
-    /// <note>Not supported yet.</note>
     public class TilesetChunk : BaseChunk
     {
+        /// <inheritdoc />
         public override ChunkTypes chunkType => ChunkTypes.Tileset;
 
         /// <summary>
@@ -59,6 +63,10 @@ namespace UnityEditor.U2D.Aseprite
             m_AlphaPaletteEntry = alphaPaletteEntry;
         }
 
+        /// <summary>
+        /// Read and store the chunk data.
+        /// </summary>
+        /// <param name="reader">The active binary reader of the file.</param>
         protected override void InternalRead(BinaryReader reader)
         {
             tileSetId = reader.ReadUInt32();

@@ -28,7 +28,7 @@
 
 namespace UnityEngine.Rendering.Sampling
 {
-    internal class SobolData
+    internal static class SobolData
     {
         public const uint SobolDims = 1024;
         public const uint SobolSize = 52;

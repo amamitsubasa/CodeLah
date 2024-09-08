@@ -9,7 +9,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
 {
     internal enum RayTracingBackend { Hardware = 0, Compute = 1}
 
-    internal class RayTracingContext : IDisposable
+    internal sealed class RayTracingContext : IDisposable
     {
         public RayTracingContext(RayTracingBackend backend, RayTracingResources resources)
         {
@@ -22,16 +22,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             else if (backend == RayTracingBackend.Compute)
                 m_Backend = new ComputeRayTracingBackend(resources);
 
-            var MB = 1024 * 1024;
-            var geometryPoolDesc = new GeometryPoolDesc()
-            {
-                vertexPoolByteSize = 64 * MB,
-                indexPoolByteSize = 32 * MB,
-                meshChunkTablesByteSize = 4 * MB
-            };
-
             Resources = resources;
-
             m_DispatchBuffer = RayTracingHelper.CreateDispatchDimensionBuffer();
         }
         public void Dispose()
@@ -59,6 +50,8 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public IRayTracingShader CreateRayTracingShader(Object shader) =>
             m_Backend.CreateRayTracingShader(shader, "MainRayGenShader", m_DispatchBuffer);
 
+        public static uint GetScratchBufferStrideInBytes() => 4;
+
         public IRayTracingShader CreateRayTracingShader(RayTracingShader rtShader)
         {
             var shader = m_Backend.CreateRayTracingShader(rtShader, "MainRayGenShader", m_DispatchBuffer);
@@ -70,28 +63,30 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
             return shader;
         }
 
+#if UNITY_EDITOR
+        public IRayTracingShader LoadRayTracingShader(string fileName)
+        {
+            Type shaderType = BackendHelpers.GetTypeOfShader(BackendType);
+            Object asset = AssetDatabase.LoadAssetAtPath(fileName, shaderType);
+            return CreateRayTracingShader(asset);
+        }
+#endif
+
         public IRayTracingAccelStruct CreateAccelerationStructure(AccelerationStructureOptions options)
         {
             var accelStruct = m_Backend.CreateAccelerationStructure(options, m_AccelStructCounter);
             return accelStruct;
         }
-
-#if UNITY_EDITOR
-        public IRayTracingShader LoadRayTracingShader(string fileName)
+        public ulong GetRequiredTraceScratchBufferSizeInBytes(uint width, uint height, uint depth)
         {
-            string fullFileName = BackendHelpers.GetFileNameOfShader(BackendType, fileName);
-            Type shaderType = BackendHelpers.GetTypeOfShader(BackendType);
-            Object asset = AssetDatabase.LoadAssetAtPath(fullFileName, shaderType);
-            return CreateRayTracingShader(asset);
+            return m_Backend.GetRequiredTraceScratchBufferSizeInBytes(width, height, depth);
         }
-#endif
 
         public RayTracingBackend BackendType { get; private set; }
 
-        private IRayTracingBackend m_Backend;
-        private GeometryPool m_GeometryPool;
-        private ReferenceCounter m_AccelStructCounter = new ReferenceCounter();
-        private GraphicsBuffer m_DispatchBuffer;
+        readonly IRayTracingBackend m_Backend;
+        readonly ReferenceCounter m_AccelStructCounter = new ReferenceCounter();
+        readonly GraphicsBuffer m_DispatchBuffer;
     }
 
     [System.Flags]
@@ -120,7 +115,7 @@ namespace UnityEngine.Rendering.UnifiedRayTracing
         public void Dec() { value--; }
     }
 
-    internal class RayTracingHelper
+    internal static class RayTracingHelper
     {
         public const GraphicsBuffer.Target ScratchBufferTarget = GraphicsBuffer.Target.Structured;
 

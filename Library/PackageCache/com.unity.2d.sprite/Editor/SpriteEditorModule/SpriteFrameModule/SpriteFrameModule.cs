@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityTexture2D = UnityEngine.Texture2D;
 using UnityEditor.ShortcutManagement;
+using Object = UnityEngine.Object;
 
 namespace UnityEditor.U2D.Sprites
 {
@@ -22,11 +23,13 @@ namespace UnityEditor.U2D.Sprites
         private bool[] m_AlphaPixelCache;
         SpriteFrameModuleContext m_SpriteFrameModuleContext;
         public event Action onModuleDeactivated = () => { };
+        SpriteEditorModeBase m_CurrentMode = null;
 
         private const float kOverlapTolerance = 0.00001f;
         private StringBuilder m_SpriteNameStringBuilder;
 
         private List<Rect> m_PotentialRects;
+        Texture2D m_TextureToSlice;
         public List<Rect> potentialRects
         {
             set => m_PotentialRects = value;
@@ -35,6 +38,48 @@ namespace UnityEditor.U2D.Sprites
         public SpriteFrameModule(ISpriteEditor sw, IEventSystem es, IUndoSystem us, IAssetDatabase ad) :
             base("Sprite Editor", sw, es, us, ad)
         {}
+
+        public override void SetModuleModes(IEnumerable<Type> modes)
+        {
+            base.SetModuleModes(modes);
+            foreach (var mode in this.modes)
+            {
+                mode.RegisterOnModeRequestActivate(OnModuleExtensionActivate);
+            }
+        }
+
+        void OnModuleExtensionActivate(SpriteEditorModeBase activatingMode)
+        {
+            m_CurrentMode?.DeactivateMode();
+            m_CurrentMode = activatingMode;
+            var activated = m_CurrentMode?.ActivateMode();
+            // Mode did not activate
+            if(activated.HasValue && !activated.Value)
+            {
+                m_CurrentMode = null;
+            }
+
+            bool modeNull = m_CurrentMode == null;
+            if (modeNull)
+            {
+                spriteEditor.spriteRects = m_RectsCache.GetSpriteRects();
+            }
+            EnableInspector(modeNull);
+        }
+
+        public override bool ApplyRevert(bool apply)
+        {
+            var returnValue = base.ApplyRevert(apply);
+            var dataProviderApplied = new HashSet<Type>();
+            dataProviderApplied.Add(typeof(ISpriteEditorDataProvider));
+            foreach(var mode in modes)
+            {
+                returnValue |= mode.ApplyModeData(apply, dataProviderApplied);
+            }
+            if(apply)
+                m_SourceOverrideCallback?.Invoke(spriteAssetPath);
+            return returnValue;
+        }
 
         class SpriteFrameModuleContext : IShortcutContext
         {
@@ -74,15 +119,36 @@ namespace UnityEditor.U2D.Sprites
             ShortcutIntegration.instance.contextManager.RegisterToolContext(m_SpriteFrameModuleContext);
             m_SpriteNameStringBuilder = new StringBuilder(GetSpriteNamePrefix() + "_");
             m_PotentialRects = null;
+            RegisterDataChangeCallback(OnTextureDataProviderDataChanged);
+            SignalModuleActivate();
         }
 
         public override void OnModuleDeactivate()
         {
             base.OnModuleDeactivate();
+
             ShortcutIntegration.instance.contextManager.DeregisterToolContext(m_SpriteFrameModuleContext);
             m_PotentialRects = null;
             m_AlphaPixelCache = null;
+            m_CurrentMode?.DeactivateMode();
+            m_CurrentMode = null;
+            UnregisterDataChangeCallback(OnTextureDataProviderDataChanged);
+            CleanUpDataDataProviderOverride();
+            foreach (var mode in modes)
+            {
+                mode.UnregisterOnModeRequestActivate(OnModuleExtensionActivate);
+            }
+            if(m_TextureToSlice != null)
+                Object.DestroyImmediate(m_TextureToSlice);
+            modes.Clear();
             onModuleDeactivated();
+        }
+
+        void OnTextureDataProviderDataChanged(ISpriteEditorDataProvider obj)
+        {
+            if(m_TextureToSlice != null)
+                Object.DestroyImmediate(m_TextureToSlice);
+            m_TextureToSlice = null;
         }
 
         public static SpriteImportMode GetSpriteImportMode(ISpriteEditorDataProvider dataProvider)
@@ -232,7 +298,7 @@ namespace UnityEditor.U2D.Sprites
 
         public void DoAutomaticSlicing(int minimumSpriteSize, int alignment, Vector2 pivot, AutoSlicingMethod slicingMethod)
         {
-            undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Automatic Slicing");
+            m_RectsCache.RegisterUndo(undoSystem, "Automatic Slicing");
 
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.Clear();
@@ -251,6 +317,7 @@ namespace UnityEditor.U2D.Sprites
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.ClearUnusedFileID();
             selected = null;
+            NotifyOnSpriteRectChanged();
             spriteEditor.SetDataModified();
             Repaint();
         }
@@ -258,13 +325,19 @@ namespace UnityEditor.U2D.Sprites
         UnityTexture2D GetTextureToSlice()
         {
             int width, height;
-            m_TextureDataProvider.GetTextureActualWidthAndHeight(out width, out height);
-            var readableTexture = m_TextureDataProvider.GetReadableTexture2D();
+            GetTextureActualWidthAndHeight(out width, out height);
+            var readableTexture = GetReadableTexture2D();
             if (readableTexture == null || (readableTexture.width == width && readableTexture.height == height))
                 return readableTexture;
-            // we want to slice based on the original texture slice. Upscale the imported texture
-            var texture = UnityEditor.SpriteUtility.CreateTemporaryDuplicate(readableTexture, width, height);
-            return texture;
+
+            if (m_TextureToSlice == null)
+            {
+                // we want to slice based on the original texture slice. Upscale the imported texture
+                m_TextureToSlice = UnityEditor.SpriteUtility.CreateTemporaryDuplicate(readableTexture, width, height);
+                m_TextureToSlice.hideFlags = HideFlags.HideAndDontSave;
+            }
+
+            return m_TextureToSlice;
         }
 
         public IEnumerable<Rect> GetGridRects(Vector2 size, Vector2 offset, Vector2 padding, bool keepEmptyRects)
@@ -277,7 +350,7 @@ namespace UnityEditor.U2D.Sprites
         {
             var frames = GetGridRects(size, offset, padding, keepEmptyRects);
 
-            undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Grid Slicing");
+            m_RectsCache.RegisterUndo(undoSystem, "Grid Slicing");
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.Clear();
 
@@ -289,6 +362,7 @@ namespace UnityEditor.U2D.Sprites
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.ClearUnusedFileID();
             selected = null;
+            NotifyOnSpriteRectChanged();
             spriteEditor.SetDataModified();
             Repaint();
         }
@@ -366,7 +440,7 @@ namespace UnityEditor.U2D.Sprites
                                  , new Vector2(0.0f, size.y / 2)
                                  , new Vector2(-size.x / 2, 0.0f)});
 
-            undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Isometric Grid Slicing");
+            m_RectsCache.RegisterUndo(undoSystem, "Isometric Grid Slicing");
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.Clear();
 
@@ -383,6 +457,7 @@ namespace UnityEditor.U2D.Sprites
             if (slicingMethod == AutoSlicingMethod.DeleteAll)
                 m_RectsCache.ClearUnusedFileID();
             selected = null;
+            NotifyOnSpriteRectChanged();
             spriteEditor.SetDataModified();
             Repaint();
         }
@@ -391,9 +466,10 @@ namespace UnityEditor.U2D.Sprites
         {
             if (selected != null)
             {
-                undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Scale sprite");
+                m_RectsCache.RegisterUndo(undoSystem, "Scale sprite");
                 selected.rect = ClampSpriteRect(r, textureActualWidth, textureActualHeight);
                 selected.border = ClampSpriteBorderToRect(selected.border, selected.rect);
+                NotifyOnSpriteRectChanged();
                 spriteEditor.SetDataModified();
             }
         }
@@ -451,7 +527,7 @@ namespace UnityEditor.U2D.Sprites
         {
             if (selected != null)
             {
-                undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Duplicate sprite");
+                m_RectsCache.RegisterUndo(undoSystem, "Duplicate sprite");
                 var index = 0;
                 var createdIndex = -1;
                 while (createdIndex == -1)
@@ -459,13 +535,14 @@ namespace UnityEditor.U2D.Sprites
                     createdIndex = AddSprite(selected.rect, (int)selected.alignment, selected.pivot, GenerateSpriteNameWithIndex(index++), selected.border);
                 }
                 selected = m_RectsCache.spriteRects[createdIndex];
+                NotifyOnSpriteRectChanged();
             }
         }
 
         public void CreateSprite(Rect rect)
         {
             rect = ClampSpriteRect(rect, textureActualWidth, textureActualHeight);
-            undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Create sprite");
+            m_RectsCache.RegisterUndo(undoSystem, "Create sprite");
             var index = 0;
             var createdIndex = -1;
             while (createdIndex == -1)
@@ -473,15 +550,17 @@ namespace UnityEditor.U2D.Sprites
                 createdIndex = AddSprite(rect, 0, Vector2.zero, GenerateSpriteNameWithIndex(index++), Vector4.zero);
             }
             selected = m_RectsCache.spriteRects[createdIndex];
+            NotifyOnSpriteRectChanged();
         }
 
         public void DeleteSprite()
         {
             if (selected != null)
             {
-                undoSystem.RegisterCompleteObjectUndo(m_RectsCache, "Delete sprite");
+                m_RectsCache.RegisterUndo(undoSystem, "Delete sprite");
                 m_RectsCache.Remove(selected);
                 selected = null;
+                NotifyOnSpriteRectChanged();
                 spriteEditor.SetDataModified();
             }
         }

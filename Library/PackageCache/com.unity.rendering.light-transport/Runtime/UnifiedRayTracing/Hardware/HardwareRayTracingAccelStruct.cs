@@ -3,20 +3,17 @@ using System.Collections.Generic;
 
 namespace UnityEngine.Rendering.UnifiedRayTracing
 {
-    internal class HardwareRayTracingAccelStruct : IRayTracingAccelStruct
+    internal sealed class HardwareRayTracingAccelStruct : IRayTracingAccelStruct
     {
         public RayTracingAccelerationStructure accelStruct { get; }
 
-        internal AccelStructInstances instances { get { return m_Instances; } }
-
-        Shader m_HWMaterialShader;
+        readonly Shader m_HWMaterialShader;
         Material m_RayTracingMaterial;
-        AccelStructInstances m_Instances;
-        RayTracingAccelerationStructureBuildFlags m_BuildFlags;
+        readonly RayTracingAccelerationStructureBuildFlags m_BuildFlags;
         // keep a reference to Meshes because RayTracingAccelerationStructure impl is to automatically
         // remove instances when the mesh is disposed
-        Dictionary<int, Mesh> m_Meshes = new();
-        ReferenceCounter m_Counter;
+        readonly Dictionary<int, Mesh> m_Meshes = new();
+        readonly ReferenceCounter m_Counter;
 
         internal HardwareRayTracingAccelStruct(AccelerationStructureOptions options, Shader hwMaterialShader, ReferenceCounter counter, bool enableCompaction)
         {

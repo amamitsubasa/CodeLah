@@ -2,6 +2,19 @@
 #define _UNIFIEDRAYTRACING_BINDINGS_HLSL_
 
 #if defined(UNIFIED_RT_BACKEND_COMPUTE)
+
+#ifndef UNIFIED_RT_GROUP_SIZE_X
+#define UNIFIED_RT_GROUP_SIZE_X 16
+#endif
+
+#ifndef UNIFIED_RT_GROUP_SIZE_Y
+#define UNIFIED_RT_GROUP_SIZE_Y 8
+#endif
+
+#ifndef UNIFIED_RT_GROUP_SIZE_Z
+#define UNIFIED_RT_GROUP_SIZE_Z 1
+#endif
+
 #define GROUP_SIZE (UNIFIED_RT_GROUP_SIZE_X*UNIFIED_RT_GROUP_SIZE_Y)
 #include "Packages/com.unity.rendering.light-transport/Runtime/UnifiedRayTracing/Compute/RadeonRays/kernels/trace_ray.hlsl"
 #endif
@@ -32,7 +45,7 @@ struct Hit
 
     static Hit Invalid()
     {
-        Hit hit;
+        Hit hit = (Hit)0;
         hit.instanceID = -1;
         return hit;
     }
@@ -44,7 +57,7 @@ struct InstanceData
     float4x4 localToWorld;
     float4x4 previousLocalToWorld;
     float4x4 localToWorldNormals;
-    uint userInstanceID;
+    uint renderingLayerMask;
     uint instanceMask;
     uint userMaterialID;
     uint geometryIndex;
@@ -65,8 +78,8 @@ struct RayTracingAccelStruct
 #elif defined(UNIFIED_RT_BACKEND_COMPUTE)
     StructuredBuffer<BvhNode> bvh;
     StructuredBuffer<BvhNode> bottom_bvhs;
+    StructuredBuffer<uint4> bottom_bvh_leaves;
     StructuredBuffer<InstanceInfo> instance_infos;
-    StructuredBuffer<uint> indexBuffer;
     StructuredBuffer<uint> vertexBuffer;
     int vertexStride;
 
@@ -91,23 +104,23 @@ RayTracingAccelStruct GetAccelStruct(RaytracingAccelerationStructure accelStruct
 RayTracingAccelStruct GetAccelStruct(
     StructuredBuffer<BvhNode> bvh,
     StructuredBuffer<BvhNode> bottomBvhs,
+    StructuredBuffer<uint4> bottomBvhLeaves,
     StructuredBuffer<InstanceInfo> instanceInfos,
-    StructuredBuffer<uint> indexBuffer,
     StructuredBuffer<uint> vertexBuffer,
     int vertexStride)
 {
     RayTracingAccelStruct res;
     res.bvh = bvh;
     res.bottom_bvhs = bottomBvhs;
+    res.bottom_bvh_leaves = bottomBvhLeaves;
     res.instance_infos = instanceInfos;
-    res.indexBuffer = indexBuffer;
     res.vertexBuffer = vertexBuffer;
     res.vertexStride = vertexStride;
     return res;
 }
 
-#define UNIFIED_RT_DECLARE_ACCEL_STRUCT(name) StructuredBuffer<BvhNode> name##bvh; StructuredBuffer<BvhNode> name##bottomBvhs; StructuredBuffer<InstanceInfo> name##instanceInfos; StructuredBuffer<uint> name##indexBuffer; StructuredBuffer<uint> name##vertexBuffer; int name##vertexStride
-#define UNIFIED_RT_GET_ACCEL_STRUCT(name) UnifiedRT::GetAccelStruct(name##bvh, name##bottomBvhs, name##instanceInfos, name##indexBuffer, name##vertexBuffer, name##vertexStride)
+#define UNIFIED_RT_DECLARE_ACCEL_STRUCT(name) StructuredBuffer<BvhNode> name##bvh; StructuredBuffer<BvhNode> name##bottomBvhs; StructuredBuffer<uint4> name##bottomBvhLeaves; StructuredBuffer<InstanceInfo> name##instanceInfos; StructuredBuffer<uint> name##vertexBuffer; int name##vertexStride
+#define UNIFIED_RT_GET_ACCEL_STRUCT(name) UnifiedRT::GetAccelStruct(name##bvh, name##bottomBvhs, name##bottomBvhLeaves, name##instanceInfos, name##vertexBuffer, name##vertexStride)
 
 #endif
 

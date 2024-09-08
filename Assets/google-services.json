@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64856493098",
+    "project_id": "codelah-74e84",
+    "storage_bucket": "codelah-74e84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64856493098:android:5b985ca584ab1ed6de8753",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.CodeLah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64856493098-s2oo23lkri0a0vqlfrft50i4fac013qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCQF_0V1J7Bd0b6PJxiygkhn1ukpGRBuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64856493098-s2oo23lkri0a0vqlfrft50i4fac013qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

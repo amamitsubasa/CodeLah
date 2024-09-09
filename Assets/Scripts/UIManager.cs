@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("Panels")]
     public GameObject LoginPanel;
     public GameObject RegisterPanel;
+    public GameObject LoggedInPanel;
 
     private void Awake()
     {
@@ -34,5 +35,11 @@ public class UIManager : MonoBehaviour
     {
         LoginPanel.SetActive(true);
         RegisterPanel.SetActive(false);
+    }
+
+    public void LoggedInScreen()
+    {
+        LoggedInPanel.SetActive(true);
+        LoginPanel.SetActive(false);
     }
 }

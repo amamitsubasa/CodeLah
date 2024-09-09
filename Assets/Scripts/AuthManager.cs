@@ -7,9 +7,12 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
 using TMPro.EditorUtilities;
+using Firebase.Extensions;
 
 public class AuthManager : MonoBehaviour
 {
+    public static AuthManager instance;
+
     // Firebase Variables
     [Header("Firebase")]
     public DependencyStatus dependencyStatus;
@@ -31,9 +34,23 @@ public class AuthManager : MonoBehaviour
     public TMP_InputField passwordRegisterVerifyField;
     public TMP_Text warningRegisterText;
 
+    // Logged In Variables
+    [Header("Logged In")]
+    public TMP_Text userInfoText;
+
     private void Awake()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != null)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            Destroy(this);
+        }
+
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             dependencyStatus = task.Result;
             if(dependencyStatus == DependencyStatus.Available)
@@ -51,6 +68,7 @@ public class AuthManager : MonoBehaviour
     {
         Debug.Log("Setting up Firebase Auth");
         auth = FirebaseAuth.DefaultInstance;
+        
     }
 
     public void LoginButton()
@@ -72,7 +90,7 @@ public class AuthManager : MonoBehaviour
         {
             Debug.LogWarning(message: $"Failed to register task with {LoginTask.Exception}");
             FirebaseException firebaseEx = LoginTask.Exception.GetBaseException() as FirebaseException;
-            AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+            AuthError errorCode = (AuthError) firebaseEx.ErrorCode;
 
             string message = "Login Failed!";
             switch (errorCode)
@@ -90,8 +108,12 @@ public class AuthManager : MonoBehaviour
                     message = "Invalid Email";
                     break;
                 case AuthError.UserNotFound:
-                    message = "Account does not excist";
+                    message = "Account does not exist";
                     break;
+            }
+            if(confirmLoginText.text != "")
+            {
+                confirmLoginText.text = "";
             }
             warningLoginText.text = message;
         }
@@ -101,6 +123,9 @@ public class AuthManager : MonoBehaviour
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
             confirmLoginText.text = "Logged In";
+            UIManager.instance.LoggedInScreen();
+            UserDataManager.instance.SetData();
+            userInfoText.text = "Hi, " + User.DisplayName + " User ID: " + User.UserId;
         }
     }
 

@@ -10,6 +10,9 @@ using System.ComponentModel;
 using TMPro.EditorUtilities;
 using Firebase.Extensions;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System;
+using Unity.VisualScripting;
 
 [FirestoreData]
 public struct UserData
@@ -19,16 +22,32 @@ public struct UserData
 
     [FirestoreProperty]
     public string Email { get; set; }
+
+    [FirestoreProperty]
+    public bool IsTeacher { get; set; }
+}
+
+[FirestoreData]
+public struct ClassroomData
+{
+    [FirestoreProperty]
+    public string ClassName { get; set; }
+
+    [FirestoreProperty]
+    public List<string> Students { get; set; }
 }
 
 public class FirebaseManager : MonoBehaviour
 {
     public static FirebaseManager instance;
+    private static bool validCode;
+    private static UserData currUser;
 
     // Firebase Variables
     [Header("Firebase")]
     public DependencyStatus dependencyStatus;
     public FirebaseAuth auth;
+    public FirebaseFirestore fireStore;
     public FirebaseUser User;
     public string collection = "userData";
 
@@ -45,6 +64,7 @@ public class FirebaseManager : MonoBehaviour
     public TMP_InputField emailRegisterField;
     public TMP_InputField passwordRegisterField;
     public TMP_InputField passwordRegisterVerifyField;
+    public TMP_InputField classroomCodeField;
     public TMP_Text warningRegisterText;
 
     // Logged In Variables
@@ -81,7 +101,7 @@ public class FirebaseManager : MonoBehaviour
     {
         Debug.Log("Setting up Firebase Auth");
         auth = FirebaseAuth.DefaultInstance;
-        
+        fireStore = FirebaseFirestore.DefaultInstance;
     }
 
     public void SetData()
@@ -89,25 +109,53 @@ public class FirebaseManager : MonoBehaviour
         var userData = new UserData
         {
             UserName = User.DisplayName,
-            Email = User.Email
+            Email = User.Email,
+            IsTeacher = false
         };
 
-        var firestore = FirebaseFirestore.DefaultInstance;
-        firestore.Document(collection + "/" + User.UserId).SetAsync(userData);
+        fireStore.Document(collection + "/" + User.UserId).SetAsync(userData);
     }
 
-    public void GetData()
+    public void SetClassData(string classroomCode)
     {
-        var firestore = FirebaseFirestore.DefaultInstance;
-
-        firestore.Document(collection + "/" + User.UserId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        List<string> students;
+        DocumentReference docRef = fireStore.Collection("classroomCodes").Document(classroomCode);
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            Assert.IsNull(task.Exception);
+            var classData = task.Result.ConvertTo<ClassroomData>();
+            students = classData.Students;
+            students.Add(User.UserId);
 
-            var userData = task.Result.ConvertTo<UserData>();
-
-
+            var newClassData = new ClassroomData
+            {
+                ClassName = classData.ClassName,
+                Students = students
+            };
+            docRef.SetAsync(newClassData);
         });
+    }
+
+    public IEnumerator GetData()
+    {
+        var task = fireStore.Document(collection + "/" + User.UserId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+
+            currUser = task.Result.ConvertTo<UserData>();
+        });
+
+        yield return new WaitUntil(predicate: () => task.IsCompleted);
+
+        if(task.Exception == null)
+        {
+            if(currUser.IsTeacher)
+            {
+                userInfoText.text = "Hi Teacher, " + User.DisplayName;
+            }
+            else
+            {
+                userInfoText.text = "Hi, " + User.DisplayName;
+            }
+        }
     }
 
     public void LoginButton()
@@ -117,7 +165,15 @@ public class FirebaseManager : MonoBehaviour
 
     public void RegisterButton()
     {
-        StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text, usernameRegisterField.text));
+        if (classroomCodeField.text != "")
+        {
+            StartCoroutine(CheckClass(classroomCodeField.text));
+        }
+        else
+        {
+            StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text, usernameRegisterField.text));
+        }
+
     }
 
     private IEnumerator Login(string _email, string _password)
@@ -163,19 +219,46 @@ public class FirebaseManager : MonoBehaviour
             warningLoginText.text = "";
             confirmLoginText.text = "Logged In";
             UIManager.instance.LoggedInScreen();
-            userInfoText.text = "Hi, " + User.DisplayName + " User ID: " + User.UserId;
+            StartCoroutine(GetData());
         }
+    }
+
+    public IEnumerator CheckClass(string classCode)
+    {
+        DocumentReference docRef = fireStore.Collection("classroomCodes").Document(classCode);
+        var task = docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
+            {
+                validCode = true;
+                Debug.Log("true");
+            }
+            else
+            {
+                validCode = false;
+                Debug.Log("false");
+            }
+        });
+
+        yield return new WaitUntil(predicate: () => task.IsCompleted);
+
+        StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text, usernameRegisterField.text));
     }
 
     private IEnumerator Register(string _email, string _password, string _username)
     {
-        if(_username == "")
+        if (_username == "")
         {
             warningRegisterText.text = "Missing Username";
         }
         else if (passwordRegisterField.text != passwordRegisterVerifyField.text)
         {
             warningRegisterText.text = "Password does not match";
+        }
+        else if (validCode == false && classroomCodeField.text != "")
+        {
+            warningRegisterText.text = "Invalid Classroom Code";
         }
         else
         {
@@ -202,7 +285,7 @@ public class FirebaseManager : MonoBehaviour
                         message = "Weak Password";
                         break;
                     case AuthError.EmailAlreadyInUse:
-                        message = "Email alredy in use";
+                        message = "Email already in use";
                         break;
                 }
                 warningRegisterText.text = message;
@@ -229,6 +312,8 @@ public class FirebaseManager : MonoBehaviour
                     else
                     {
                         SetData();
+                        if (classroomCodeField.text != "")
+                            SetClassData(classroomCodeField.text);
                         UIManager.instance.Back();
                         warningRegisterText.text = "";
                     }

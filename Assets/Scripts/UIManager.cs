@@ -44,6 +44,8 @@ public class UIManager : MonoBehaviour
             GameObject child = RegisterPanel.transform.GetChild(i).gameObject;
             if (child.GetComponent<TMP_InputField>() != null)
                 child.GetComponent<TMP_InputField>().text = "";
+            if (child.name == "WarningText")
+                child.GetComponent<TMP_Text>().text = "";
         }
         RegisterPanel.SetActive(false);
         LoginPanel.SetActive(true);

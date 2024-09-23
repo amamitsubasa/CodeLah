@@ -28,6 +28,9 @@ public struct UserData
 
     [FirestoreProperty]
     public string ClassroomCode { get; set; }
+
+    [FirestoreProperty]
+    public string ClassroomName { get; set;}
 }
 
 [FirestoreData]
@@ -115,28 +118,15 @@ public class FirebaseManager : MonoBehaviour
 
     public void SetData()
     {
-        if(classroomCodeField.text != "")
+        var userData = new UserData
         {
-            var userData = new UserData
-            {
-                UserName = User.DisplayName,
-                Email = User.Email,
-                IsTeacher = false,
-                ClassroomCode = classroomCodeField.text
-            };
-            fireStore.Document(collection + "/" + User.UserId).SetAsync(userData);
-        }
-        else
-        {
-            var userData = new UserData
-            {
-                UserName = User.DisplayName,
-                Email = User.Email,
-                IsTeacher = false,
-                ClassroomCode = ""
-            };
-            fireStore.Document(collection + "/" + User.UserId).SetAsync(userData);
-        }
+            UserName = User.DisplayName,
+            Email = User.Email,
+            IsTeacher = false,
+            ClassroomCode = "",
+            ClassroomName = ""
+        };
+        fireStore.Document(collection + "/" + User.UserId).SetAsync(userData);
     }
 
     public void SetClassData(string classroomCode)
@@ -155,6 +145,16 @@ public class FirebaseManager : MonoBehaviour
                 Students = students
             };
             docRef.SetAsync(newClassData);
+
+            var userData = new UserData
+            {
+                UserName = User.DisplayName,
+                Email = User.Email,
+                IsTeacher = false,
+                ClassroomCode = classroomCode,
+                ClassroomName = classData.ClassName
+            };
+            fireStore.Document(collection + "/" + User.UserId).SetAsync(userData);
         });
     }
 
@@ -176,14 +176,13 @@ public class FirebaseManager : MonoBehaviour
             }
             else if (currUser.IsTeacher && currUser.ClassroomCode != "")
             {
-                userInfoText.text = "Hi teacher, " + User.DisplayName + ", from " + currClass.ClassName;
+                userInfoText.text = "Hi teacher, " + User.DisplayName + ", from " + currUser.ClassroomName;
             }
             else if(!currUser.IsTeacher)
             {
-                if(classSet)
+                if (currUser.ClassroomName != "")
                 {
-
-                    userInfoText.text = "Hi, " + User.DisplayName + ", from " + currClass.ClassName;
+                    userInfoText.text = "Hi, " + User.DisplayName + ", from " + currUser.ClassroomName;
 
                 }
                 else
@@ -275,11 +274,10 @@ public class FirebaseManager : MonoBehaviour
             confirmLoginText.text = "Logged In";
             StartCoroutine(GetData());
             UIManager.instance.LoggedInScreen();
-
         }
     }
 
-    public IEnumerator CheckClass(string classCode, string regOrTeach)
+    public IEnumerator CheckClass(string classCode, string condition)
     {
         DocumentReference docRef = fireStore.Collection("classroomCodes").Document(classCode);
         var task = docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -300,9 +298,9 @@ public class FirebaseManager : MonoBehaviour
 
         yield return new WaitUntil(predicate: () => task.IsCompleted);
 
-        if(regOrTeach == "Register")
+        if (condition == "Register")
             StartCoroutine(Register(emailRegisterField.text, passwordRegisterField.text, usernameRegisterField.text));
-        else if (regOrTeach == "Teacher")
+        else if (condition == "Teacher")
             RegisterTeacher(classCode);
     }
 

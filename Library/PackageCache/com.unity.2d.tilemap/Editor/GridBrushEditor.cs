@@ -352,7 +352,7 @@ namespace UnityEditor.Tilemaps
                     EditorGUI.showMixedValue = m_SelectionGameObjectToInstantiate.Any(gameObject => gameObject != m_SelectionGameObjectToInstantiate.First());
                     EditorGUILayout.ObjectField(Styles.gameObjectToInstantiateLabel, m_SelectionGameObjectToInstantiate[0], typeof(GameObject), false);
                 }
-                
+
                 bool transformFlagsAllEqual = m_SelectionFlagsArray.All(flags => (flags & TileFlags.LockTransform) == (m_SelectionFlagsArray.First() & TileFlags.LockTransform));
                 using (new EditorGUI.DisabledScope(!transformFlagsAllEqual || (m_SelectionFlagsArray[0] & TileFlags.LockTransform) != 0))
                 {
@@ -367,12 +367,13 @@ namespace UnityEditor.Tilemaps
                     }
                 }
 
+                var lockedTransform = (m_SelectionFlagsArray[0] & TileFlags.LockTransform) != 0;
                 using (new EditorGUI.DisabledScope(true))
                 {
                     EditorGUI.showMixedValue = !colorFlagsAllEqual;
                     EditorGUILayout.Toggle(Styles.lockColorLabel, (m_SelectionFlagsArray[0] & TileFlags.LockColor) != 0);
                     EditorGUI.showMixedValue = !transformFlagsAllEqual;
-                    EditorGUILayout.Toggle(Styles.lockTransformLabel, (m_SelectionFlagsArray[0] & TileFlags.LockTransform) != 0);
+                    EditorGUILayout.Toggle(Styles.lockTransformLabel, lockedTransform);
                 }
 
                 EditorGUI.showMixedValue = false;
@@ -395,11 +396,15 @@ namespace UnityEditor.Tilemaps
                         break;
                     }
                 }
-                EditorGUI.BeginChangeCheck();
-                var selected  = GUILayout.Toolbar(active, Styles.selectionTools);
-                if (EditorGUI.EndChangeCheck() && selected != -1)
+
+                using (new EditorGUI.DisabledScope(lockedTransform))
                 {
-                    ToolManager.SetActiveTool(Styles.selectionTypes[selected]);
+                    EditorGUI.BeginChangeCheck();
+                    var selected  = GUILayout.Toolbar(active, Styles.selectionTools);
+                    if (EditorGUI.EndChangeCheck() && selected != -1)
+                    {
+                        ToolManager.SetActiveTool(Styles.selectionTypes[selected]);
+                    }
                 }
 
                 EditorGUILayout.Space();

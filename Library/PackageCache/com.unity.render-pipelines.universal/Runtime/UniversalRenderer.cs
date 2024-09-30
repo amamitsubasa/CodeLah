@@ -691,6 +691,11 @@ namespace UnityEngine.Rendering.Universal
             if (cameraData.cameraType != CameraType.Game)
                 useRenderPassEnabled = false;
 
+#if UNITY_EDITOR
+            useRenderPassEnabled = false; // UUM-73849 : Disable Native Render Pass in the editor for compatibility mode.
+                                          // (Compatibility mode is no longer in development. Disable it to prevent unexpected problems.)
+#endif
+
             // Because of the shortcutting done by depth only offscreen cameras, useDepthPriming must be computed early
             useDepthPriming = IsDepthPrimingEnabled(cameraData);
 
@@ -1581,7 +1586,11 @@ namespace UnityEngine.Rendering.Universal
                             depthHistory.Update(ref tempColorDepthDesc, xrMultipassEnabled);
                         }
                         else
-                            depthHistory.Update(ref cameraTargetDescriptor, xrMultipassEnabled);
+                        {
+                            var tempColorDepthDesc = cameraData.cameraTargetDescriptor;
+                            tempColorDepthDesc.graphicsFormat = GraphicsFormat.None;
+                            depthHistory.Update(ref tempColorDepthDesc, xrMultipassEnabled);
+                        }
 
                         if (depthHistory.GetCurrentTexture(multipassId) != null)
                         {

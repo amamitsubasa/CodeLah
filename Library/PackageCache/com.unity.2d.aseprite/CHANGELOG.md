@@ -1,4 +1,9 @@
 # Changelog
+
+## [1.1.6] - 2024-08-30
+### Fixed
+- Fixed an issue where SpriteRenderers would lose their reference if an Aseprite file's name was changed. (DANB-692)
+
 ## [1.1.5] - 2024-06-19
 ### Fixed
 - Reduced the font size slightly in the importer headers to match other inspector headers in Unity. (DANB-644) 

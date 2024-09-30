@@ -89,7 +89,7 @@ namespace UnityEditor.U2D.Aseprite
                         cellRect = output.rect,
                         image = output.image,
                         frameIndex = frameIndex,
-                        name = ImportUtilities.GetCellName(cellName, frameIndex, cellsPerFrame.Count),
+                        name = ImportUtilities.GetCellName(cellName, frameIndex, cellsPerFrame.Count, true),
                         spriteId = GUID.Generate()
                     };
                     mergedCells.Add(mergedCell);

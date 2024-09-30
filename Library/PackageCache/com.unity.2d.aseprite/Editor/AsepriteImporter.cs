@@ -200,7 +200,7 @@ namespace UnityEditor.U2D.Aseprite
                 if (!isSuccessful)
                     return;
 
-                var layersFromFile = FetchLayersFromFile(asepriteFile, m_CanvasSize, includeHiddenLayers);
+                var layersFromFile = FetchLayersFromFile(asepriteFile, m_CanvasSize, includeHiddenLayers, layerImportMode == LayerImportModes.MergeFrame);
 
                 FetchImageDataFromLayers(ref layersFromFile, out var imageBuffers, out var imageSizes);
 
@@ -308,11 +308,11 @@ namespace UnityEditor.U2D.Aseprite
             return true;
         }
 
-        static List<Layer> FetchLayersFromFile(in AsepriteFile asepriteFile, Vector2Int canvasSize, bool includeHiddenLayers)
+        static List<Layer> FetchLayersFromFile(in AsepriteFile asepriteFile, Vector2Int canvasSize, bool includeHiddenLayers, bool isMerged)
         {
             var newLayers = RestructureLayerAndCellData(in asepriteFile, canvasSize);
-            FilterOutLayers(ref newLayers, includeHiddenLayers);
-            UpdateCellNames(ref newLayers);
+            FilterOutLayers(newLayers, includeHiddenLayers);
+            UpdateCellNames(newLayers, isMerged);
             return newLayers;
         }
 
@@ -403,7 +403,7 @@ namespace UnityEditor.U2D.Aseprite
             return layers;
         }
 
-        static void FilterOutLayers(ref List<Layer> layers, bool includeHiddenLayers)
+        static void FilterOutLayers(List<Layer> layers, bool includeHiddenLayers)
         {
             for (var i = layers.Count - 1; i >= 0; --i)
             {
@@ -439,7 +439,7 @@ namespace UnityEditor.U2D.Aseprite
             }
         }
 
-        static void UpdateCellNames(ref List<Layer> layers)
+        static void UpdateCellNames(List<Layer> layers, bool isMerged)
         {
             for (var i = 0; i < layers.Count; ++i)
             {
@@ -447,7 +447,7 @@ namespace UnityEditor.U2D.Aseprite
                 for (var m = 0; m < cells.Count; ++m)
                 {
                     var cell = cells[m];
-                    cell.name = ImportUtilities.GetCellName(cell.name, cell.frameIndex, cells.Count);
+                    cell.name = ImportUtilities.GetCellName(cell.name, cell.frameIndex, cells.Count, isMerged);
                     cells[m] = cell;
                 }
             }
@@ -457,7 +457,7 @@ namespace UnityEditor.U2D.Aseprite
         {
             if (layerImportMode == LayerImportModes.IndividualLayers)
             {
-                m_AsepriteLayers = UpdateLayers(newLayers, m_AsepriteLayers);
+                m_AsepriteLayers = UpdateLayers(newLayers, m_AsepriteLayers, true);
 
                 CellTasks.GetCellsFromLayers(m_AsepriteLayers, out var cells);
                 CellTasks.CollectDataFromCells(cells, out imageBuffers, out imageSizes);
@@ -470,39 +470,42 @@ namespace UnityEditor.U2D.Aseprite
 
                 // Update layers after merged, since merged import creates new layers.
                 // The new layers should be compared and merged together with the ones existing in the meta file.
-                m_AsepriteLayers = UpdateLayers(newLayers, m_AsepriteLayers);
+                m_AsepriteLayers = UpdateLayers(newLayers, m_AsepriteLayers, false);
             }
         }
 
-        static List<Layer> UpdateLayers(IReadOnlyList<Layer> newLayers, IReadOnlyList<Layer> oldLayers)
+        static List<Layer> UpdateLayers(List<Layer> newLayers, List<Layer> oldLayers, bool isIndividual)
         {
             if (oldLayers.Count == 0)
                 return new List<Layer>(newLayers);
 
             var finalLayers = new List<Layer>(oldLayers);
 
-            // Remove old layers
-            for (var i = 0; i < oldLayers.Count; ++i)
+            if (isIndividual)
             {
-                var oldLayer = oldLayers[i];
-                if (newLayers.FindIndex(x => x.guid == oldLayer.guid) == -1)
-                    finalLayers.Remove(oldLayer);
-            }
+                // Remove old layers
+                for (var i = 0; i < oldLayers.Count; ++i)
+                {
+                    var oldLayer = oldLayers[i];
+                    if (newLayers.FindIndex(x => x.guid == oldLayer.guid) == -1)
+                        finalLayers.Remove(oldLayer);
+                }
 
-            // Add new layers
-            for (var i = 0; i < newLayers.Count; ++i)
-            {
-                var newLayer = newLayers[i];
-                var layerIndex = finalLayers.FindIndex(x => x.guid == newLayer.guid);
-                if (layerIndex == -1)
-                    finalLayers.Add(newLayer);
+                // Add new layers
+                for (var i = 0; i < newLayers.Count; ++i)
+                {
+                    var newLayer = newLayers[i];
+                    var layerIndex = finalLayers.FindIndex(x => x.guid == newLayer.guid);
+                    if (layerIndex == -1)
+                        finalLayers.Add(newLayer);
+                }
             }
 
             // Update layer data
             for (var i = 0; i < finalLayers.Count; ++i)
             {
                 var finalLayer = finalLayers[i];
-                var layerIndex = newLayers.FindIndex(x => x.guid == finalLayer.guid);
+                var layerIndex = isIndividual ? newLayers.FindIndex(x => x.guid == finalLayer.guid) : 0;
                 if (layerIndex != -1)
                 {
                     var oldCells = finalLayer.cells;

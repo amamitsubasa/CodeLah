@@ -52,7 +52,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             m_UndoRedoPerformedMethodInfo = graphViewType?.GetMethod("UndoRedoPerformed",
                 BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.NonPublic,
                 null,
-                new Type[] { },
+                new Type[] { typeof(UndoRedoInfo).MakeByRefType()},
                 null);
         }
 
@@ -74,12 +74,12 @@ namespace UnityEditor.ShaderGraph.Drawing
             }
         }
 
-        protected override bool canCutSelection
+        protected internal override bool canCutSelection
         {
             get { return selection.OfType<IShaderNodeView>().Any(x => x.node.canCutNode) || selection.OfType<Group>().Any() || selection.OfType<SGBlackboardField>().Any() || selection.OfType<SGBlackboardCategory>().Any() || selection.OfType<StickyNote>().Any(); }
         }
 
-        protected override bool canCopySelection
+        protected internal override bool canCopySelection
         {
             get { return selection.OfType<IShaderNodeView>().Any(x => x.node.canCopyNode) || selection.OfType<Group>().Any() || selection.OfType<SGBlackboardField>().Any() || selection.OfType<SGBlackboardCategory>().Any() || selection.OfType<StickyNote>().Any(); }
         }
@@ -687,7 +687,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             m.Invoke(null, new object[] { (Action<Color>)ApplyColor, defaultColor, true, false });
         }
 
-        protected override bool canDeleteSelection
+        protected internal override bool canDeleteSelection
         {
             get
             {
@@ -1110,7 +1110,8 @@ namespace UnityEditor.ShaderGraph.Drawing
         internal void RestorePersistentSelectionAfterUndoRedo()
         {
             wasUndoRedoPerformed = true;
-            m_UndoRedoPerformedMethodInfo?.Invoke(this, new object[] { });
+            UndoRedoInfo info = new UndoRedoInfo();
+            m_UndoRedoPerformedMethodInfo?.Invoke(this, new object[] {info});
         }
 
         #region Drag and drop
@@ -1489,7 +1490,12 @@ namespace UnityEditor.ShaderGraph.Drawing
                 {
                     var nodeList = copyGraph.GetNodes<AbstractMaterialNode>();
 
-                    ClampNodesWithinView(graphView, new List<IRectInterface>().Union(nodeList).Union(copyGraph.stickyNotes));
+                    ClampNodesWithinView(graphView,
+                        new List<IRectInterface>()
+                            .Union(nodeList)
+                            .Union(copyGraph.stickyNotes)
+                            .Union(copyGraph.groups)
+                    );
 
                     graphView.graph.PasteGraph(copyGraph, remappedNodes, remappedEdges);
 

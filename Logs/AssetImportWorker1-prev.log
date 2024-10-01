@@ -1,29 +1,29 @@
 Using pre-set license
-Built from 'trunk' branch; Version is '6000.0.18f1 (3699cf869f9b) revision 3578319'; Using compiler version '193933523'; Build Type 'Release'
-OS: 'Windows 11  (10.0.22631) 64bit Core' Language: 'en' Physical Memory: 16067 MB
+Built from 'trunk' branch; Version is '6000.0.21f1 (e2bacb8dee3a) revision 14858955'; Using compiler version '193933523'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22631) 64bit Core' Language: 'en' Physical Memory: 32509 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
 
 COMMAND LINE ARGUMENTS:
-C:\Program Files\Unity\Hub\Editor\6000.0.18f1-x86_64\Editor\Unity.exe
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.exe
 -adb2
 -batchMode
 -noUpm
 -name
 AssetImportWorker1
 -projectPath
-C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah
+C:/Users/User/CodeLah
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-50494
+50582
 -job-worker-count
-7
+9
 -background-job-worker-count
 8
 -asset-garbage-collectors
 1
-Successfully changed project path to: C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah
-C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah
+Successfully changed project path to: C:/Users/User/CodeLah
+C:/Users/User/CodeLah
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
     "memorysetup-bucket-allocator-granularity=16"
     "memorysetup-bucket-allocator-bucket-count=8"
@@ -59,69 +59,78 @@ C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [19644]  Target information:
+Player connection [40748]  Target information:
 
-Player connection [19644]  * "[IP] 10.106.170.191 [Port] 0 [Flags] 2 [Guid] 68387267 [EditorId] 68387267 [Version] 1048832 [Id] WindowsEditor(7,Vernons-PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [40748]  * "[IP] 192.168.1.184 [Port] 0 [Flags] 2 [Guid] 693955372 [EditorId] 693955372 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-1R046TE) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [19644] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [19644] Host joined alternative multi-casting on [225.0.0.222:34997]...
-JobSystem: Creating JobQueue using job-worker-count value 7
+Player connection [40748] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [40748] Host joined alternative multi-casting on [225.0.0.222:34997]...
+JobSystem: Creating JobQueue using job-worker-count value 9
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
 Library Redirect Path: Library/
-[PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
-Refreshing native plugins compatible for Editor in 646.26 ms, found 6 plugins.
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 4.56 ms, found 6 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Initialize engine version: 6000.0.18f1 (3699cf869f9b)
-[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.18f1-x86_64/Editor/Data/Resources/UnitySubsystems
-[Subsystems] Discovering subsystems at path C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah/Assets
+Initialize engine version: 6000.0.21f1 (e2bacb8dee3a)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/User/CodeLah/Assets
 GfxDevice: creating device client; kGfxThreadingModeNonThreaded
 Direct3D:
     Version:  Direct3D 11.0 [level 11.1]
-    Renderer: Intel(R) Iris(R) Xe Graphics (ID=0x46a6)
-    Vendor:   Intel
-    VRAM:     8033 MB
-    Driver:   31.0.101.4032
+    Renderer: NVIDIA GeForce RTX 3080 (ID=0x2216)
+    Vendor:   NVIDIA
+    VRAM:     10053 MB
+    Driver:   32.0.15.6109
 Initialize mono
-Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.18f1-x86_64/Editor/Data/Managed'
-Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.18f1-x86_64/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
-Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.18f1-x86_64/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56220
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56636
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
-Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.18f1-x86_64/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.006104 seconds.
-- Loaded All Assemblies, in  0.968 seconds
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.003429 seconds.
+- Loaded All Assemblies, in  0.398 seconds
 Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.860 seconds
-Domain Reload Profiling: 1824ms
-	BeginReloadAssembly (352ms)
+- Finished resetting the current domain, in  0.322 seconds
+Domain Reload Profiling: 718ms
+	BeginReloadAssembly (141ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (84ms)
-	RebuildNativeTypeToScriptingClass (30ms)
-	initialDomainReloadingComplete (113ms)
-	LoadAllAssembliesAndSetupDomain (384ms)
-		LoadAssemblies (357ms)
+	RebuildCommonClasses (38ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (51ms)
+	LoadAllAssembliesAndSetupDomain (153ms)
+		LoadAssemblies (139ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (368ms)
-			TypeCache.Refresh (366ms)
-				TypeCache.ScanAssembly (340ms)
+		AnalyzeDomain (149ms)
+			TypeCache.Refresh (148ms)
+				TypeCache.ScanAssembly (135ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (861ms)
+	FinalizeReload (322ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (797ms)
+		SetupLoadedEditorAssemblies (293ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (59ms)
-			SetLoadedEditorAssemblies (9ms)
-			BeforeProcessingInitializeOnLoad (15ms)
-			ProcessInitializeOnLoadAttributes (569ms)
-			ProcessInitializeOnLoadMethodAttributes (141ms)
-			AfterProcessingInitializeOnLoad (4ms)
+			InitializePlatformSupportModulesInManaged (58ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (7ms)
+			ProcessInitializeOnLoadAttributes (167ms)
+			ProcessInitializeOnLoadMethodAttributes (54ms)
+			AfterProcessingInitializeOnLoad (3ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (0ms)
@@ -136,72 +145,421 @@ Symbol file LoadedFromMemory is not a mono symbol file
 Assembly 'Assets/Firebase/Editor/Firebase.Editor.dll' will not be loaded due to errors:
 Unable to resolve reference 'UnityEditor.iOS.Extensions.Xcode'. Is the assembly missing or incompatible with the current platform?
 Reference validation can be disabled in the Plugin Inspector.
-- Loaded All Assemblies, in  5.535 seconds
-Refreshing native plugins compatible for Editor in 18.49 ms, found 6 plugins.
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 14.97 ms, found 6 plugins.
-The project currently uses the compatibility mode where the Render Graph API is disabled. Support for this mode will be removed in future Unity versions. Migrate existing ScriptableRenderPasses to the new RenderGraph API. After the migration, disable the compatibility mode in Edit > Projects Settings > Graphics > Render Graph.
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogWarning (object)
-UnityEngine.Rendering.Universal.WarnUsingNonRenderGraph:EmitConsoleWarning () (at ./Library/PackageCache/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.cs:427)
-System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
-System.Reflection.MethodBase:Invoke (object,object[])
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
+- Loaded All Assemblies, in  1.112 seconds
+Refreshing native plugins compatible for Editor in 3.12 ms, found 6 plugins.
+Could not allocate 8192 bytes
+Crash!!!
+  ERROR: Error while initializing dbghelp.dll, GetLastError: 'The operation completed successfully.' (Address: 0000000000000000)
 
-(Filename: ./Library/PackageCache/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.cs Line: 427)
+========== OUTPUTTING STACK TRACE ==================
 
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  4.875 seconds
-Domain Reload Profiling: 10391ms
-	BeginReloadAssembly (1974ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (16ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (94ms)
-	RebuildCommonClasses (135ms)
-	RebuildNativeTypeToScriptingClass (53ms)
-	initialDomainReloadingComplete (168ms)
-	LoadAllAssembliesAndSetupDomain (3185ms)
-		LoadAssemblies (1924ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (1671ms)
-			TypeCache.Refresh (1048ms)
-				TypeCache.ScanAssembly (978ms)
-			BuildScriptInfoCaches (549ms)
-			ResolveRequiredComponents (63ms)
-	FinalizeReload (4876ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (3372ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (13ms)
-			SetLoadedEditorAssemblies (38ms)
-			BeforeProcessingInitializeOnLoad (381ms)
-			ProcessInitializeOnLoadAttributes (2228ms)
-			ProcessInitializeOnLoadMethodAttributes (660ms)
-			AfterProcessingInitializeOnLoad (49ms)
-			EditorAssembliesLoaded (2ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (41ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 16.34 ms, found 6 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 220 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 7270 unused Assets / (4.9 MB). Loaded Objects now: 8045.
-Memory consumption went from 207.8 MB to 202.9 MB.
-Total: 31.495900 ms (FindLiveObjects: 2.011300 ms CreateObjectMapping: 2.109800 ms MarkObjects: 20.144400 ms  DeleteObjects: 7.226700 ms)
+SymInit: Symbol-SearchPath: 'C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/Mono;.;C:\Users\User\CodeLah;C:\Users\User\CodeLah\Library\BurstCache\JIT;C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor;C:\WINDOWS;C:\WINDOWS\system32;', symOptions: 534, UserName: 'User'
+OS-Version: 10.0.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.exe:Unity.exe (00007FF633A60000), size: 188416 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 6000.0.21.47819
+C:\WINDOWS\SYSTEM32\ntdll.dll:ntdll.dll (00007FFFE06D0000), size: 2191360 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3733
+C:\WINDOWS\System32\KERNEL32.DLL:KERNEL32.DLL (00007FFFDE430000), size: 802816 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\KERNELBASE.dll:KERNELBASE.dll (00007FFFDDC70000), size: 3854336 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\USER32.dll:USER32.dll (00007FFFDF6E0000), size: 1761280 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\win32u.dll:win32u.dll (00007FFFDE360000), size: 155648 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4037
+C:\WINDOWS\System32\GDI32.dll:GDI32.dll (00007FFFDE400000), size: 167936 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4036
+C:\WINDOWS\System32\gdi32full.dll:gdi32full.dll (00007FFFDDB50000), size: 1150976 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\msvcp_win.dll:msvcp_win.dll (00007FFFDD9F0000), size: 630784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3374
+C:\WINDOWS\System32\ucrtbase.dll:ucrtbase.dll (00007FFFDE240000), size: 1118208 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3593
+C:\WINDOWS\System32\IMM32.DLL:IMM32.DLL (00007FFFE0380000), size: 200704 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3374
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.dll:Unity.dll (00007FFF01360000), size: 86458368 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 6000.0.21.47819
+C:\WINDOWS\System32\CRYPT32.dll:CRYPT32.dll (00007FFFDE020000), size: 1470464 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\WINDOWS\System32\bcrypt.dll:bcrypt.dll (00007FFFDE190000), size: 163840 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\ADVAPI32.dll:ADVAPI32.dll (00007FFFE0430000), size: 729088 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\WINDOWS\System32\msvcrt.dll:msvcrt.dll (00007FFFE02D0000), size: 684032 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 7.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\s3tcompress.dll:s3tcompress.dll (00007FFF3F410000), size: 180224 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\libfbxsdk.dll:libfbxsdk.dll (00007FFF00BB0000), size: 8019968 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2020.3.7.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\etccompress.dll:etccompress.dll (00007FFEFFE30000), size: 5070848 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\System32\sechost.dll:sechost.dll (00007FFFDFF70000), size: 692224 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\ispc_texcomp.dll:ispc_texcomp.dll (00007FFF3F800000), size: 1826816 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\System32\RPCRT4.dll:RPCRT4.dll (00007FFFDF9A0000), size: 1130496 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\compress_bc7e.dll:compress_bc7e.dll (00007FFF0F170000), size: 1433600 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\FreeImage.dll:FreeImage.dll (0000000180000000), size: 5783552 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 3.18.0.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\WinPixEventRuntime.dll:WinPixEventRuntime.dll (00007FFFCC510000), size: 53248 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 1.0.2201.24001
+C:\WINDOWS\System32\WS2_32.dll:WS2_32.dll (00007FFFE0610000), size: 462848 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\System32\ole32.dll:ole32.dll (00007FFFDFB70000), size: 1724416 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\umbraoptimizer64.dll:umbraoptimizer64.dll (00007FFF0F2D0000), size: 1187840 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\System32\combase.dll:combase.dll (00007FFFDEED0000), size: 3723264 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\MSVCP140.dll:MSVCP140.dll (00007FFFC3660000), size: 577536 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 14.40.33810.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\SETUPAPI.dll:SETUPAPI.dll (00007FFFDF260000), size: 4669440 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll:VCRUNTIME140.dll (00007FFFCAE80000), size: 122880 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 14.40.33810.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\SHELL32.dll:SHELL32.dll (00007FFFDE660000), size: 8814592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.4036
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\VCRUNTIME140_1.dll:VCRUNTIME140_1.dll (00007FFFC3600000), size: 49152 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 14.40.33810.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\SHLWAPI.dll:SHLWAPI.dll (00007FFFDF910000), size: 385024 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\d3d11.dll:d3d11.dll (00007FFFD80F0000), size: 2453504 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\OLEAUT32.dll:OLEAUT32.dll (00007FFFDFD90000), size: 880640 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\d3d12.dll:d3d12.dll (00007FFF8C7F0000), size: 155648 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\dwmapi.dll:dwmapi.dll (00007FFFDAF70000), size: 176128 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\WINTRUST.dll:WINTRUST.dll (00007FFFDE390000), size: 438272 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\HID.DLL:HID.DLL (00007FFFDC240000), size: 57344 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\dxgi.dll:dxgi.dll (00007FFFDACC0000), size: 1011712 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL:IPHLPAPI.DLL (00007FFFDC4A0000), size: 184320 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\OPENGL32.dll:OPENGL32.dll (00007FFF64B20000), size: 1048576 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\WINHTTP.dll:WINHTTP.dll (00007FFFD7120000), size: 1269760 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\WINMM.dll:WINMM.dll (00007FFFD33A0000), size: 212992 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\GLU32.dll:GLU32.dll (00007FFFBEAF0000), size: 184320 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\SketchUpAPI.dll:SketchUpAPI.dll (00007FFF00310000), size: 8990720 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 23.0.0.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\NativeProxyHelper.dll:NativeProxyHelper.dll (00007FFEFFC70000), size: 1789952 (result: 8), SymType: '-unknown-', PDB: ''
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\VERSION.dll:VERSION.dll (00007FFFD6510000), size: 40960 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\WSOCK32.dll:WSOCK32.dll (00007FFFC18A0000), size: 36864 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\SketchUpCommonPreferences.dll:SketchUpCommonPreferences.dll (00007FFF0F0F0000), size: 499712 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 23.0.0.0
+C:\WINDOWS\SYSTEM32\Secur32.dll:Secur32.dll (00007FFFDC800000), size: 49152 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\dxcore.dll:dxcore.dll (00007FFFDAB80000), size: 225280 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\SSPICLI.DLL:SSPICLI.DLL (00007FFFDCC80000), size: 274432 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3810
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\OpenRL.dll:OpenRL.dll (00000198AF910000), size: 12779520 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 1.5.0.2907
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\MSVCP100.dll:MSVCP100.dll (000000005A8D0000), size: 622592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.40219.325
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\MSVCR100.dll:MSVCR100.dll (000000005A7F0000), size: 860160 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.40219.325
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\embree.dll:embree.dll (00007FFEFEC80000), size: 16711680 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.14.0.0
+C:\WINDOWS\SYSTEM32\cfgmgr32.DLL:cfgmgr32.DLL (00007FFFDD6F0000), size: 319488 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\tbb.dll:tbb.dll (00007FFF3F3C0000), size: 303104 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2020.3.2022.1111
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\MSWSOCK.DLL:MSWSOCK.DLL (00007FFFDCE90000), size: 430080 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\OpenRL_pthread.dll:OpenRL_pthread.dll (00000198B0560000), size: 61440 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2.9.0.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\MSASN1.dll:MSASN1.dll (00007FFFDD680000), size: 73728 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\bcryptprimitives.dll:bcryptprimitives.dll (00007FFFDE1C0000), size: 503808 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\kernel.appcore.dll:kernel.appcore.dll (00007FFFDCA20000), size: 98304 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\uxtheme.dll:uxtheme.dll (00007FFFDAA40000), size: 720896 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\AudioDevProps2.dll:AudioDevProps2.dll (00007FFF91320000), size: 1249280 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2.6.13.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\NahimicOSD.dll:NahimicOSD.dll (00007FFFA1910000), size: 712704 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2.2.23.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\ProductInfo.dll:ProductInfo.dll (00007FFFB9A00000), size: 131072 (result: 8), SymType: '-unknown-', PDB: ''
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\A-Volute\A-Volute.SonicStudio3\Modules\ScheduledModules\x64\AudioDevProps2.dll:AudioDevProps2.dll (00007FFFB9E80000), size: 1249280 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 2.6.13.0
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\windows.storage.dll:windows.storage.dll (00007FFFDB940000), size: 9428992 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.4037
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\wintypes.dll:wintypes.dll (00007FFFDB800000), size: 1306624 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3810
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\SHCORE.dll:SHCORE.dll (00007FFFE04F0000), size: 1019904 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\profapi.dll:profapi.dll (00007FFFDD920000), size: 135168 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\IconCodecService.dll:IconCodecService.dll (00007FFFB9820000), size: 36864 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\WindowsCodecs.dll:WindowsCodecs.dll (00007FFFDA7C0000), size: 1773568 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3880
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\clbcatq.dll:clbcatq.dll (00007FFFDFAC0000), size: 720896 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2001.12.10941.16384
+C:\WINDOWS\System32\netprofm.dll:netprofm.dll (00007FFFDA3A0000), size: 491520 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\NSI.dll:NSI.dll (00007FFFDFD70000), size: 36864 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\npmproxy.dll:npmproxy.dll (00007FFFD6840000), size: 98304 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\dhcpcsvc6.DLL:dhcpcsvc6.DLL (00007FFFD6F90000), size: 102400 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\dhcpcsvc.DLL:dhcpcsvc.DLL (00007FFFD6F70000), size: 126976 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\DNSAPI.dll:DNSAPI.dll (00007FFFDC510000), size: 1015808 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3733
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\napinsp.dll:napinsp.dll (00007FFFA22A0000), size: 94208 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\pnrpnsp.dll:pnrpnsp.dll (00007FFFA2280000), size: 110592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\winrnr.dll:winrnr.dll (00007FFFA2260000), size: 69632 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\system32\wshbth.dll:wshbth.dll (00007FFFD73A0000), size: 86016 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\nlansp_c.dll:nlansp_c.dll (00007FFFA17D0000), size: 159744 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\fwpuclnt.dll:fwpuclnt.dll (00007FFFD68F0000), size: 536576 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3235
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Windows\System32\rasadhlp.dll:rasadhlp.dll (00007FFFD9540000), size: 40960 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\AMDUnityPlugin.DLL:AMDUnityPlugin.DLL (00007FFEF9BB0000), size: 8814592 (result: 8), SymType: '-unknown-', PDB: ''
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\NVUnityPlugin.DLL:NVUnityPlugin.DLL (00007FFEF9A20000), size: 1609728 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\Tools\astcenc-avx2.dll:astcenc-avx2.dll (00007FFEF99C0000), size: 364544 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\System32\MMDevApi.dll:MMDevApi.dll (00007FFFD45A0000), size: 643072 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\DEVOBJ.dll:DEVOBJ.dll (00007FFFDD6A0000), size: 180224 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\SYSTEM32\AudioSes.dll:AudioSes.dll (00007FFFCA930000), size: 2015232 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3810
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\A-Volute\A-Volute.SonicStudio3\Modules\ScheduledModules\x64\ProductInfo.dll:ProductInfo.dll (00007FFFCC410000), size: 131072 (result: 8), SymType: '-unknown-', PDB: ''
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\PropSys.dll:PropSys.dll (00007FFFDA2A0000), size: 1048576 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 7.0.22621.3810
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\directxdatabasehelper.dll:directxdatabasehelper.dll (00007FFFD6640000), size: 299008 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvldumdx.dll:nvldumdx.dll (00007FFFD33E0000), size: 790528 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 32.0.15.6109
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\cryptnet.dll:cryptnet.dll (00007FFFD6230000), size: 204800 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\cryptbase.dll:cryptbase.dll (00007FFFDD110000), size: 49152 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\wldp.dll:wldp.dll (00007FFFDD240000), size: 299008 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\drvstore.dll:drvstore.dll (00007FFFD5C00000), size: 1449984 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3958
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\imagehlp.dll:imagehlp.dll (00007FFFE05F0000), size: 126976 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\CRYPTSP.dll:CRYPTSP.dll (00007FFFDD0F0000), size: 110592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\rsaenh.dll:rsaenh.dll (00007FFFDC980000), size: 217088 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvgpucomp64.dll:nvgpucomp64.dll (00007FFFCF8A0000), size: 33480704 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 32.0.15.6109
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\Display.NvContainer\NvMessageBus.dll:NvMessageBus.dll (00007FFFCAB20000), size: 3506176 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.12.3354.5005
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvwgf2umx.dll:nvwgf2umx.dll (00007FFFC4AA0000), size: 68272128 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 32.0.15.6109
+C:\WINDOWS\SYSTEM32\powrprof.dll:powrprof.dll (00007FFFDD290000), size: 315392 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\UMPDC.dll:UMPDC.dll (00007FFFDD220000), size: 77824 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\system32\nvspcap64.dll:nvspcap64.dll (00007FFF8D400000), size: 2949120 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.28.0.417
+C:\WINDOWS\SYSTEM32\ntmarta.dll:ntmarta.dll (00007FFFDCA40000), size: 212992 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvppex.dll:nvppex.dll (00007FFF8E810000), size: 1396736 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 32.0.15.6109
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\wbem\wbemprox.dll:wbemprox.dll (00007FFFD4520000), size: 65536 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\wbemcomn.dll:wbemcomn.dll (00007FFFD2AA0000), size: 524288 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.2506
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\wbem\wbemsvc.dll:wbemsvc.dll (00007FFFC9E40000), size: 81920 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\wbem\fastprox.dll:fastprox.dll (00007FFFC9EC0000), size: 1015808 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\amsi.dll:amsi.dll (00007FFFC90F0000), size: 118784 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\USERENV.dll:USERENV.dll (00007FFFDCF90000), size: 163840 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.24070.5-0\MpOav.dll:MpOav.dll (00007FFFC8D10000), size: 528384 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 4.18.24070.5
+C:\WINDOWS\SYSTEM32\opencl.dll:opencl.dll (00007FFEF9940000), size: 483328 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.0.6.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\radeonrays.dll:radeonrays.dll (00007FFEF98E0000), size: 344064 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll:mono-2.0-bdwgc.dll (00007FFEF8E90000), size: 10756096 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\SYSTEM32\dbghelp.dll:dbghelp.dll (00007FFFDAFB0000), size: 2301952 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3593
+C:\WINDOWS\System32\psapi.dll:psapi.dll (00007FFFE0420000), size: 32768 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+SymInit: Symbol-SearchPath: 'C:/Program Files/Unity/Hub/Editor/6000.0.21f1/Editor/Data/Mono;.;C:\Users\User\CodeLah;C:\Users\User\CodeLah\Library\BurstCache\JIT;C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor;C:\WINDOWS;C:\WINDOWS\system32;', symOptions: 534, UserName: 'User'
+OS-Version: 10.0.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.exe:Unity.exe (00007FF633A60000), size: 188416 (result: 0), SymType: 'PDB', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity_exe_x64.pdb', fileVersion: 6000.0.21.47819
+:ntdll.dll (00007FFFE06D0000), size: 2191360 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\ntdll.dll'
+C:\WINDOWS\System32\KERNEL32.DLL:KERNEL32.DLL (00007FFFDE430000), size: 802816 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\KERNEL32.DLL', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\KERNELBASE.dll:KERNELBASE.dll (00007FFFDDC70000), size: 3854336 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\USER32.dll:USER32.dll (00007FFFDF6E0000), size: 1761280 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\win32u.dll:win32u.dll (00007FFFDE360000), size: 155648 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\win32u.dll', fileVersion: 10.0.22621.4037
+C:\WINDOWS\System32\GDI32.dll:GDI32.dll (00007FFFDE400000), size: 167936 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\GDI32.dll', fileVersion: 10.0.22621.4036
+C:\WINDOWS\System32\gdi32full.dll:gdi32full.dll (00007FFFDDB50000), size: 1150976 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\msvcp_win.dll:msvcp_win.dll (00007FFFDD9F0000), size: 630784 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\msvcp_win.dll', fileVersion: 10.0.22621.3374
+C:\WINDOWS\System32\ucrtbase.dll:ucrtbase.dll (00007FFFDE240000), size: 1118208 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\ucrtbase.dll', fileVersion: 10.0.22621.3593
+C:\WINDOWS\System32\IMM32.DLL:IMM32.DLL (00007FFFE0380000), size: 200704 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\IMM32.DLL', fileVersion: 10.0.22621.3374
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.dll:Unity.dll (00007FFF01360000), size: 86458368 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Unity.dll', fileVersion: 6000.0.21.47819
+C:\WINDOWS\System32\CRYPT32.dll:CRYPT32.dll (00007FFFDE020000), size: 1470464 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\CRYPT32.dll', fileVersion: 10.0.22621.3810
+C:\WINDOWS\System32\bcrypt.dll:bcrypt.dll (00007FFFDE190000), size: 163840 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\System32\ADVAPI32.dll:ADVAPI32.dll (00007FFFE0430000), size: 729088 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\ADVAPI32.dll', fileVersion: 10.0.22621.3810
+C:\WINDOWS\System32\msvcrt.dll:msvcrt.dll (00007FFFE02D0000), size: 684032 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\msvcrt.dll', fileVersion: 7.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\s3tcompress.dll:s3tcompress.dll (00007FFF3F410000), size: 180224 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\s3tcompress.dll'
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\libfbxsdk.dll:libfbxsdk.dll (00007FFF00BB0000), size: 8019968 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2020.3.7.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\etccompress.dll:etccompress.dll (00007FFEFFE30000), size: 5070848 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\etccompress.dll'
+C:\WINDOWS\System32\sechost.dll:sechost.dll (00007FFFDFF70000), size: 692224 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\sechost.dll', fileVersion: 10.0.22621.3810
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\ispc_texcomp.dll:ispc_texcomp.dll (00007FFF3F800000), size: 1826816 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\ispc_texcomp.dll'
+C:\WINDOWS\System32\RPCRT4.dll:RPCRT4.dll (00007FFFDF9A0000), size: 1130496 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\RPCRT4.dll', fileVersion: 10.0.22621.3810
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\compress_bc7e.dll:compress_bc7e.dll (00007FFF0F170000), size: 1433600 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\compress_bc7e.dll'
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\FreeImage.dll:FreeImage.dll (0000000180000000), size: 5783552 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.18.0.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\WinPixEventRuntime.dll:WinPixEventRuntime.dll (00007FFFCC510000), size: 53248 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\WinPixEventRuntime.dll', fileVersion: 1.0.2201.24001
+C:\WINDOWS\System32\WS2_32.dll:WS2_32.dll (00007FFFE0610000), size: 462848 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\WS2_32.dll', fileVersion: 10.0.22621.1
+C:\WINDOWS\System32\ole32.dll:ole32.dll (00007FFFDFB70000), size: 1724416 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\ole32.dll', fileVersion: 10.0.22621.3958
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\umbraoptimizer64.dll:umbraoptimizer64.dll (00007FFF0F2D0000), size: 1187840 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\umbraoptimizer64.dll'
+C:\WINDOWS\System32\combase.dll:combase.dll (00007FFFDEED0000), size: 3723264 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\combase.dll', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\MSVCP140.dll:MSVCP140.dll (00007FFFC3660000), size: 577536 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.40.33810.0
+C:\WINDOWS\System32\SETUPAPI.dll:SETUPAPI.dll (00007FFFDF260000), size: 4669440 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll:VCRUNTIME140.dll (00007FFFCAE80000), size: 122880 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.40.33810.0
+C:\WINDOWS\System32\SHELL32.dll:SHELL32.dll (00007FFFDE660000), size: 8814592 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\VCRUNTIME140_1.dll:VCRUNTIME140_1.dll (00007FFFC3600000), size: 49152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.40.33810.0
+C:\WINDOWS\System32\SHLWAPI.dll:SHLWAPI.dll (00007FFFDF910000), size: 385024 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\d3d11.dll:d3d11.dll (00007FFFD80F0000), size: 2453504 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\OLEAUT32.dll:OLEAUT32.dll (00007FFFDFD90000), size: 880640 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\OLEAUT32.dll', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\d3d12.dll:d3d12.dll (00007FFF8C7F0000), size: 155648 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\dwmapi.dll:dwmapi.dll (00007FFFDAF70000), size: 176128 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\SYSTEM32\dwmapi.dll', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\WINTRUST.dll:WINTRUST.dll (00007FFFDE390000), size: 438272 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\WINTRUST.dll', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\HID.DLL:HID.DLL (00007FFFDC240000), size: 57344 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\dxgi.dll:dxgi.dll (00007FFFDACC0000), size: 1011712 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\dxgi.dll', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL:IPHLPAPI.DLL (00007FFFDC4A0000), size: 184320 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\OPENGL32.dll:OPENGL32.dll (00007FFF64B20000), size: 1048576 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\OPENGL32.dll', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\WINHTTP.dll:WINHTTP.dll (00007FFFD7120000), size: 1269760 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\WINHTTP.dll', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\WINMM.dll:WINMM.dll (00007FFFD33A0000), size: 212992 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\GLU32.dll:GLU32.dll (00007FFFBEAF0000), size: 184320 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\SketchUpAPI.dll:SketchUpAPI.dll (00007FFF00310000), size: 8990720 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 23.0.0.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\NativeProxyHelper.dll:NativeProxyHelper.dll (00007FFEFFC70000), size: 1789952 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\SYSTEM32\VERSION.dll:VERSION.dll (00007FFFD6510000), size: 40960 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\VERSION.dll', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\WSOCK32.dll:WSOCK32.dll (00007FFFC18A0000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\SketchUpCommonPreferences.dll:SketchUpCommonPreferences.dll (00007FFF0F0F0000), size: 499712 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\SketchUpCommonPreferences.dll', fileVersion: 23.0.0.0
+C:\WINDOWS\SYSTEM32\Secur32.dll:Secur32.dll (00007FFFDC800000), size: 49152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\dxcore.dll:dxcore.dll (00007FFFDAB80000), size: 225280 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\SSPICLI.DLL:SSPICLI.DLL (00007FFFDCC80000), size: 274432 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\OpenRL.dll:OpenRL.dll (00000198AF910000), size: 12779520 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 1.5.0.2907
+C:\WINDOWS\SYSTEM32\MSVCP100.dll:MSVCP100.dll (000000005A8D0000), size: 622592 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.40219.325
+C:\WINDOWS\SYSTEM32\MSVCR100.dll:MSVCR100.dll (000000005A7F0000), size: 860160 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\MSVCR100.dll', fileVersion: 10.0.40219.325
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\embree.dll:embree.dll (00007FFEFEC80000), size: 16711680 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\embree.dll', fileVersion: 2.14.0.0
+C:\WINDOWS\SYSTEM32\cfgmgr32.DLL:cfgmgr32.DLL (00007FFFDD6F0000), size: 319488 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\cfgmgr32.DLL', fileVersion: 10.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\tbb.dll:tbb.dll (00007FFF3F3C0000), size: 303104 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2020.3.2022.1111
+C:\WINDOWS\SYSTEM32\MSWSOCK.DLL:MSWSOCK.DLL (00007FFFDCE90000), size: 430080 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\OpenRL_pthread.dll:OpenRL_pthread.dll (00000198B0560000), size: 61440 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.9.0.0
+C:\WINDOWS\SYSTEM32\MSASN1.dll:MSASN1.dll (00007FFFDD680000), size: 73728 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\System32\bcryptprimitives.dll:bcryptprimitives.dll (00007FFFDE1C0000), size: 503808 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\kernel.appcore.dll:kernel.appcore.dll (00007FFFDCA20000), size: 98304 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\system32\uxtheme.dll:uxtheme.dll (00007FFFDAA40000), size: 720896 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\system32\uxtheme.dll', fileVersion: 10.0.22621.3958
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\AudioDevProps2.dll:AudioDevProps2.dll (00007FFF91320000), size: 1249280 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.6.13.0
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\NahimicOSD.dll:NahimicOSD.dll (00007FFFA1910000), size: 712704 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.2.23.0
+C:\ProgramData\A-Volute\A-Volute.28054DF1F58B4\Modules\ScheduledModules\x64\ProductInfo.dll:ProductInfo.dll (00007FFFB9A00000), size: 131072 (result: 0), SymType: '-deferred-', PDB: ''
+C:\ProgramData\A-Volute\A-Volute.SonicStudio3\Modules\ScheduledModules\x64\AudioDevProps2.dll:AudioDevProps2.dll (00007FFFB9E80000), size: 1249280 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.6.13.0
+C:\WINDOWS\SYSTEM32\windows.storage.dll:windows.storage.dll (00007FFFDB940000), size: 9428992 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.4037
+C:\WINDOWS\SYSTEM32\wintypes.dll:wintypes.dll (00007FFFDB800000), size: 1306624 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\WINDOWS\System32\SHCORE.dll:SHCORE.dll (00007FFFE04F0000), size: 1019904 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\profapi.dll:profapi.dll (00007FFFDD920000), size: 135168 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\IconCodecService.dll:IconCodecService.dll (00007FFFB9820000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\WindowsCodecs.dll:WindowsCodecs.dll (00007FFFDA7C0000), size: 1773568 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3880
+C:\WINDOWS\System32\clbcatq.dll:clbcatq.dll (00007FFFDFAC0000), size: 720896 (result: 0), SymType: '-exported-', PDB: 'C:\WINDOWS\System32\clbcatq.dll', fileVersion: 2001.12.10941.16384
+C:\WINDOWS\System32\netprofm.dll:netprofm.dll (00007FFFDA3A0000), size: 491520 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3527
+C:\WINDOWS\System32\NSI.dll:NSI.dll (00007FFFDFD70000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\System32\npmproxy.dll:npmproxy.dll (00007FFFD6840000), size: 98304 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3527
+C:\WINDOWS\SYSTEM32\dhcpcsvc6.DLL:dhcpcsvc6.DLL (00007FFFD6F90000), size: 102400 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\SYSTEM32\dhcpcsvc.DLL:dhcpcsvc.DLL (00007FFFD6F70000), size: 126976 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\SYSTEM32\DNSAPI.dll:DNSAPI.dll (00007FFFDC510000), size: 1015808 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3733
+C:\WINDOWS\system32\napinsp.dll:napinsp.dll (00007FFFA22A0000), size: 94208 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\system32\pnrpnsp.dll:pnrpnsp.dll (00007FFFA2280000), size: 110592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\winrnr.dll:winrnr.dll (00007FFFA2260000), size: 69632 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\winrnr.dll', fileVersion: 10.0.22621.1
+C:\WINDOWS\system32\wshbth.dll:wshbth.dll (00007FFFD73A0000), size: 86016 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\system32\nlansp_c.dll:nlansp_c.dll (00007FFFA17D0000), size: 159744 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\fwpuclnt.dll:fwpuclnt.dll (00007FFFD68F0000), size: 536576 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3235
+C:\Windows\System32\rasadhlp.dll:rasadhlp.dll (00007FFFD9540000), size: 40960 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Windows\System32\rasadhlp.dll', fileVersion: 10.0.22621.1
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\AMDUnityPlugin.DLL:AMDUnityPlugin.DLL (00007FFEF9BB0000), size: 8814592 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\NVUnityPlugin.DLL:NVUnityPlugin.DLL (00007FFEF9A20000), size: 1609728 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\NVUnityPlugin.DLL'
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\Tools\astcenc-avx2.dll:astcenc-avx2.dll (00007FFEF99C0000), size: 364544 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\Tools\astcenc-avx2.dll'
+C:\WINDOWS\System32\MMDevApi.dll:MMDevApi.dll (00007FFFD45A0000), size: 643072 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\MMDevApi.dll', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\DEVOBJ.dll:DEVOBJ.dll (00007FFFDD6A0000), size: 180224 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\DEVOBJ.dll', fileVersion: 10.0.22621.2506
+C:\WINDOWS\SYSTEM32\AudioSes.dll:AudioSes.dll (00007FFFCA930000), size: 2015232 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3810
+C:\ProgramData\A-Volute\A-Volute.SonicStudio3\Modules\ScheduledModules\x64\ProductInfo.dll:ProductInfo.dll (00007FFFCC410000), size: 131072 (result: 0), SymType: '-deferred-', PDB: ''
+C:\WINDOWS\SYSTEM32\PropSys.dll:PropSys.dll (00007FFFDA2A0000), size: 1048576 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 7.0.22621.3810
+C:\WINDOWS\SYSTEM32\directxdatabasehelper.dll:directxdatabasehelper.dll (00007FFFD6640000), size: 299008 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvldumdx.dll:nvldumdx.dll (00007FFFD33E0000), size: 790528 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 32.0.15.6109
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\cryptnet.dll:cryptnet.dll (00007FFFD6230000), size: 204800 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\cryptbase.dll:cryptbase.dll (00007FFFDD110000), size: 49152 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\SYSTEM32\wldp.dll:wldp.dll (00007FFFDD240000), size: 299008 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\wldp.dll', fileVersion: 10.0.22621.4036
+C:\WINDOWS\SYSTEM32\drvstore.dll:drvstore.dll (00007FFFD5C00000), size: 1449984 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3958
+C:\WINDOWS\System32\imagehlp.dll:imagehlp.dll (00007FFFE05F0000), size: 126976 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\SYSTEM32\CRYPTSP.dll:CRYPTSP.dll (00007FFFDD0F0000), size: 110592 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\rsaenh.dll:rsaenh.dll (00007FFFDC980000), size: 217088 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvgpucomp64.dll:nvgpucomp64.dll (00007FFFCF8A0000), size: 33480704 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvgpucomp64.dll', fileVersion: 32.0.15.6109
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\Display.NvContainer\NvMessageBus.dll:NvMessageBus.dll (00007FFFCAB20000), size: 3506176 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\Display.NvContainer\NvMessageBus.dll', fileVersion: 3.12.3354.5005
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvwgf2umx.dll:nvwgf2umx.dll (00007FFFC4AA0000), size: 68272128 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvwgf2umx.dll', fileVersion: 32.0.15.6109
+C:\WINDOWS\SYSTEM32\powrprof.dll:powrprof.dll (00007FFFDD290000), size: 315392 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\powrprof.dll', fileVersion: 10.0.22621.3958
+C:\WINDOWS\SYSTEM32\UMPDC.dll:UMPDC.dll (00007FFFDD220000), size: 77824 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\UMPDC.dll', fileVersion: 10.0.22621.1
+C:\WINDOWS\system32\nvspcap64.dll:nvspcap64.dll (00007FFF8D400000), size: 2949120 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\system32\nvspcap64.dll', fileVersion: 3.28.0.417
+C:\WINDOWS\SYSTEM32\ntmarta.dll:ntmarta.dll (00007FFFDCA40000), size: 212992 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_dcf94619172aceb0\nvppex.dll:nvppex.dll (00007FFF8E810000), size: 1396736 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 32.0.15.6109
+C:\WINDOWS\system32\wbem\wbemprox.dll:wbemprox.dll (00007FFFD4520000), size: 65536 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\wbemcomn.dll:wbemcomn.dll (00007FFFD2AA0000), size: 524288 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.2506
+C:\WINDOWS\system32\wbem\wbemsvc.dll:wbemsvc.dll (00007FFFC9E40000), size: 81920 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3672
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\WINDOWS\system32\wbem\fastprox.dll:fastprox.dll (00007FFFC9EC0000), size: 1015808 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\system32\wbem\fastprox.dll', fileVersion: 10.0.22621.3672
+C:\WINDOWS\SYSTEM32\amsi.dll:amsi.dll (00007FFFC90F0000), size: 118784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.3527
+C:\WINDOWS\SYSTEM32\USERENV.dll:USERENV.dll (00007FFFDCF90000), size: 163840 (result: 8), SymType: '-unknown-', PDB: '', fileVersion: 10.0.22621.3527
+  ERROR: LoadModule, GetLastError: 'Not enough memory resources are available to process this command.' (Address: 0000000000000000)
+C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.24070.5-0\MpOav.dll:MpOav.dll (00007FFFC8D10000), size: 528384 (result: 0), SymType: '-nosymbols-', PDB: 'C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.24070.5-0\MpOav.dll', fileVersion: 4.18.24070.5
+C:\WINDOWS\SYSTEM32\opencl.dll:opencl.dll (00007FFEF9940000), size: 483328 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\opencl.dll', fileVersion: 3.0.6.0
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\radeonrays.dll:radeonrays.dll (00007FFEF98E0000), size: 344064 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\radeonrays.dll'
+C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll:mono-2.0-bdwgc.dll (00007FFEF8E90000), size: 10756096 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Program Files\Unity\Hub\Editor\6000.0.21f1\Editor\Data\MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll'
+C:\WINDOWS\SYSTEM32\dbghelp.dll:dbghelp.dll (00007FFFDAFB0000), size: 2301952 (result: 0), SymType: '-nosymbols-', PDB: 'C:\WINDOWS\SYSTEM32\dbghelp.dll', fileVersion: 10.0.22621.3593
+C:\WINDOWS\System32\psapi.dll:psapi.dll (00007FFFE0420000), size: 32768 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.22621.1
+  ERROR: SymGetSymFromAddr64, GetLastError: 'The specified module could not be found.' (Address: 00007FFFDDCCFABC)
+0x00007FFFDDCCFABC (KERNELBASE) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF8F00C1C)
+0x00007FFEF8F00C1C (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF8EEC822)
+0x00007FFEF8EEC822 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF8EEC888)
+0x00007FFEF8EEC888 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF9010983)
+0x00007FFEF9010983 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF919B46F)
+0x00007FFEF919B46F (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF910C897)
+0x00007FFEF910C897 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF910D537)
+0x00007FFEF910D537 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF911438E)
+0x00007FFEF911438E (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF911621F)
+0x00007FFEF911621F (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF9058444)
+0x00007FFEF9058444 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF9053325)
+0x00007FFEF9053325 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF910DAA5)
+0x00007FFEF910DAA5 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF911438E)
+0x00007FFEF911438E (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF911621F)
+0x00007FFEF911621F (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF9058444)
+0x00007FFEF9058444 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFEF9058530)
+0x00007FFEF9058530 (mono-2.0-bdwgc) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF022474F5)
+0x00007FFF022474F5 (Unity) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF022A6E30)
+0x00007FFF022A6E30 (Unity) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF02328C8D)
+0x00007FFF02328C8D (Unity) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF02249074)
+0x00007FFF02249074 (Unity) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF0232939C)
+0x00007FFF0232939C (Unity) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF0226AF44)
+0x00007FFF0226AF44 (Unity) (function-name not available)
+0x00007FFF0379AEB5 (Unity) UnityMain
+0x00007FFF037EA43F (Unity) UnityMain
+0x00007FFF037C5207 (Unity) UnityMain
+0x00007FFF038A7AAE (Unity) UnityMain
+0x00007FFF0389533A (Unity) UnityMain
+0x00007FFF0389666E (Unity) UnityMain
+0x00007FFF038A60CC (Unity) UnityMain
+0x00007FFF037EE4B6 (Unity) UnityMain
+0x00007FFF037EE57B (Unity) UnityMain
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFF02FFB999)
+0x00007FFF02FFB999 (Unity) (function-name not available)
+0x00007FFF03600373 (Unity) UnityMain
+0x00007FF633A62FBA (Unity) __scrt_common_main_seh
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFFDE44257D)
+0x00007FFFDE44257D (KERNEL32) (function-name not available)
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Attempt to access invalid address.' (Address: 00007FFFE072AF28)
+0x00007FFFE072AF28 (ntdll) (function-name not available)
 
-========================================================================
-Received Import Request.
-  Time since last request: 2203.443378 seconds.
-  path: Assets/InputSystem_Actions.inputactions
-  artifactKey: Guid(2bcd2660ca9b64942af0de543d8d7100) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/InputSystem_Actions.inputactions using Guid(2bcd2660ca9b64942af0de543d8d7100) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter)[PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
- -> (artifact id: '6b2564eaa9f4e1c9db0aa8e3ea579112') in 0.1155129 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 19
+========== END OF STACKTRACE ===========
 
+A crash has been intercepted by the crash handler. For call stack and other details, see the latest crash report generated in:
+ * C:/Users/User/AppData/Local/Temp/Unity/Editor/Crashes

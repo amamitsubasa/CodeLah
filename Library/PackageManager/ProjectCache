@@ -1,25 +1,25 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
-    m_FilePath: C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah/Packages/manifest.json
+    m_FilePath: C:/Users/User/CodeLah/Packages/manifest.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638632687090657010
-    m_Hash: 322983548
+      ticks: 638633738655632447
+    m_Hash: 3327754410
   m_LockFileStatus:
-    m_FilePath: C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah/Packages/packages-lock.json
+    m_FilePath: C:/Users/User/CodeLah/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638632688020852605
-    m_Hash: 539183431
+      ticks: 638633738655657602
+    m_Hash: 2124794819
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
-m_ProjectPath: C:/Users/Vernon/OneDrive/Desktop/CodeLah/CodeLah/Packages
+m_ProjectPath: C:/Users/User/CodeLah/Packages
 m_EditorVersion: 6000.0.21f1 (e2bacb8dee3a)
 m_ResolvedPackages:
 - packageId: com.unity.collab-proxy@2.5.1
@@ -27,7 +27,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.5.1
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.collab-proxy
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.collab-proxy
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
   displayName: Version Control
@@ -196,7 +196,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.1
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.feature.2d
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.feature.2d
   assetPath: Packages/com.unity.feature.2d
   name: com.unity.feature.2d
   displayName: 2D
@@ -332,7 +332,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 3.0.31
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.ide.rider
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.ide.rider
   assetPath: Packages/com.unity.ide.rider
   name: com.unity.ide.rider
   displayName: JetBrains Rider Editor
@@ -449,7 +449,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.22
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.ide.visualstudio
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.ide.visualstudio
   assetPath: Packages/com.unity.ide.visualstudio
   name: com.unity.ide.visualstudio
   displayName: Visual Studio Editor
@@ -555,7 +555,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.11.0
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.inputsystem
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.inputsystem
   assetPath: Packages/com.unity.inputsystem
   name: com.unity.inputsystem
   displayName: Input System
@@ -619,9 +619,11 @@ m_ResolvedPackages:
     - 1.9.0
     - 1.10.0
     - 1.11.0
+    - 1.11.1
     compatible:
     - 1.11.0
-    recommended: 1.11.0
+    - 1.11.1
+    recommended: 1.11.1
     deprecated: []
   dependencies:
   - name: com.unity.modules.uielements
@@ -705,12 +707,126 @@ m_ResolvedPackages:
     compatibilityLevel: 0
     minimumPackageVersion: 1.11.0
     minimumUnityVersion: 2019.4.0a1
+- packageId: com.unity.postprocessing@3.4.0
+  testable: 0
+  isDirectDependency: 1
+  version: 3.4.0
+  source: 1
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.postprocessing
+  assetPath: Packages/com.unity.postprocessing
+  name: com.unity.postprocessing
+  displayName: Post Processing
+  author:
+    name: 
+    email: 
+    url: 
+  category: 
+  type: assets
+  description: The post-processing stack (v2) comes with a collection of effects
+    and image filters you can apply to your cameras to improve the visuals of your
+    games.
+  errors: []
+  versions:
+    all:
+    - 0.1.7
+    - 0.1.8
+    - 2.0.0-beta
+    - 2.0.1-beta
+    - 2.0.2-preview
+    - 2.0.3-preview
+    - 2.0.5-preview
+    - 2.0.7-preview
+    - 2.0.8-preview
+    - 2.0.9-preview
+    - 2.0.10-preview
+    - 2.0.11-preview
+    - 2.0.12-preview
+    - 2.0.13-preview
+    - 2.0.14-preview
+    - 2.0.15-preview
+    - 2.0.16-preview
+    - 2.0.17-preview
+    - 2.1.0
+    - 2.1.1
+    - 2.1.2
+    - 2.1.3
+    - 2.1.4
+    - 2.1.5
+    - 2.1.6
+    - 2.1.7
+    - 2.2.1
+    - 2.2.2
+    - 2.3.0
+    - 3.0.1
+    - 3.0.3
+    - 3.1.0
+    - 3.1.1
+    - 3.2.0
+    - 3.2.1
+    - 3.2.2
+    - 3.3.0
+    - 3.4.0
+    compatible:
+    - 3.4.0
+    recommended: 3.4.0
+    deprecated: []
+  dependencies:
+  - name: com.unity.modules.physics
+    version: 1.0.0
+  resolvedDependencies:
+  - name: com.unity.modules.physics
+    version: 1.0.0
+  keywords: []
+  registry:
+    id: main
+    name: 
+    url: https://packages.unity.com
+    scopes: []
+    isDefault: 1
+    capabilities: 7
+    configSource: 0
+  hideInEditor: 1
+  entitlements:
+    licensingModel: 1
+  isAssetStorePackage: 0
+  datePublishedTicks: 638384897060000000
+  documentationUrl: https://docs.unity3d.com/Packages/com.unity.postprocessing@3.4/manual/index.html
+  hasRepository: 1
+  repository:
+    type: git
+    url: https://github.com/Unity-Technologies/Graphics.git
+    revision: 54427d2529ad1a9e8f31c693d751c6371f914e40
+    path: 
+  unityLifecycle:
+    version: 3.4.0
+    nextVersion: 
+    recommendedVersion: 
+    isDeprecated: 0
+    deprecationMessage: 
+  isDeprecated: 0
+  deprecationMessage: 
+  git:
+    hash: 
+    revision: 
+  upmReserved: '{"changelog":"### Added\n- Added WebGPU support\n\n### Fixed\n- Fixed
+    obsolete FormatUsage error\n- Fixed non-scalar logical operation error\n- Fixed
+    MSVO to support platforms with limited storage texture support\n- Fixed compute
+    based effects not supported on WebGL and Android OpenGL (IN-2999)\n- Fixed grid
+    gizmo is visible through geometry when Post Process Layer is enabled (IN-10318)\n-
+    Fixed transparent objects rendering incorrectly when TAA is disabled (IN-31494)"}'
+  assetStore:
+    productId: 
+  fingerprint: 026b2a0827a438e3079df62a60ca03d54961393d
+  editorCompatibility:
+    compatibilityLevel: 0
+    minimumPackageVersion: 3.4.0
+    minimumUnityVersion: 2019.4.19f1
 - packageId: com.unity.render-pipelines.universal@17.0.3
   testable: 0
   isDirectDependency: 1
   version: 17.0.3
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.render-pipelines.universal
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.render-pipelines.universal
   assetPath: Packages/com.unity.render-pipelines.universal
   name: com.unity.render-pipelines.universal
   displayName: Universal RP
@@ -872,7 +988,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 3.3.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.services.authentication
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.services.authentication
   assetPath: Packages/com.unity.services.authentication
   name: com.unity.services.authentication
   displayName: Authentication
@@ -989,7 +1105,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.4.5
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.test-framework
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.test-framework
   assetPath: Packages/com.unity.test-framework
   name: com.unity.test-framework
   displayName: Test Framework
@@ -1152,7 +1268,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.8.7
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.timeline
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.timeline
   assetPath: Packages/com.unity.timeline
   name: com.unity.timeline
   displayName: Timeline
@@ -1335,7 +1451,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 2.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.ugui
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.ugui
   assetPath: Packages/com.unity.ugui
   name: com.unity.ugui
   displayName: Unity UI
@@ -1427,7 +1543,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.9.4
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.visualscripting
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.visualscripting
   assetPath: Packages/com.unity.visualscripting
   name: com.unity.visualscripting
   displayName: Visual Scripting
@@ -1538,7 +1654,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.accessibility
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.accessibility
   assetPath: Packages/com.unity.modules.accessibility
   name: com.unity.modules.accessibility
   displayName: Accessibility
@@ -1605,7 +1721,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.ai
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.ai
   assetPath: Packages/com.unity.modules.ai
   name: com.unity.modules.ai
   displayName: AI
@@ -1672,7 +1788,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.androidjni
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.androidjni
   assetPath: Packages/com.unity.modules.androidjni
   name: com.unity.modules.androidjni
   displayName: Android JNI
@@ -1738,7 +1854,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.animation
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.animation
   assetPath: Packages/com.unity.modules.animation
   name: com.unity.modules.animation
   displayName: Animation
@@ -1805,7 +1921,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.assetbundle
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.assetbundle
   assetPath: Packages/com.unity.modules.assetbundle
   name: com.unity.modules.assetbundle
   displayName: Asset Bundle
@@ -1872,7 +1988,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.audio
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.audio
   assetPath: Packages/com.unity.modules.audio
   name: com.unity.modules.audio
   displayName: Audio
@@ -1939,7 +2055,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.cloth
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.cloth
   assetPath: Packages/com.unity.modules.cloth
   name: com.unity.modules.cloth
   displayName: Cloth
@@ -2010,7 +2126,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.director
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.director
   assetPath: Packages/com.unity.modules.director
   name: com.unity.modules.director
   displayName: Director
@@ -2085,7 +2201,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.imageconversion
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.imageconversion
   assetPath: Packages/com.unity.modules.imageconversion
   name: com.unity.modules.imageconversion
   displayName: Image Conversion
@@ -2152,7 +2268,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.imgui
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.imgui
   assetPath: Packages/com.unity.modules.imgui
   name: com.unity.modules.imgui
   displayName: IMGUI
@@ -2219,7 +2335,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.jsonserialize
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.jsonserialize
   assetPath: Packages/com.unity.modules.jsonserialize
   name: com.unity.modules.jsonserialize
   displayName: JSONSerialize
@@ -2286,7 +2402,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.particlesystem
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.particlesystem
   assetPath: Packages/com.unity.modules.particlesystem
   name: com.unity.modules.particlesystem
   displayName: Particle System
@@ -2353,7 +2469,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.physics
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.physics
   assetPath: Packages/com.unity.modules.physics
   name: com.unity.modules.physics
   displayName: Physics
@@ -2420,7 +2536,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.physics2d
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.physics2d
   assetPath: Packages/com.unity.modules.physics2d
   name: com.unity.modules.physics2d
   displayName: Physics 2D
@@ -2487,7 +2603,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.screencapture
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.screencapture
   assetPath: Packages/com.unity.modules.screencapture
   name: com.unity.modules.screencapture
   displayName: Screen Capture
@@ -2558,7 +2674,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.terrain
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.terrain
   assetPath: Packages/com.unity.modules.terrain
   name: com.unity.modules.terrain
   displayName: Terrain
@@ -2625,7 +2741,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.terrainphysics
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.terrainphysics
   assetPath: Packages/com.unity.modules.terrainphysics
   name: com.unity.modules.terrainphysics
   displayName: Terrain Physics
@@ -2700,7 +2816,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.tilemap
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.tilemap
   assetPath: Packages/com.unity.modules.tilemap
   name: com.unity.modules.tilemap
   displayName: Tilemap
@@ -2770,7 +2886,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.ui
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.ui
   assetPath: Packages/com.unity.modules.ui
   name: com.unity.modules.ui
   displayName: UI
@@ -2837,7 +2953,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.uielements
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.uielements
   assetPath: Packages/com.unity.modules.uielements
   name: com.unity.modules.uielements
   displayName: UIElements
@@ -2920,7 +3036,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.umbra
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.umbra
   assetPath: Packages/com.unity.modules.umbra
   name: com.unity.modules.umbra
   displayName: Umbra
@@ -2987,7 +3103,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unityanalytics
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unityanalytics
   assetPath: Packages/com.unity.modules.unityanalytics
   name: com.unity.modules.unityanalytics
   displayName: Unity Analytics
@@ -3061,7 +3177,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequest
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequest
   assetPath: Packages/com.unity.modules.unitywebrequest
   name: com.unity.modules.unitywebrequest
   displayName: Unity Web Request
@@ -3128,7 +3244,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle
   assetPath: Packages/com.unity.modules.unitywebrequestassetbundle
   name: com.unity.modules.unitywebrequestassetbundle
   displayName: Unity Web Request Asset Bundle
@@ -3203,7 +3319,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestaudio
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestaudio
   assetPath: Packages/com.unity.modules.unitywebrequestaudio
   name: com.unity.modules.unitywebrequestaudio
   displayName: Unity Web Request Audio
@@ -3278,7 +3394,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequesttexture
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequesttexture
   assetPath: Packages/com.unity.modules.unitywebrequesttexture
   name: com.unity.modules.unitywebrequesttexture
   displayName: Unity Web Request Texture
@@ -3353,7 +3469,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestwww
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.unitywebrequestwww
   assetPath: Packages/com.unity.modules.unitywebrequestwww
   name: com.unity.modules.unitywebrequestwww
   displayName: Unity Web Request WWW
@@ -3444,7 +3560,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.vehicles
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.vehicles
   assetPath: Packages/com.unity.modules.vehicles
   name: com.unity.modules.vehicles
   displayName: Vehicles
@@ -3515,7 +3631,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.video
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.video
   assetPath: Packages/com.unity.modules.video
   name: com.unity.modules.video
   displayName: Video
@@ -3594,7 +3710,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.vr
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.vr
   assetPath: Packages/com.unity.modules.vr
   name: com.unity.modules.vr
   displayName: VR
@@ -3675,7 +3791,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.wind
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.wind
   assetPath: Packages/com.unity.modules.wind
   name: com.unity.modules.wind
   displayName: Wind
@@ -3742,7 +3858,7 @@ m_ResolvedPackages:
   isDirectDependency: 1
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.xr
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.xr
   assetPath: Packages/com.unity.modules.xr
   name: com.unity.modules.xr
   displayName: XR
@@ -3821,7 +3937,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.subsystems
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.subsystems
   assetPath: Packages/com.unity.modules.subsystems
   name: com.unity.modules.subsystems
   displayName: Subsystems
@@ -3892,7 +4008,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.modules.hierarchycore
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.modules.hierarchycore
   assetPath: Packages/com.unity.modules.hierarchycore
   name: com.unity.modules.hierarchycore
   displayName: Hierarchy Core
@@ -3959,7 +4075,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.0.5
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.ext.nunit
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.ext.nunit
   assetPath: Packages/com.unity.ext.nunit
   name: com.unity.ext.nunit
   displayName: Custom NUnit
@@ -4038,7 +4154,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.13.0
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.services.core
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.services.core
   assetPath: Packages/com.unity.services.core
   name: com.unity.services.core
   displayName: Services Core
@@ -4150,7 +4266,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 3.2.1
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.nuget.newtonsoft-json
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.nuget.newtonsoft-json
   assetPath: Packages/com.unity.nuget.newtonsoft-json
   name: com.unity.nuget.newtonsoft-json
   displayName: Newtonsoft Json
@@ -4241,7 +4357,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.3
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.render-pipelines.core
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.render-pipelines.core
   assetPath: Packages/com.unity.render-pipelines.core
   name: com.unity.render-pipelines.core
   displayName: Core RP Library
@@ -4455,7 +4571,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.3
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.shadergraph
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.shadergraph
   assetPath: Packages/com.unity.shadergraph
   name: com.unity.shadergraph
   displayName: Shader Graph
@@ -4658,7 +4774,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 17.0.3
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.render-pipelines.universal-config
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.render-pipelines.universal-config
   assetPath: Packages/com.unity.render-pipelines.universal-config
   name: com.unity.render-pipelines.universal-config
   displayName: Universal RP Config
@@ -4756,7 +4872,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 10.1.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.animation
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.animation
   assetPath: Packages/com.unity.2d.animation
   name: com.unity.2d.animation
   displayName: 2D Animation
@@ -5004,7 +5120,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 5.0.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.pixel-perfect
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.pixel-perfect
   assetPath: Packages/com.unity.2d.pixel-perfect
   name: com.unity.2d.pixel-perfect
   displayName: 2D Pixel Perfect
@@ -5099,7 +5215,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 9.0.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.psdimporter
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.psdimporter
   assetPath: Packages/com.unity.2d.psdimporter
   name: com.unity.2d.psdimporter
   displayName: 2D PSD Importer
@@ -5274,7 +5390,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.sprite
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.sprite
   assetPath: Packages/com.unity.2d.sprite
   name: com.unity.2d.sprite
   displayName: 2D Sprite
@@ -5344,7 +5460,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 10.0.6
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.spriteshape
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.spriteshape
   assetPath: Packages/com.unity.2d.spriteshape
   name: com.unity.2d.spriteshape
   displayName: 2D SpriteShape
@@ -5534,7 +5650,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.0
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.tilemap
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.tilemap
   assetPath: Packages/com.unity.2d.tilemap
   name: com.unity.2d.tilemap
   displayName: 2D Tilemap Editor
@@ -5621,7 +5737,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 4.0.2
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.tilemap.extras
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.tilemap.extras
   assetPath: Packages/com.unity.2d.tilemap.extras
   name: com.unity.2d.tilemap.extras
   displayName: 2D Tilemap Extras
@@ -5764,7 +5880,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.1.6
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.aseprite
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.aseprite
   assetPath: Packages/com.unity.2d.aseprite
   name: com.unity.2d.aseprite
   displayName: 2D Aseprite Importer
@@ -5877,7 +5993,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 4.9.2
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.searcher
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.searcher
   assetPath: Packages/com.unity.searcher
   name: com.unity.searcher
   displayName: Searcher
@@ -5961,7 +6077,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.8.17
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.burst
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.burst
   assetPath: Packages/com.unity.burst
   name: com.unity.burst
   displayName: Burst
@@ -6181,7 +6297,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.3.2
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.mathematics
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.mathematics
   assetPath: Packages/com.unity.mathematics
   name: com.unity.mathematics
   displayName: Mathematics
@@ -6270,7 +6386,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 2.4.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.collections
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.collections
   assetPath: Packages/com.unity.collections
   name: com.unity.collections
   displayName: Collections
@@ -6436,7 +6552,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.0.1
   source: 2
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.rendering.light-transport
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.rendering.light-transport
   assetPath: Packages/com.unity.rendering.light-transport
   name: com.unity.rendering.light-transport
   displayName: Unity Light Transport Library
@@ -6532,7 +6648,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 9.0.6
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.2d.common
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.2d.common
   assetPath: Packages/com.unity.2d.common
   name: com.unity.2d.common
   displayName: 2D Common
@@ -6685,7 +6801,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 1.11.4
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.nuget.mono-cecil
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.nuget.mono-cecil
   assetPath: Packages/com.unity.nuget.mono-cecil
   name: com.unity.nuget.mono-cecil
   displayName: Mono Cecil
@@ -6765,7 +6881,7 @@ m_ResolvedPackages:
   isDirectDependency: 0
   version: 3.0.3
   source: 1
-  resolvedPath: C:\Users\Vernon\OneDrive\Desktop\CodeLah\CodeLah\Library\PackageCache\com.unity.test-framework.performance
+  resolvedPath: C:\Users\User\CodeLah\Library\PackageCache\com.unity.test-framework.performance
   assetPath: Packages/com.unity.test-framework.performance
   name: com.unity.test-framework.performance
   displayName: Performance testing API
